@@ -1,7 +1,0 @@
-expression DataSource = "C:\Shared\Power BI\Freelance\Template3\Template 3\Hospital ER.csv" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
-	lineageTag: eca02a12-8e26-411e-9208-cdddd880381f
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Text
-
