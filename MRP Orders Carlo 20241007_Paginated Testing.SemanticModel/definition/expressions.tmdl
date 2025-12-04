@@ -1,0 +1,45 @@
+expression OrderLines =
+		let
+		    Origine = Sql.Databases("EUWS3271.biz.electrolux.com"),
+		    #"FSDS-DataHub-BI" = Origine{[Name="FSDS-DataHub-BI"]}[Data],
+		    #"Filtered Rows" = Table.SelectRows(#"FSDS-DataHub-BI", each ([Item] = "ORDERLINES" ) and ([Schema] <> "uke" and [Schema] <> "zs")),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows",{"Data"}),
+		    #"Expanded Data" = Table.ExpandTableColumn(#"Removed Other Columns", "Data", {"PLANT", "SOL200_ID", "SOL100_ID", "ORDERNO", "PARTNO", "ITEMDESC", "CREADATETIME", "CREAUSERID", "CHANGDATETIME", "CHANGUSERID", "STATUS", "DESIGNERID", "ASSETNO", "GLCLASS", "VATRATE", "FOR_QTY_PY", "FOR_QTY_CY", "FOR_QTY_NY", "FORECUOM", "FORECUOMCAT", "EXPENSEREASN", "JOBORDERNO", "GLACCNT", "GLBUDGET", "GLPROJCT", "GLCENTER", "INTERNALORDER", "NETWORKACTIVITY", "PURCHASINGUOM", "PURCHASINGUOMCAT", "CONVFACT", "CURRCY", "PRICE", "DISCPERC1", "DISCPERC2", "DISCPERC3", "ORDERTYPE", "PAYAUTHUSER", "EXCHGRATE", "ELABDATETIME"}, {"PLANT", "SOL200_ID", "SOL100_ID", "ORDERNO", "PARTNO", "ITEMDESC", "CREADATETIME", "CREAUSERID", "CHANGDATETIME", "CHANGUSERID", "STATUS", "DESIGNERID", "ASSETNO", "GLCLASS", "VATRATE", "FOR_QTY_PY", "FOR_QTY_CY", "FOR_QTY_NY", "FORECUOM", "FORECUOMCAT", "EXPENSEREASN", "JOBORDERNO", "GLACCNT", "GLBUDGET", "GLPROJCT", "GLCENTER", "INTERNALORDER", "NETWORKACTIVITY", "PURCHASINGUOM", "PURCHASINGUOMCAT", "CONVFACT", "CURRCY", "PRICE", "DISCPERC1", "DISCPERC2", "DISCPERC3", "ORDERTYPE", "PAYAUTHUSER", "EXCHGRATE", "ELABDATETIME"})
+		in
+		    #"Expanded Data"
+	lineageTag: fe21266a-99ab-4b21-a6e0-4ecf542de979
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'All Tables' =
+		let
+		    Origine = Sql.Databases("EUWS3271.biz.electrolux.com"),
+		    #"FSDS-DataHub-BI" = Origine{[Name="FSDS-DataHub-BI"]}[Data],
+		    #"Filtered Rows" = Table.SelectRows(#"FSDS-DataHub-BI", each ([Item] = "WAREHOUSE_STOCK") and ([Schema] <> "uke" and [Schema] <> "zs")),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows",{"Data"}),
+		    #"Expanded Data" = Table.ExpandTableColumn(#"Removed Other Columns", "Data", {"PLANT", "STOCKDATE", "FISCALWAREHOUSECODE", "WAREHOUSENAME", "PARTNO", "PARTDESCR", "STOCKQTY", "REQSPECATTNCODE", "LOCPICKFREQ", "PICKLISTFLAG", "LOCMNGMTYPE", "COSTDATE", "STDCOST", "LASTLOADDATE", "LASTUNLOADDATE", "MRPGROUP", "ITEMCLASS", "PLANNID", "BUYERID", "CREADATETIME", "ELABDATETIME", "UNITOFMEAS", "itemtype", "STDCOSTEUR"}, {"PLANT", "STOCKDATE", "FISCALWAREHOUSECODE", "WAREHOUSENAME", "PARTNO", "PARTDESCR", "STOCKQTY", "REQSPECATTNCODE", "LOCPICKFREQ", "PICKLISTFLAG", "LOCMNGMTYPE", "COSTDATE", "STDCOST", "LASTLOADDATE", "LASTUNLOADDATE", "MRPGROUP", "ITEMCLASS", "PLANNID", "BUYERID", "CREADATETIME", "ELABDATETIME", "UNITOFMEAS", "itemtype", "STDCOSTEUR"})
+		in
+		    #"Expanded Data"
+	lineageTag: 40db37d9-0507-4f01-9065-f721c8229430
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Orders =
+		let
+		    Origine = Sql.Databases("EUWS3271.biz.electrolux.com"),
+		    #"FSDS-DataHub-BI" = Origine{[Name="FSDS-DataHub-BI"]}[Data],
+		    #"Filtered Rows" = Table.SelectRows(#"FSDS-DataHub-BI", each ([Item] = "ORDERS") and ([Schema] <> "uke" and [Schema] <> "zs")),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows",{"Data"}),
+		    #"Expanded Data" = Table.ExpandTableColumn(#"Removed Other Columns", "Data", {"PLANT", "ORDERNO", "SOL100_ID", "CREADATETIME", "CREAUSERID", "CHANGDATETIME", "CHANGUSERID", "STATUS", "EFFECTFROMDATE", "EFFECTTODATE", "CMPNYTYPE", "ORDERSUBJECT", "ORDERTYPE", "CMPNYNO", "ADDRNO", "BUYERID", "PLANNID", "DELIVADDRNO", "INVOICEADDRNO", "PLANTADDRNO", "SHIPMENTTERM", "RETURNTERM", "PACKTERM", "PAYTERM", "DELIVTERM", "PRNTLASTDATETIME", "PAYAUTHUSER", "ELABDATETIME"}, {"PLANT", "ORDERNO", "SOL100_ID", "CREADATETIME", "CREAUSERID", "CHANGDATETIME", "CHANGUSERID", "STATUS", "EFFECTFROMDATE", "EFFECTTODATE", "CMPNYTYPE", "ORDERSUBJECT", "ORDERTYPE", "CMPNYNO", "ADDRNO", "BUYERID", "PLANNID", "DELIVADDRNO", "INVOICEADDRNO", "PLANTADDRNO", "SHIPMENTTERM", "RETURNTERM", "PACKTERM", "PAYTERM", "DELIVTERM", "PRNTLASTDATETIME", "PAYAUTHUSER", "ELABDATETIME"})
+		in
+		    #"Expanded Data"
+	lineageTag: 7100d101-6091-4ac2-96fe-2be0db9a9d83
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

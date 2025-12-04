@@ -1,0 +1,25 @@
+table v_total_sales
+	lineageTag: ad684e17-9e0b-49eb-af2f-6ffdab32d688
+	sourceLineageTag: [dbo].[v_total_sales]
+
+	column total_price
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 6453ab5b-dceb-44f5-81c6-95dccffe6d3f
+		sourceLineageTag: total_price
+		summarizeBy: sum
+		sourceColumn: total_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition v_total_sales-e2715a0e-ef94-47a3-9d96-bc0b13607c96 = entity
+		mode: directLake
+		source
+			entityName: v_total_sales
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation IsTableInBiModel = True
+

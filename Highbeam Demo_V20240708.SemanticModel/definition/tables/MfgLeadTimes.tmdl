@@ -1,0 +1,40 @@
+table MfgLeadTimes
+	lineageTag: 13a1152c-8a7c-4100-bafa-2770c30bcf52
+
+	column 'Preferred Vendor'
+		dataType: string
+		lineageTag: f73aa979-c0ad-4fc1-ae96-0c7e5e0d41cc
+		summarizeBy: none
+		sourceColumn: Preferred Vendor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lead Time (wks)'
+		dataType: int64
+		formatString: 0
+		lineageTag: ec032fa1-7fe8-40bf-8b7e-5024b5b50a35
+		summarizeBy: none
+		sourceColumn: Lead Time (wks)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition MfgLeadTimes-313aa0bf-56e2-4926-8069-4a4e3b84ce5d = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(#"Subfolder Path" & "ManufacturerLeadTimes.csv"),[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Preferred Vendor", type text}, {"Lead Time (wks)", Int64.Type}, {"", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{""}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Columns", each ([#"Lead Time (wks)"] <> null))
+				in
+				    #"Filtered Rows"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

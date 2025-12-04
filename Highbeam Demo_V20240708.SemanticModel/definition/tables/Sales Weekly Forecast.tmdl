@@ -1,0 +1,78 @@
+table 'Sales Weekly Forecast'
+	lineageTag: 58f15a37-391b-4245-8af5-5b8bd25843b7
+
+	column Item
+		dataType: string
+		lineageTag: 40faef2f-1943-41ed-84ba-6b579e9c1a61
+		summarizeBy: none
+		sourceColumn: Item
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Gross Income' = 'Sales Weekly Forecast'[Qty] * RELATED('Product'[Price])
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 074ea800-a1ea-4aec-bb07-ad3e3c705c9d
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: aae30e3e-57ad-4a77-9953-3658384ae220
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Qty Future lower'
+		dataType: int64
+		formatString: 0
+		lineageTag: 732fc512-f4ec-4847-8c26-5a909b581e81
+		summarizeBy: sum
+		sourceColumn: Qty Future lower
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Qty Future upper'
+		dataType: int64
+		formatString: 0
+		lineageTag: b9453eed-b07e-4abb-8d9b-ced17a858636
+		summarizeBy: sum
+		sourceColumn: Qty Future upper
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Qty
+		dataType: int64
+		formatString: 0
+		lineageTag: 1b5435b8-644b-4c64-9fe9-281cc4062ca7
+		summarizeBy: sum
+		sourceColumn: Qty
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Sales Weekly Forecast' = m
+		mode: import
+		source =
+				let
+				    Source = #"Sales Weekly Forecast Original"
+				in
+				    Source
+
+	annotation PBI_ResultType = Exception
+

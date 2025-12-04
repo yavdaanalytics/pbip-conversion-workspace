@@ -1,0 +1,135 @@
+table InvStock
+	lineageTag: 325880f3-b41c-4a65-a8ec-bccb5ac2f074
+
+	column 'Pref Vendor'
+		dataType: string
+		lineageTag: e398504e-8b3f-4a1e-a941-f6717fb6a6e0
+		summarizeBy: none
+		sourceColumn: Pref Vendor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'On Hand'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6da85bab-59a2-4d62-adcc-e9f9a7664819
+		summarizeBy: sum
+		sourceColumn: On Hand
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'On Sales Order'
+		dataType: int64
+		formatString: 0
+		lineageTag: 061507ff-aa7b-4336-b9c5-023db4b179c7
+		summarizeBy: sum
+		sourceColumn: On Sales Order
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Available
+		dataType: int64
+		formatString: 0
+		lineageTag: 06475735-558e-47b1-99ac-9699386736aa
+		summarizeBy: sum
+		sourceColumn: Available
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'On PO'
+		dataType: int64
+		formatString: 0
+		lineageTag: c0de7929-2746-4f45-95e2-afb0a0c92ec4
+		summarizeBy: sum
+		sourceColumn: On PO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Next Deliv'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 10ccd784-ef30-40f6-bfc4-0b67aa20285c
+		summarizeBy: none
+		sourceColumn: Next Deliv
+
+		variation Variation
+			isDefault
+			relationship: c31482bf-a049-4a6d-802c-afe626cb5054
+			defaultHierarchy: LocalDateTable_4896232e-932b-4c04-80fc-017c30a55016.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Inventory Date'
+		dataType: dateTime
+		formatString: mm/dd/yyyy
+		lineageTag: c08220d0-636c-4e15-9f10-b0b538362fc3
+		summarizeBy: none
+		sourceColumn: Inventory Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Next Deliv Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3799d7d8-217a-4888-83ef-3ef156767e39
+		summarizeBy: none
+		sourceColumn: Next Deliv Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Item
+		dataType: string
+		lineageTag: bfa26bb1-fd86-454b-ad48-1094953c7e10
+		summarizeBy: none
+		sourceColumn: Item
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Cost'
+		dataType: double
+		lineageTag: 530a2cfa-47d6-410e-b5ab-258b46986cd6
+		summarizeBy: sum
+		sourceColumn: Product Cost
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition InvStock-1a732ef0-033f-4449-a8b8-4bb970ad4667 = m
+		mode: import
+		source =
+				let
+				    Source = #"InvStock Original"
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+

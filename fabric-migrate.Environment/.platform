@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Environment",
+    "displayName": "fabric-migrate",
+    "description": "Environment"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "8040a906-0d6a-8279-4073-0a0169d49cc1"
+  }
+}

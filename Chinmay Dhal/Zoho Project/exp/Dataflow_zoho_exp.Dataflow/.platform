@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Dataflow",
+    "displayName": "Dataflow_zoho_exp"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2bc296b4-4d2b-85dd-4677-cd35658cda4c"
+  }
+}

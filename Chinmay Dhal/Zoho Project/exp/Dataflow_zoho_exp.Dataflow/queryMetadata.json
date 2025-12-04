@@ -1,0 +1,14 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {},
+  "name": "Dataflow_zoho_exp",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"26cac05e-9383-44be-8fbb-72e814b79420\",\"DatasourceId\":\"67271fe3-189f-4c53-8f69-0a12c145c74d\"}"
+    }
+  ]
+}

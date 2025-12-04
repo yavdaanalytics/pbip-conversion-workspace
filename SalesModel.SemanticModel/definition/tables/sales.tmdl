@@ -1,0 +1,92 @@
+table sales
+	lineageTag: 90344b6d-d139-42a8-9946-7dcd0778604b
+	sourceLineageTag: [dbo].[sales]
+
+	column Transaction_ID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 0968db8a-8c20-46db-9346-ea8f978b9280
+		sourceLineageTag: Transaction_ID
+		summarizeBy: count
+		sourceColumn: Transaction_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer_ID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 209d4b43-001a-410e-a1fc-94da7d0e8f93
+		sourceLineageTag: Customer_ID
+		summarizeBy: count
+		sourceColumn: Customer_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product_ID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 17fd7ee4-8076-4825-8238-25a3aec5978d
+		sourceLineageTag: Product_ID
+		summarizeBy: count
+		sourceColumn: Product_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity_Sold
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 1d2c0e26-858b-44bb-abd3-5b6798948e11
+		sourceLineageTag: Quantity_Sold
+		summarizeBy: sum
+		sourceColumn: Quantity_Sold
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unit_Price
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 33e2fb65-d354-4cb0-bdc8-27afefd479c6
+		sourceLineageTag: Unit_Price
+		summarizeBy: sum
+		sourceColumn: Unit_Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Total_Price
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 7f79489a-ee37-41d2-89d4-8b6986773020
+		sourceLineageTag: Total_Price
+		summarizeBy: sum
+		sourceColumn: Total_Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Timestamp
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 71d6df17-e878-4a9e-83e0-7c27644647cb
+		sourceLineageTag: Timestamp
+		summarizeBy: none
+		sourceColumn: Timestamp
+
+		annotation SummarizationSetBy = Automatic
+
+	partition sales = entity
+		mode: directLake
+		source
+			entityName: sales
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

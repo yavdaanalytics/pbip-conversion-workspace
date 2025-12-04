@@ -1,0 +1,245 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          "body": "refresh_token=1000.854b7329ed1dd6f26ce64a5271ce0147.d5b32286a93abdd45110220b6252ffd1&client_id=1000.Q0CVV3YGK1JWCURXZ9GJO6V6QYAU4X&client_secret=38924cb6cf753d66ba93f25a7e961c4179e31c8ad4&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=refresh_token"
+        },
+        "externalReferences": {
+          "connection": "a7ed7f9a-6616-4aaa-8147-136fd568b941"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "zoho auth",
+        "dependsOn": []
+      },
+      {
+        "type": "Until",
+        "typeProperties": {
+          "expression": {
+            "value": "@equals(variables('stopPagination'), true)",
+            "type": "Expression"
+          },
+          "timeout": "0.12:00:00",
+          "activities": [
+            {
+              "type": "Copy",
+              "typeProperties": {
+                "source": {
+                  "type": "RestSource",
+                  "requestMethod": "GET",
+                  "additionalHeaders": {
+                    "Authorization": {
+                      "value": "@concat('Zoho-oauthtoken ',activity('zoho auth').output.access_token)",
+                      "type": "Expression"
+                    }
+                  },
+                  "paginationRules": {
+                    "supportRFC5988": "true"
+                  },
+                  "httpRequestTimeout": "00:01:40",
+                  "requestInterval": "00.00:00:00.010",
+                  "datasetSettings": {
+                    "type": "RestResource",
+                    "typeProperties": {
+                      "relativeUrl": {
+                        "value": "@concat('https://projectsapi.zoho.com/api/v3/portal/', pipeline().parameters.PortalId, '/tasks?index=', string(variables('currentIndex')), '&range=', string(variables('pageSize')))",
+                        "type": "Expression"
+                      }
+                    },
+                    "schema": [],
+                    "externalReferences": {
+                      "connection": "5ebc8e8f-66af-4d60-9433-e95f2c18893d"
+                    },
+                    "annotations": []
+                  }
+                },
+                "sink": {
+                  "type": "LakehouseTableSink",
+                  "tableActionOption": "Upsert",
+                  "applyVOrder": true,
+                  "upsertSettings": {
+                    "keys": [
+                      "tasks.id"
+                    ]
+                  },
+                  "datasetSettings": {
+                    "type": "LakehouseTable",
+                    "typeProperties": {
+                      "table": "tasks_24112025"
+                    },
+                    "schema": [],
+                    "connectionSettings": {
+                      "name": "lh_zoho_projects_exp",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "f0e66f7a-9155-9f17-4093-29c101b21f02",
+                          "workspaceId": "00000000-0000-0000-0000-000000000000",
+                          "rootFolder": "Tables"
+                        },
+                        "externalReferences": {
+                          "connection": "67271fe3-189f-4c53-8f69-0a12c145c74d"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "translator": {
+                  "type": "TabularTranslator",
+                  "typeConversion": true,
+                  "typeConversionSettings": {
+                    "allowDataTruncation": true,
+                    "treatBooleanAsNumber": false
+                  },
+                  "columnFlattenSettings": {
+                    "treatArrayAsString": false,
+                    "treatStructAsString": false,
+                    "flattenColumnDelimiter": "."
+                  }
+                },
+                "enableStaging": false
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "GetLeaves",
+              "dependsOn": []
+            },
+            {
+              "type": "IfCondition",
+              "typeProperties": {
+                "expression": {
+                  "value": "@less(activity('GetLeaves').output.rowsCopied, variables('pageSize'))",
+                  "type": "Expression"
+                },
+                "ifTrueActivities": [
+                  {
+                    "type": "SetVariable",
+                    "typeProperties": {
+                      "variableName": "stopPagination",
+                      "value": true
+                    },
+                    "policy": {
+                      "secureInput": false,
+                      "secureOutput": false
+                    },
+                    "name": "stopPagination",
+                    "dependsOn": []
+                  }
+                ],
+                "ifFalseActivities": [
+                  {
+                    "type": "SetVariable",
+                    "typeProperties": {
+                      "variableName": "nextIndex",
+                      "value": {
+                        "value": "@add(variables('currentIndex'), 1)",
+                        "type": "Expression"
+                      }
+                    },
+                    "policy": {
+                      "secureInput": false,
+                      "secureOutput": false
+                    },
+                    "name": "Compute_nextIndex",
+                    "dependsOn": []
+                  },
+                  {
+                    "type": "SetVariable",
+                    "typeProperties": {
+                      "variableName": "currentIndex",
+                      "value": {
+                        "value": "@variables('nextIndex')",
+                        "type": "Expression"
+                      }
+                    },
+                    "policy": {
+                      "secureInput": false,
+                      "secureOutput": false
+                    },
+                    "name": "Assign_currentIndex",
+                    "dependsOn": [
+                      {
+                        "activity": "Compute_nextIndex",
+                        "dependencyConditions": [
+                          "Succeeded"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "name": "CheckIfLastPage",
+              "dependsOn": [
+                {
+                  "activity": "GetLeaves",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "name": "Tasks",
+        "dependsOn": [
+          {
+            "activity": "zoho auth",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "PortalId": {
+        "type": "string",
+        "defaultValue": "771456286"
+      },
+      "pageIndex": {
+        "type": "string",
+        "defaultValue": "1"
+      },
+      "pageSize": {
+        "type": "string",
+        "defaultValue": "100"
+      }
+    },
+    "variables": {
+      "stopPagination": {
+        "type": "Boolean",
+        "defaultValue": false
+      },
+      "pageSize": {
+        "type": "Integer",
+        "defaultValue": 100
+      },
+      "currentIndex": {
+        "type": "Integer",
+        "defaultValue": 1
+      },
+      "nextIndex": {
+        "type": "Integer",
+        "defaultValue": 0
+      }
+    }
+  }
+}

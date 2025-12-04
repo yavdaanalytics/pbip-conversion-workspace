@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "zohoprojects_LH"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "157001b2-ffd0-9299-4eef-2bd6c4d26f33"
+  }
+}

@@ -1,0 +1,646 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "typeProperties": {
+              "schema": "dbo",
+              "table": "watermarktable"
+            },
+            "schema": [],
+            "connectionSettings": {
+              "name": "wh_zoho_project",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "artifactId": "b0a9c096-473f-4cb6-88ff-5cba314ebe31",
+                  "endpoint": "blle6wrxotjehjnvlm2eo52hbu-erflgtribxbejmtm2ihmjrawsm.datawarehouse.fabric.microsoft.com",
+                  "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693"
+                },
+                "externalReferences": {
+                  "connection": "3c876178-30ef-4518-86b6-02fb192f81cc"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "LookupOldWaterMarkActivity",
+        "dependsOn": []
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": {
+              "value": "select MAX(LastModifytime) as NewWatermarkvalue from data_source_table",
+              "type": "Expression"
+            },
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "schema": [],
+            "connectionSettings": {
+              "name": "wh_zoho_project",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "artifactId": "b0a9c096-473f-4cb6-88ff-5cba314ebe31",
+                  "endpoint": "blle6wrxotjehjnvlm2eo52hbu-erflgtribxbejmtm2ihmjrawsm.datawarehouse.fabric.microsoft.com",
+                  "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693"
+                },
+                "externalReferences": {
+                  "connection": "3c876178-30ef-4518-86b6-02fb192f81cc"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "LookupNewWaterMarkActivity",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": {
+              "value": "select * from data_source_table where LastModifytime > '@{activity('LookupOldWaterMarkActivity').output.firstRow.WatermarkValue}' and LastModifytime <= '@{activity('LookupNewWaterMarkActivity').output.firstRow.NewWatermarkvalue}'",
+              "type": "Expression"
+            },
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00",
+            "datasetSettings": {
+              "type": "DataWarehouseTable",
+              "schema": [],
+              "connectionSettings": {
+                "name": "wh_zoho_project",
+                "properties": {
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "artifactId": "b0a9c096-473f-4cb6-88ff-5cba314ebe31",
+                    "endpoint": "blle6wrxotjehjnvlm2eo52hbu-erflgtribxbejmtm2ihmjrawsm.datawarehouse.fabric.microsoft.com",
+                    "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693"
+                  },
+                  "externalReferences": {
+                    "connection": "3c876178-30ef-4518-86b6-02fb192f81cc"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "DelimitedTextSink",
+            "formatSettings": {
+              "type": "DelimitedTextWriteSettings",
+              "fileExtension": ".txt"
+            },
+            "storeSettings": {
+              "type": "LakehouseWriteSettings"
+            },
+            "datasetSettings": {
+              "type": "DelimitedText",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": "incrementalcody",
+                  "fileName": {
+                    "value": "@CONCAT('Incremental-', pipeline().RunId, '.txt')",
+                    "type": "Expression"
+                  }
+                },
+                "columnDelimiter": ",",
+                "quoteChar": "\"",
+                "escapeChar": "\\",
+                "firstRowAsHeader": true
+              },
+              "schema": [],
+              "connectionSettings": {
+                "name": "lh_zoho_projects_exp",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "f0e66f7a-9155-9f17-4093-29c101b21f02",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "externalReferences": {
+                    "connection": "67271fe3-189f-4c53-8f69-0a12c145c74d"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "IncrementalCopyActivity",
+        "dependsOn": [
+          {
+            "activity": "LookupOldWaterMarkActivity",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "LookupNewWaterMarkActivity",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "SqlServerStoredProcedure",
+        "typeProperties": {
+          "storedProcedureName": "[dbo].[usp_write_watermark]",
+          "storedProcedureParameters": {
+            "LastModifiedtime": {
+              "value": {
+                "value": "@{activity('LookupNewWaterMarkActivity').output.firstRow.NewWatermarkvalue}",
+                "type": "Expression"
+              },
+              "type": "DateTime"
+            },
+            "TableName": {
+              "value": {
+                "value": "@{activity('LookupOldWaterMarkActivity').output.firstRow.TableName}",
+                "type": "Expression"
+              },
+              "type": "String"
+            }
+          }
+        },
+        "connectionSettings": {
+          "name": "wh_zoho_project",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "artifactId": "b0a9c096-473f-4cb6-88ff-5cba314ebe31",
+              "endpoint": "blle6wrxotjehjnvlm2eo52hbu-erflgtribxbejmtm2ihmjrawsm.datawarehouse.fabric.microsoft.com",
+              "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693"
+            },
+            "externalReferences": {
+              "connection": "3c876178-30ef-4518-86b6-02fb192f81cc"
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "StoredProceduretoWriteWatermarkActivity",
+        "dependsOn": [
+          {
+            "activity": "IncrementalCopyActivity",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "isSequential": true,
+          "items": {
+            "value": "@activity('lookup_task').output.value\n",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "sv_task_id",
+                "value": {
+                  "value": "@item()['tasks.id']\n",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "sv_task_id",
+              "dependsOn": []
+            },
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "sv_rel_url_timelog",
+                "value": {
+                  "value": "@concat(\n  '/api/v3/portal/771456286/timelogs?',\n  'page=', string(variables('sv_page')),\n  '&per_page=', string(variables('sv_per_page')),\n  '&view_type=customdate',\n  '&start_date=', formatDateTime(addDays(utcNow(), -180), 'yyyy-MM-dd'),\n  '&end_date=', formatDateTime(utcNow(), 'yyyy-MM-dd'),\n  '&module=%7B%22id%22%3A%22', variables('sv_task_id'),\n  '%22%2C%22type%22%3A%22task%22%7D'\n)\n",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "sv_rel_url_timelog",
+              "dependsOn": [
+                {
+                  "activity": "zoho_auth_inloop",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Copy",
+              "typeProperties": {
+                "source": {
+                  "type": "RestSource",
+                  "requestMethod": "GET",
+                  "additionalHeaders": {
+                    "Authorization": {
+                      "value": "@concat('Zoho-oauthtoken ', activity('zoho_auth_inloop').output.access_token)",
+                      "type": "Expression"
+                    }
+                  },
+                  "paginationRules": {
+                    "supportRFC5988": "true"
+                  },
+                  "httpRequestTimeout": "00:01:40",
+                  "requestInterval": "00.00:00:00.010",
+                  "datasetSettings": {
+                    "type": "RestResource",
+                    "typeProperties": {
+                      "relativeUrl": {
+                        "value": "@variables('sv_rel_url_timelog')",
+                        "type": "Expression"
+                      }
+                    },
+                    "schema": [],
+                    "externalReferences": {
+                      "connection": "b00a9678-3a5f-4812-80fa-34452965e322"
+                    },
+                    "annotations": []
+                  }
+                },
+                "sink": {
+                  "type": "LakehouseTableSink",
+                  "tableActionOption": "Upsert",
+                  "applyVOrder": true,
+                  "upsertSettings": {
+                    "keys": [
+                      "time_logs.log_details.id"
+                    ]
+                  },
+                  "datasetSettings": {
+                    "type": "LakehouseTable",
+                    "typeProperties": {
+                      "table": "tasks_timelogs_table"
+                    },
+                    "schema": [],
+                    "connectionSettings": {
+                      "name": "lh_zoho_projects",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "7c8e3de7-f4b0-4df6-aef4-a0bd8c795c8b",
+                          "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                          "rootFolder": "Tables"
+                        },
+                        "externalReferences": {
+                          "connection": "67271fe3-189f-4c53-8f69-0a12c145c74d"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "translator": {
+                  "type": "TabularTranslator",
+                  "typeConversion": true,
+                  "typeConversionSettings": {
+                    "allowDataTruncation": true,
+                    "treatBooleanAsNumber": false
+                  },
+                  "columnFlattenSettings": {
+                    "treatArrayAsString": false,
+                    "treatStructAsString": false,
+                    "flattenColumnDelimiter": "."
+                  }
+                },
+                "enableStaging": false
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Copy_Timelog_Task",
+              "dependsOn": [
+                {
+                  "activity": "Wait",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "WebActivity",
+              "typeProperties": {
+                "method": "POST",
+                "headers": {
+                  "Content-Type": "application/x-www-form-urlencoded"
+                },
+                "body": "refresh_token=1000.854b7329ed1dd6f26ce64a5271ce0147.d5b32286a93abdd45110220b6252ffd1&client_id=1000.Q0CVV3YGK1JWCURXZ9GJO6V6QYAU4X&client_secret=38924cb6cf753d66ba93f25a7e961c4179e31c8ad4&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=refresh_token"
+              },
+              "externalReferences": {
+                "connection": "a7ed7f9a-6616-4aaa-8147-136fd568b941"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 3,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "zoho_auth_inloop",
+              "dependsOn": [
+                {
+                  "activity": "sv_task_id",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Wait",
+              "typeProperties": {
+                "waitTimeInSeconds": 2
+              },
+              "name": "Wait",
+              "dependsOn": [
+                {
+                  "activity": "sv_rel_url_timelog",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "name": "ForEach_Task",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": []
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "isSequential": true,
+          "items": {
+            "value": "@activity('total_projects').output.value\n",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "sv_task_id",
+                "value": {
+                  "value": "@item()['tasks.id']\n",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "sv_task_id_copy1",
+              "dependsOn": []
+            },
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "sv_rel_url_timelog",
+                "value": {
+                  "value": "@concat(\n  '/api/v3/portal/771456286/timelogs?',\n  'page=', string(variables('sv_page')),\n  '&per_page=', string(variables('sv_per_page')),\n  '&view_type=customdate',\n  '&start_date=', formatDateTime(addDays(utcNow(), -180), 'yyyy-MM-dd'),\n  '&end_date=', formatDateTime(utcNow(), 'yyyy-MM-dd'),\n  '&module=%7B%22id%22%3A%22', variables('sv_task_id'),\n  '%22%2C%22type%22%3A%22task%22%7D'\n)\n",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "sv_rel_url_timelog_copy1",
+              "dependsOn": [
+                {
+                  "activity": "zoho_auth_inloop_copy1",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Copy",
+              "typeProperties": {
+                "source": {
+                  "type": "RestSource",
+                  "requestMethod": "GET",
+                  "additionalHeaders": {
+                    "Authorization": {
+                      "value": "@concat('Zoho-oauthtoken ', activity('zoho_auth_inloop').output.access_token)",
+                      "type": "Expression"
+                    }
+                  },
+                  "paginationRules": {
+                    "supportRFC5988": "true"
+                  },
+                  "httpRequestTimeout": "00:01:40",
+                  "requestInterval": "00.00:00:00.010",
+                  "datasetSettings": {
+                    "type": "RestResource",
+                    "typeProperties": {
+                      "relativeUrl": {
+                        "value": "@variables('sv_rel_url_timelog')",
+                        "type": "Expression"
+                      }
+                    },
+                    "schema": [],
+                    "externalReferences": {
+                      "connection": "b00a9678-3a5f-4812-80fa-34452965e322"
+                    },
+                    "annotations": []
+                  }
+                },
+                "sink": {
+                  "type": "LakehouseTableSink",
+                  "tableActionOption": "Upsert",
+                  "applyVOrder": true,
+                  "upsertSettings": {
+                    "keys": [
+                      "time_logs.log_details.id"
+                    ]
+                  },
+                  "datasetSettings": {
+                    "type": "LakehouseTable",
+                    "typeProperties": {
+                      "table": "tasks_timelogs_table"
+                    },
+                    "schema": [],
+                    "connectionSettings": {
+                      "name": "lh_zoho_projects",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "7c8e3de7-f4b0-4df6-aef4-a0bd8c795c8b",
+                          "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                          "rootFolder": "Tables"
+                        },
+                        "externalReferences": {
+                          "connection": "67271fe3-189f-4c53-8f69-0a12c145c74d"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "translator": {
+                  "type": "TabularTranslator",
+                  "typeConversion": true,
+                  "typeConversionSettings": {
+                    "allowDataTruncation": true,
+                    "treatBooleanAsNumber": false
+                  },
+                  "columnFlattenSettings": {
+                    "treatArrayAsString": false,
+                    "treatStructAsString": false,
+                    "flattenColumnDelimiter": "."
+                  }
+                },
+                "enableStaging": false
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Copy_Timelog_Task_copy1",
+              "dependsOn": [
+                {
+                  "activity": "Wait_copy1",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "WebActivity",
+              "typeProperties": {
+                "method": "POST",
+                "headers": {
+                  "Content-Type": "application/x-www-form-urlencoded"
+                },
+                "body": "refresh_token=1000.854b7329ed1dd6f26ce64a5271ce0147.d5b32286a93abdd45110220b6252ffd1&client_id=1000.Q0CVV3YGK1JWCURXZ9GJO6V6QYAU4X&client_secret=38924cb6cf753d66ba93f25a7e961c4179e31c8ad4&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=refresh_token"
+              },
+              "externalReferences": {
+                "connection": "a7ed7f9a-6616-4aaa-8147-136fd568b941"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 3,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "zoho_auth_inloop_copy1",
+              "dependsOn": [
+                {
+                  "activity": "sv_task_id_copy1",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Wait",
+              "typeProperties": {
+                "waitTimeInSeconds": 2
+              },
+              "name": "Wait_copy1",
+              "dependsOn": [
+                {
+                  "activity": "sv_rel_url_timelog_copy1",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "name": "ForEach_Task_copy1",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": []
+      }
+    ]
+  }
+}

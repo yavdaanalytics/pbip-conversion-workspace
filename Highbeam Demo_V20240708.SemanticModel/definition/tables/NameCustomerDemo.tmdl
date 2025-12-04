@@ -1,0 +1,36 @@
+table NameCustomerDemo
+	lineageTag: 344b0e97-7fba-49d6-b6cf-4cc3c6b90f0b
+
+	column Name
+		dataType: string
+		lineageTag: 03ab27a4-f58a-4e79-bfdf-c7fe763152dd
+		summarizeBy: none
+		sourceColumn: Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer
+		dataType: string
+		lineageTag: ddcc2271-d675-4290-becd-449e1747d8e3
+		summarizeBy: none
+		sourceColumn: Customer
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition NameCustomerDemo-f135ddf3-b154-4eaf-9c13-0b00f31ba0ee = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(#"Subfolder Path" & "Customer%20Names.csv"),[Delimiter=","]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Filtered Rows" = Table.SelectRows(#"Promoted Headers", each ([Name] <> null and [Name] <> "")),
+				    #"Filtered Rows1" = Table.SelectRows(#"Filtered Rows", each ([Customer] <> null and [Customer] <> ""))
+				in
+				    #"Filtered Rows1"
+
+	annotation PBI_ResultType = Table
+

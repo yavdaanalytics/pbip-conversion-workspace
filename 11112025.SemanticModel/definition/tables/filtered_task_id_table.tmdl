@@ -1,0 +1,19 @@
+table filtered_task_id_table
+	lineageTag: 462a6ffc-2c9e-4f6a-a506-bb3acf94767e
+	sourceLineageTag: [dbo].[filtered_task_id_table]
+
+	column 'tasks.id'
+		dataType: string
+		lineageTag: f14df7d7-a056-4576-8bd4-23b943aacfca
+		sourceLineageTag: tasks.id
+		summarizeBy: none
+		sourceColumn: tasks.id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition filtered_task_id_table = entity
+		mode: directLake
+		source
+			entityName: filtered_task_id_table
+			expressionSource: 'DirectLake - lh_zoho_projects'
+

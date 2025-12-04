@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Highbeam Demo_V20240708"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3f0f0c8a-f7e1-9223-41b5-f9eeec38f69d"
+  }
+}

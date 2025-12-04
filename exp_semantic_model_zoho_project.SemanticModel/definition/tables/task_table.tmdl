@@ -1,0 +1,643 @@
+table task_table
+	lineageTag: cfd2b873-22c3-4a89-9852-add4dae6a4c9
+	sourceLineageTag: [dbo].[task_table]
+
+	column 'tasks.dependency_info.successor.id'
+		dataType: string
+		lineageTag: 0a54687d-5ef6-4747-92b5-4da59c08cbf9
+		sourceLineageTag: tasks.dependency_info.successor.id
+		summarizeBy: none
+		sourceColumn: tasks.dependency_info.successor.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.dependency_info.successor.type'
+		dataType: string
+		lineageTag: d65a650b-5d79-4f29-871b-f021fa9f0756
+		sourceLineageTag: tasks.dependency_info.successor.type
+		summarizeBy: none
+		sourceColumn: tasks.dependency_info.successor.type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.parental_info.parent_task_id'
+		dataType: string
+		lineageTag: e84f3e2c-2e3c-437c-9331-5da0cbb4bae4
+		sourceLineageTag: tasks.parental_info.parent_task_id
+		summarizeBy: none
+		sourceColumn: tasks.parental_info.parent_task_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.parental_info.root_task_id'
+		dataType: string
+		lineageTag: 6ad91df6-824c-4799-87bc-cb740cb4906f
+		sourceLineageTag: tasks.parental_info.root_task_id
+		summarizeBy: none
+		sourceColumn: tasks.parental_info.root_task_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.sequence.subtask_sequence'
+		dataType: int64
+		formatString: 0
+		lineageTag: e692408d-d038-41df-8341-9a4e11799419
+		sourceLineageTag: tasks.sequence.subtask_sequence
+		summarizeBy: sum
+		sourceColumn: tasks.sequence.subtask_sequence
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.association_info.has_parents'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 7aa4a4ed-199b-444e-ae9d-034c6e949062
+		sourceLineageTag: tasks.association_info.has_parents
+		summarizeBy: none
+		sourceColumn: tasks.association_info.has_parents
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.association_info.has_recurrence'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c7854c03-fea2-40ab-8bd9-7e1e5ff1d24b
+		sourceLineageTag: tasks.association_info.has_recurrence
+		summarizeBy: none
+		sourceColumn: tasks.association_info.has_recurrence
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.association_info.has_comments'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6df5c291-d177-4419-a327-2587591371d8
+		sourceLineageTag: tasks.association_info.has_comments
+		summarizeBy: none
+		sourceColumn: tasks.association_info.has_comments
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.association_info.has_attachments'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 63c6db19-a481-4d6f-acb0-f16607d0c27d
+		sourceLineageTag: tasks.association_info.has_attachments
+		summarizeBy: none
+		sourceColumn: tasks.association_info.has_attachments
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.association_info.has_forums'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 08f776d0-8871-4138-a658-f462560d0dd5
+		sourceLineageTag: tasks.association_info.has_forums
+		summarizeBy: none
+		sourceColumn: tasks.association_info.has_forums
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.association_info.has_subtasks'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: dba7609d-ac8a-439d-8af1-733a338e28ca
+		sourceLineageTag: tasks.association_info.has_subtasks
+		summarizeBy: none
+		sourceColumn: tasks.association_info.has_subtasks
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.dependency_info.successor.project.id'
+		dataType: string
+		lineageTag: 5b927fad-6b49-4df3-ac59-edd0a40d2991
+		sourceLineageTag: tasks.dependency_info.successor.project.id
+		summarizeBy: none
+		sourceColumn: tasks.dependency_info.successor.project.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.created_by.last_name'
+		dataType: string
+		lineageTag: 2340b72d-a98e-4f8b-b176-8c4af9b08b02
+		sourceLineageTag: tasks.created_by.last_name
+		summarizeBy: none
+		sourceColumn: tasks.created_by.last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.billing_type'
+		dataType: string
+		lineageTag: e2bd2604-ca9f-490c-8408-1150a8d3e7ac
+		sourceLineageTag: tasks.billing_type
+		summarizeBy: none
+		sourceColumn: tasks.billing_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.log_hours.billable_hours'
+		dataType: string
+		lineageTag: 528a78d0-f6e9-4043-a76c-564864f85e44
+		sourceLineageTag: tasks.log_hours.billable_hours
+		summarizeBy: none
+		sourceColumn: tasks.log_hours.billable_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.log_hours.non_billable_hours'
+		dataType: string
+		lineageTag: 8ef95177-6c0e-4d7b-af07-efdc2088728c
+		sourceLineageTag: tasks.log_hours.non_billable_hours
+		summarizeBy: none
+		sourceColumn: tasks.log_hours.non_billable_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.log_hours.total_hours'
+		dataType: string
+		lineageTag: f5f6f551-c2f8-457b-87e0-a471f3752d1e
+		sourceLineageTag: tasks.log_hours.total_hours
+		summarizeBy: none
+		sourceColumn: tasks.log_hours.total_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.association_info.has_reminder'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 8897c643-1b48-4505-ba5e-57eff577eff6
+		sourceLineageTag: tasks.association_info.has_reminder
+		summarizeBy: none
+		sourceColumn: tasks.association_info.has_reminder
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.created_via'
+		dataType: string
+		lineageTag: f8cb3a41-66dd-488b-b5c5-cfe4cefad06e
+		sourceLineageTag: tasks.created_via
+		summarizeBy: none
+		sourceColumn: tasks.created_via
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.created_by.zuid'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0ab227f5-da1d-46e8-9fe4-290f3f6fc42a
+		sourceLineageTag: tasks.created_by.zuid
+		summarizeBy: sum
+		sourceColumn: tasks.created_by.zuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.created_by.zpuid'
+		dataType: string
+		lineageTag: 2ae875bb-8366-4b78-bb69-b9efa058b5aa
+		sourceLineageTag: tasks.created_by.zpuid
+		summarizeBy: none
+		sourceColumn: tasks.created_by.zpuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.created_by.name'
+		dataType: string
+		lineageTag: 2dcb1c07-cf62-4f1e-9cce-bee6b2dcb005
+		sourceLineageTag: tasks.created_by.name
+		summarizeBy: none
+		sourceColumn: tasks.created_by.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.created_by.email'
+		dataType: string
+		lineageTag: 3236a4f8-6ea1-4815-b3e0-5284455ce480
+		sourceLineageTag: tasks.created_by.email
+		summarizeBy: none
+		sourceColumn: tasks.created_by.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.created_by.first_name'
+		dataType: string
+		lineageTag: 9c37c82e-4a67-46e2-a4fc-0cbe600e6301
+		sourceLineageTag: tasks.created_by.first_name
+		summarizeBy: none
+		sourceColumn: tasks.created_by.first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.completion_percentage'
+		dataType: int64
+		formatString: 0
+		lineageTag: e7867489-96ee-4256-adb8-b0fce68d18b0
+		sourceLineageTag: tasks.completion_percentage
+		summarizeBy: sum
+		sourceColumn: tasks.completion_percentage
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.sequence.sequence'
+		dataType: int64
+		formatString: 0
+		lineageTag: 83ff9ef2-95b5-43e9-b40a-17a41ee4436a
+		sourceLineageTag: tasks.sequence.sequence
+		summarizeBy: sum
+		sourceColumn: tasks.sequence.sequence
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.depth'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4245f732-5768-483a-8b09-7ea2143a3b67
+		sourceLineageTag: tasks.depth
+		summarizeBy: sum
+		sourceColumn: tasks.depth
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.created_time'
+		dataType: string
+		lineageTag: 6ddc0ba3-353e-4c5b-9b6b-301b3d50224b
+		sourceLineageTag: tasks.created_time
+		summarizeBy: none
+		sourceColumn: tasks.created_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.last_modified_time'
+		dataType: string
+		lineageTag: ce527be1-ceaf-49d5-9d21-f5fe933dc4a3
+		sourceLineageTag: tasks.last_modified_time
+		summarizeBy: none
+		sourceColumn: tasks.last_modified_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.is_completed'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d3c493ee-9fa6-41aa-9b3e-2dab910a142d
+		sourceLineageTag: tasks.is_completed
+		summarizeBy: none
+		sourceColumn: tasks.is_completed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.owners_and_work.refresh_business_hours'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 16f99384-61a6-48eb-9eb2-293b5e7a4d44
+		sourceLineageTag: tasks.owners_and_work.refresh_business_hours
+		summarizeBy: none
+		sourceColumn: tasks.owners_and_work.refresh_business_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.start_date'
+		dataType: string
+		lineageTag: ca220f0d-0f25-4fe4-9c0a-b008f6e7b0a2
+		sourceLineageTag: tasks.start_date
+		summarizeBy: none
+		sourceColumn: tasks.start_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.end_date'
+		dataType: string
+		lineageTag: 21e132df-0b7b-4817-ae03-674bfdc3c4a1
+		sourceLineageTag: tasks.end_date
+		summarizeBy: none
+		sourceColumn: tasks.end_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.completed_on'
+		dataType: string
+		lineageTag: feeb28d0-849c-4058-a4a2-8176bc4d4341
+		sourceLineageTag: tasks.completed_on
+		summarizeBy: none
+		sourceColumn: tasks.completed_on
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.duration.value'
+		dataType: string
+		lineageTag: 210639dd-7a26-407d-afa5-72ee7db5f7fb
+		sourceLineageTag: tasks.duration.value
+		summarizeBy: none
+		sourceColumn: tasks.duration.value
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.duration.type'
+		dataType: string
+		lineageTag: 13f36293-40d4-4208-8ecd-3b5820d82da4
+		sourceLineageTag: tasks.duration.type
+		summarizeBy: none
+		sourceColumn: tasks.duration.type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.owners_and_work.owners.zpuid'
+		dataType: string
+		lineageTag: 6d520bb5-d078-4159-8495-6f1398a7c26e
+		sourceLineageTag: tasks.owners_and_work.owners.zpuid
+		summarizeBy: none
+		sourceColumn: tasks.owners_and_work.owners.zpuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.owners_and_work.owners.name'
+		dataType: string
+		lineageTag: 4c52eed2-af7e-4ab4-b239-0a0b891c229c
+		sourceLineageTag: tasks.owners_and_work.owners.name
+		summarizeBy: none
+		sourceColumn: tasks.owners_and_work.owners.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.owners_and_work.owners.email'
+		dataType: string
+		lineageTag: 8228139b-96c2-45a9-84e6-c40e48d7bcea
+		sourceLineageTag: tasks.owners_and_work.owners.email
+		summarizeBy: none
+		sourceColumn: tasks.owners_and_work.owners.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.owners_and_work.owners.first_name'
+		dataType: string
+		lineageTag: 8b1a018c-bef4-47e1-8306-e7f6e0880a37
+		sourceLineageTag: tasks.owners_and_work.owners.first_name
+		summarizeBy: none
+		sourceColumn: tasks.owners_and_work.owners.first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.owners_and_work.owners.last_name'
+		dataType: string
+		lineageTag: 65f9aecf-1af9-44ef-9d4b-844865808aff
+		sourceLineageTag: tasks.owners_and_work.owners.last_name
+		summarizeBy: none
+		sourceColumn: tasks.owners_and_work.owners.last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.owners_and_work.owners.work_values'
+		dataType: string
+		lineageTag: 749f3e04-8c16-46ff-9009-a87d4bbb88f7
+		sourceLineageTag: tasks.owners_and_work.owners.work_values
+		summarizeBy: none
+		sourceColumn: tasks.owners_and_work.owners.work_values
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.priority'
+		dataType: string
+		lineageTag: 815d058f-73fb-4f6a-b74a-62ea41b2b270
+		sourceLineageTag: tasks.priority
+		summarizeBy: none
+		sourceColumn: tasks.priority
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.owners_and_work.work_type'
+		dataType: string
+		lineageTag: dae55667-aeb0-417f-97d2-6ecc07770646
+		sourceLineageTag: tasks.owners_and_work.work_type
+		summarizeBy: none
+		sourceColumn: tasks.owners_and_work.work_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.owners_and_work.total_work'
+		dataType: string
+		lineageTag: e2993a96-f6ac-4ba5-ab6a-10cf74276a27
+		sourceLineageTag: tasks.owners_and_work.total_work
+		summarizeBy: none
+		sourceColumn: tasks.owners_and_work.total_work
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.owners_and_work.unit'
+		dataType: string
+		lineageTag: 3748e2d5-720d-49fc-8a80-ef657c8dd6d0
+		sourceLineageTag: tasks.owners_and_work.unit
+		summarizeBy: none
+		sourceColumn: tasks.owners_and_work.unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.owners_and_work.copy_task_duration'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 93691f3a-bed8-4b1b-afed-2b46913f949a
+		sourceLineageTag: tasks.owners_and_work.copy_task_duration
+		summarizeBy: none
+		sourceColumn: tasks.owners_and_work.copy_task_duration
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.owners_and_work.owners.zuid'
+		dataType: int64
+		formatString: 0
+		lineageTag: f7848278-8968-4898-82ff-d38d5fb24020
+		sourceLineageTag: tasks.owners_and_work.owners.zuid
+		summarizeBy: sum
+		sourceColumn: tasks.owners_and_work.owners.zuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.description'
+		dataType: string
+		lineageTag: 359ce909-c474-4956-86e0-425b6f8d0222
+		sourceLineageTag: tasks.description
+		summarizeBy: none
+		sourceColumn: tasks.description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.status.id'
+		dataType: string
+		lineageTag: 09dd81c7-c6f0-4a0f-a9f0-09400de8c790
+		sourceLineageTag: tasks.status.id
+		summarizeBy: none
+		sourceColumn: tasks.status.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.status.name'
+		dataType: string
+		lineageTag: ce091a81-e134-4484-85ed-52a7bb490817
+		sourceLineageTag: tasks.status.name
+		summarizeBy: none
+		sourceColumn: tasks.status.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.status.color'
+		dataType: string
+		lineageTag: c40edf7f-bbc4-4b40-aec9-3eb08efc2343
+		sourceLineageTag: tasks.status.color
+		summarizeBy: none
+		sourceColumn: tasks.status.color
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.status.color_hexcode'
+		dataType: string
+		lineageTag: 396cf19e-c40c-4767-99de-dd85eff79e98
+		sourceLineageTag: tasks.status.color_hexcode
+		summarizeBy: none
+		sourceColumn: tasks.status.color_hexcode
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.status.is_closed_type'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 20362ab8-cc2b-495d-bff5-1e255e455d16
+		sourceLineageTag: tasks.status.is_closed_type
+		summarizeBy: none
+		sourceColumn: tasks.status.is_closed_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.milestone.name'
+		dataType: string
+		lineageTag: 0fad7b7c-ca39-4d61-a198-a353f40fa17b
+		sourceLineageTag: tasks.milestone.name
+		summarizeBy: none
+		sourceColumn: tasks.milestone.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.tasklist.id'
+		dataType: string
+		lineageTag: d9b74fcc-4df9-4d1a-8348-e83a649bde38
+		sourceLineageTag: tasks.tasklist.id
+		summarizeBy: none
+		sourceColumn: tasks.tasklist.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.tasklist.name'
+		dataType: string
+		lineageTag: 7664fc53-006b-417f-b1d7-2ea55e79218a
+		sourceLineageTag: tasks.tasklist.name
+		summarizeBy: none
+		sourceColumn: tasks.tasklist.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.id'
+		dataType: string
+		lineageTag: 71bc5a5c-1f49-420c-8027-41a3d76131fa
+		sourceLineageTag: tasks.id
+		summarizeBy: none
+		sourceColumn: tasks.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.prefix'
+		dataType: string
+		lineageTag: fb08b155-b9be-4b51-80a8-30167673247b
+		sourceLineageTag: tasks.prefix
+		summarizeBy: none
+		sourceColumn: tasks.prefix
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.name'
+		dataType: string
+		lineageTag: e88cd0d5-2cb8-47ff-9418-12a68e024d3c
+		sourceLineageTag: tasks.name
+		summarizeBy: none
+		sourceColumn: tasks.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.page_count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 416d6118-72f1-48d9-b41c-d9bd9c8f8265
+		sourceLineageTag: page_info.page_count
+		summarizeBy: sum
+		sourceColumn: page_info.page_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.has_next_page'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b4b2dbea-ff0b-415b-98f6-5088dcee6517
+		sourceLineageTag: page_info.has_next_page
+		summarizeBy: none
+		sourceColumn: page_info.has_next_page
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.sort_by'
+		dataType: string
+		lineageTag: b7383833-57c9-4242-8b70-6b994293eaa0
+		sourceLineageTag: page_info.sort_by
+		summarizeBy: none
+		sourceColumn: page_info.sort_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.project.id'
+		dataType: string
+		lineageTag: 01a2ed25-943b-4d0f-85e8-97c1b4276280
+		sourceLineageTag: tasks.project.id
+		summarizeBy: none
+		sourceColumn: tasks.project.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.project.name'
+		dataType: string
+		lineageTag: 80a3a3e8-a204-44c7-bcc3-854eac215328
+		sourceLineageTag: tasks.project.name
+		summarizeBy: none
+		sourceColumn: tasks.project.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.milestone.id'
+		dataType: string
+		lineageTag: e50c83bf-4bf0-4f2c-8aa8-3c46e4d60f9f
+		sourceLineageTag: tasks.milestone.id
+		summarizeBy: none
+		sourceColumn: tasks.milestone.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.page'
+		dataType: int64
+		formatString: 0
+		lineageTag: 82032b7b-ff6c-4e86-be25-aa51ddc1f7d7
+		sourceLineageTag: page_info.page
+		summarizeBy: sum
+		sourceColumn: page_info.page
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.per_page'
+		dataType: int64
+		formatString: 0
+		lineageTag: 5d6e7b40-c5ae-4734-ab1f-a775dbb1d132
+		sourceLineageTag: page_info.per_page
+		summarizeBy: sum
+		sourceColumn: page_info.per_page
+
+		annotation SummarizationSetBy = Automatic
+
+	partition task_table = entity
+		mode: directLake
+		source
+			entityName: task_table
+			expressionSource: 'DirectLake - lh_zoho_projects_exp'
+

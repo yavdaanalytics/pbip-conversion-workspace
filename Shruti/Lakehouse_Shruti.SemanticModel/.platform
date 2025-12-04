@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Lakehouse_Shruti"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "b14ea6a3-666f-974b-4714-0fe8cd4badf2"
+  }
+}

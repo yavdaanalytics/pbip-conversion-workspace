@@ -1,0 +1,183 @@
+table users_table
+	lineageTag: a610a1ba-d86d-4a2e-9c11-b019da1b7ef4
+	sourceLineageTag: [dbo].[users_table]
+
+	column 'users.role'
+		dataType: string
+		lineageTag: b374a896-f80e-44a1-98b8-a9ac2de0b017
+		sourceLineageTag: users.role
+		summarizeBy: none
+		sourceColumn: users.role
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.profile_type'
+		dataType: string
+		lineageTag: 13bb59e4-5413-45ce-9482-72807ca3cbd2
+		sourceLineageTag: users.profile_type
+		summarizeBy: none
+		sourceColumn: users.profile_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.active'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1a88a254-36da-458e-aea7-e0cbe27ca651
+		sourceLineageTag: users.active
+		summarizeBy: none
+		sourceColumn: users.active
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.currency_code'
+		dataType: string
+		lineageTag: b7fa978e-13c0-4216-989c-79310f871824
+		sourceLineageTag: users.currency_code
+		summarizeBy: none
+		sourceColumn: users.currency_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.cost_per_hour'
+		dataType: string
+		lineageTag: 74eddd38-04cd-4597-90f9-94c37b915a04
+		sourceLineageTag: users.cost_per_hour
+		summarizeBy: none
+		sourceColumn: users.cost_per_hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.role_name'
+		dataType: string
+		lineageTag: 2ecb4115-77b6-4889-9596-ad2a4fbbc505
+		sourceLineageTag: users.role_name
+		summarizeBy: none
+		sourceColumn: users.role_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.zpuid'
+		dataType: string
+		lineageTag: 1928c3d5-be0a-4547-bf0b-a194c084b848
+		sourceLineageTag: users.zpuid
+		summarizeBy: none
+		sourceColumn: users.zpuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.profile_name'
+		dataType: string
+		lineageTag: 77a91ccc-3eed-4f4e-ac03-56ca89c70125
+		sourceLineageTag: users.profile_name
+		summarizeBy: none
+		sourceColumn: users.profile_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.role_id'
+		dataType: string
+		lineageTag: a3cadcd6-fa9c-4a95-85e4-27b7350dcffc
+		sourceLineageTag: users.role_id
+		summarizeBy: none
+		sourceColumn: users.role_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.profile_id'
+		dataType: string
+		lineageTag: 841bb92e-ca70-4eae-b2a7-bfb1d488d16f
+		sourceLineageTag: users.profile_id
+		summarizeBy: none
+		sourceColumn: users.profile_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.name'
+		dataType: string
+		lineageTag: 7241a182-1317-49db-b0b6-0a1aa0d19006
+		sourceLineageTag: users.name
+		summarizeBy: none
+		sourceColumn: users.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.id'
+		dataType: string
+		lineageTag: 2bd26241-6d9b-4999-b82f-cfcff64aab2e
+		sourceLineageTag: users.id
+		summarizeBy: none
+		sourceColumn: users.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.invoice'
+		dataType: string
+		lineageTag: 854e3064-89d8-4228-9e0a-95678818c0bc
+		sourceLineageTag: users.invoice
+		summarizeBy: none
+		sourceColumn: users.invoice
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.email'
+		dataType: string
+		lineageTag: 6736dadb-4a8a-4f0f-bc18-5cc99fee190a
+		sourceLineageTag: users.email
+		summarizeBy: none
+		sourceColumn: users.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.is_resource'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: da930628-8b16-40d7-9591-52948330a42e
+		sourceLineageTag: users.is_resource
+		summarizeBy: none
+		sourceColumn: users.is_resource
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.client_company_name'
+		dataType: string
+		lineageTag: 7e87b386-a6a1-4ea7-b345-5744ae97c86f
+		sourceLineageTag: users.client_company_name
+		summarizeBy: none
+		sourceColumn: users.client_company_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.client_company_id'
+		dataType: string
+		lineageTag: d17e580a-8623-4c98-a191-c49d2b98a8d6
+		sourceLineageTag: users.client_company_id
+		summarizeBy: none
+		sourceColumn: users.client_company_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.crm_contact_id'
+		dataType: string
+		lineageTag: cc7f5231-85a8-4436-92b6-9e820bab0087
+		sourceLineageTag: users.crm_contact_id
+		summarizeBy: none
+		sourceColumn: users.crm_contact_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.crm_account_id'
+		dataType: string
+		lineageTag: 838e5bf7-5d96-4179-8976-bc7bd1eba22e
+		sourceLineageTag: users.crm_account_id
+		summarizeBy: none
+		sourceColumn: users.crm_account_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition users_table = entity
+		mode: directLake
+		source
+			entityName: users_table
+			expressionSource: 'DirectLake - lh_zoho_projects'
+

@@ -1,0 +1,18 @@
+relationship a059c311-29fb-4339-93d8-f6a413ea0a14
+	relyOnReferentialIntegrity
+	securityFilteringBehavior: none
+	fromColumn: FactSalesOrder.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship 52ae9876-12df-4d34-8b76-9f0f21e6c06b
+	relyOnReferentialIntegrity
+	securityFilteringBehavior: none
+	fromColumn: FactSalesOrder.CustomerKey
+	toColumn: DimCustomer.CustomerKey
+
+relationship acc2955e-8e1a-4d70-9f15-05d27bee6cc7
+	relyOnReferentialIntegrity
+	securityFilteringBehavior: none
+	fromColumn: FactSalesOrder.SalesOrderDateKey
+	toColumn: DimDate.DateKey
+

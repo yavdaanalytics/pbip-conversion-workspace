@@ -1,0 +1,370 @@
+table MRP_Orders
+	lineageTag: 3bd10ef6-8c30-461f-be8c-5ed4367729e1
+
+	measure 'Current date' = TODAY()
+		formatString: Short Date
+		lineageTag: dd22accd-75e7-4790-bfec-afd5facc7e96
+
+	column PLANT
+		dataType: string
+		lineageTag: 37cb11b5-8660-40d1-a10d-92f3de3e0e08
+		summarizeBy: none
+		sourceColumn: PLANT
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORDERNO
+		dataType: string
+		lineageTag: 2c63f5d9-289b-4a60-9900-06017675cc34
+		summarizeBy: none
+		sourceColumn: ORDERNO
+
+		annotation SummarizationSetBy = Automatic
+
+	column SOL100_ID
+		dataType: string
+		lineageTag: c44745e1-723c-42c8-8ccf-3124527d0272
+		summarizeBy: none
+		sourceColumn: SOL100_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CREADATETIME
+		dataType: string
+		lineageTag: 7583b79f-cbe5-4bec-9ce9-ad9f3fe8161d
+		summarizeBy: none
+		sourceColumn: CREADATETIME
+
+		annotation SummarizationSetBy = Automatic
+
+	column CREAUSERID
+		dataType: string
+		lineageTag: f7f01213-1701-4cf7-95f0-09874d9ef6ed
+		summarizeBy: none
+		sourceColumn: CREAUSERID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CHANGDATETIME
+		dataType: string
+		lineageTag: 64df8cff-cbb8-4707-bbda-67577621f6d1
+		summarizeBy: none
+		sourceColumn: CHANGDATETIME
+
+		annotation SummarizationSetBy = Automatic
+
+	column CHANGUSERID
+		dataType: string
+		lineageTag: 9343281c-c79a-488c-8454-baed38aef9ed
+		summarizeBy: none
+		sourceColumn: CHANGUSERID
+
+		annotation SummarizationSetBy = Automatic
+
+	column STATUS
+		dataType: string
+		lineageTag: 1c2c4d85-b369-4fa9-9b44-dc448647685e
+		summarizeBy: none
+		sourceColumn: STATUS
+
+		annotation SummarizationSetBy = Automatic
+
+	column EFFECTFROMDATE
+		dataType: string
+		lineageTag: 833d4bf1-b1cd-444b-9eb0-a6afbb158c7b
+		summarizeBy: none
+		sourceColumn: EFFECTFROMDATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column EFFECTTODATE
+		dataType: string
+		lineageTag: 0b01374b-87d6-4ea8-af26-20b6411e9de9
+		summarizeBy: none
+		sourceColumn: EFFECTTODATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column CMPNYTYPE
+		dataType: string
+		lineageTag: 01a2ffe3-8f76-421c-9b62-b2b41377c0d7
+		summarizeBy: none
+		sourceColumn: CMPNYTYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORDERSUBJECT
+		dataType: string
+		lineageTag: b22ae01c-3a9a-4fbe-9b13-1a70d9f21038
+		summarizeBy: none
+		sourceColumn: ORDERSUBJECT
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORDERTYPE
+		dataType: string
+		lineageTag: 7d5d8503-1203-4601-8231-4229db3a487e
+		summarizeBy: none
+		sourceColumn: ORDERTYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column CMPNYNO
+		dataType: string
+		lineageTag: fa7ca9ed-4740-44cf-a005-9afa082e59da
+		summarizeBy: none
+		sourceColumn: CMPNYNO
+
+		annotation SummarizationSetBy = Automatic
+
+	column ADDRNO
+		dataType: string
+		lineageTag: 1bbe80b9-604b-4b11-b73d-920c76b3d6cd
+		summarizeBy: none
+		sourceColumn: ADDRNO
+
+		annotation SummarizationSetBy = Automatic
+
+	column BUYERID
+		dataType: string
+		lineageTag: c537740e-69df-4ff1-b288-260e3c6c2009
+		summarizeBy: none
+		sourceColumn: BUYERID
+
+		annotation SummarizationSetBy = Automatic
+
+	column PLANNID
+		dataType: string
+		lineageTag: 7e3a15e2-70e9-4d72-a100-58724fb480d8
+		summarizeBy: none
+		sourceColumn: PLANNID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DELIVADDRNO
+		dataType: string
+		lineageTag: aa488c5c-3e9d-402d-83c0-c7dd80ac07bd
+		summarizeBy: none
+		sourceColumn: DELIVADDRNO
+
+		annotation SummarizationSetBy = Automatic
+
+	column INVOICEADDRNO
+		dataType: string
+		lineageTag: 7188581f-d4a7-4e37-afda-6356840bfb7a
+		summarizeBy: none
+		sourceColumn: INVOICEADDRNO
+
+		annotation SummarizationSetBy = Automatic
+
+	column PLANTADDRNO
+		dataType: string
+		lineageTag: 8929d82c-368d-47ea-8312-7e92af356b07
+		summarizeBy: none
+		sourceColumn: PLANTADDRNO
+
+		annotation SummarizationSetBy = Automatic
+
+	column SHIPMENTTERM
+		dataType: string
+		lineageTag: 54135e1a-4128-4832-b39d-91d8facd7f54
+		summarizeBy: none
+		sourceColumn: SHIPMENTTERM
+
+		annotation SummarizationSetBy = Automatic
+
+	column RETURNTERM
+		dataType: string
+		lineageTag: d136c6d4-3dbe-499c-8575-ef90c8f5d2ca
+		summarizeBy: none
+		sourceColumn: RETURNTERM
+
+		annotation SummarizationSetBy = Automatic
+
+	column PACKTERM
+		dataType: string
+		lineageTag: d5654c98-559a-4de0-a72c-60d78e418419
+		summarizeBy: none
+		sourceColumn: PACKTERM
+
+		annotation SummarizationSetBy = Automatic
+
+	column PAYTERM
+		dataType: string
+		lineageTag: 9464d832-4ad8-4b54-83d8-507d4ac8ec4c
+		summarizeBy: none
+		sourceColumn: PAYTERM
+
+		annotation SummarizationSetBy = Automatic
+
+	column DELIVTERM
+		dataType: string
+		lineageTag: 4d2a0c7a-e5f9-42f9-94ac-ad01a57d816a
+		summarizeBy: none
+		sourceColumn: DELIVTERM
+
+		annotation SummarizationSetBy = Automatic
+
+	column PRNTLASTDATETIME
+		dataType: string
+		lineageTag: 8ed0ef14-9618-4701-b574-26430a362aec
+		summarizeBy: none
+		sourceColumn: PRNTLASTDATETIME
+
+		annotation SummarizationSetBy = Automatic
+
+	column PAYAUTHUSER
+		dataType: string
+		lineageTag: 246f6966-8039-4359-8b0b-21fa74941f81
+		summarizeBy: none
+		sourceColumn: PAYAUTHUSER
+
+		annotation SummarizationSetBy = Automatic
+
+	column ELABDATETIME
+		dataType: string
+		lineageTag: 1f35099f-cf05-476b-9e54-c6e9b14247ef
+		summarizeBy: none
+		sourceColumn: ELABDATETIME
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OrderLines.PLANT'
+		dataType: string
+		lineageTag: 3009cc96-d378-479c-9d16-36051a92e7a8
+		summarizeBy: none
+		sourceColumn: OrderLines.PLANT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OrderLines.ORDERNO'
+		dataType: string
+		lineageTag: ed963836-e85c-4ff9-ae44-e53f2c015bb4
+		summarizeBy: none
+		sourceColumn: OrderLines.ORDERNO
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OrderLines.PARTNO'
+		dataType: string
+		lineageTag: 6aab2c11-a458-4d83-a395-5e5796e2a94d
+		summarizeBy: none
+		sourceColumn: OrderLines.PARTNO
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OrderLines.ITEMDESC'
+		dataType: string
+		lineageTag: e48e4e70-fca4-463f-923a-fc50b1136f05
+		summarizeBy: none
+		sourceColumn: OrderLines.ITEMDESC
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OrderLines.STATUS'
+		dataType: string
+		lineageTag: 349ae626-8977-4a12-8ff0-0fcd6f754aee
+		summarizeBy: none
+		sourceColumn: OrderLines.STATUS
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OrderLines.FOR_QTY_PY'
+		dataType: string
+		lineageTag: 9353958a-646f-464b-a4da-f0f1d5ec57ef
+		summarizeBy: none
+		sourceColumn: OrderLines.FOR_QTY_PY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OrderLines.FOR_QTY_CY'
+		dataType: string
+		lineageTag: f3f5257e-e419-42a0-aa3f-81f9e7ef6fe1
+		summarizeBy: none
+		sourceColumn: OrderLines.FOR_QTY_CY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OrderLines.FOR_QTY_NY'
+		dataType: string
+		lineageTag: da93da1c-56aa-42f3-9fa2-26b5a026efd0
+		summarizeBy: none
+		sourceColumn: OrderLines.FOR_QTY_NY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OrderLines.CONVFACT'
+		dataType: string
+		lineageTag: 3aa77bcc-efd2-466a-9d6f-5096df86a5f4
+		summarizeBy: none
+		sourceColumn: OrderLines.CONVFACT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OrderLines.CURRCY'
+		dataType: string
+		lineageTag: 04c7c3de-d9a2-43b2-86b1-c540973bbc1f
+		summarizeBy: none
+		sourceColumn: OrderLines.CURRCY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'OrderLines.PRICE'
+		dataType: string
+		lineageTag: e99d6839-2abf-4a8f-8dd0-0226d6bb0a2d
+		summarizeBy: none
+		sourceColumn: OrderLines.PRICE
+
+		annotation SummarizationSetBy = Automatic
+
+	column EFFECTFROMDATE_D = MRP_Orders[EFFECTFROMDATE]
+		dataType: dateTime
+		formatString: dd mmmm yyyy
+		lineageTag: 1ad26445-ba73-42c0-82a4-b8d4f84d898f
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 93950a7f-7b9b-4629-b9fb-f60bff59d392
+			defaultHierarchy: LocalDateTable_cd7c6e52-a555-48a4-a973-af2369cf396a.'Date Hierarchy'
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column EFFECTTODATE_D = MRP_Orders[EFFECTTODATE]
+		dataType: dateTime
+		formatString: dd mmmm yyyy
+		lineageTag: 043b6e4c-eb08-4fee-b88f-eb200c829a62
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 87b74ef4-7aef-4ec3-a11f-99267da46d60
+			defaultHierarchy: LocalDateTable_b2293cb0-1676-41f5-9f58-671b7071be82.'Date Hierarchy'
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	partition MRP_Orders = m
+		mode: import
+		source =
+				let
+				    Source = Table.NestedJoin(Orders, {"PLANT", "ORDERNO"}, OrderLines, {"PLANT", "ORDERNO"}, "OrderLines", JoinKind.LeftOuter),
+				    #"Expanded OrderLines" = Table.ExpandTableColumn(Source, "OrderLines", {"PLANT", "ORDERNO", "PARTNO", "ITEMDESC", "STATUS", "FOR_QTY_PY", "FOR_QTY_CY", "FOR_QTY_NY", "CONVFACT", "CURRCY", "PRICE"}, {"OrderLines.PLANT", "OrderLines.ORDERNO", "OrderLines.PARTNO", "OrderLines.ITEMDESC", "OrderLines.STATUS", "OrderLines.FOR_QTY_PY", "OrderLines.FOR_QTY_CY", "OrderLines.FOR_QTY_NY", "OrderLines.CONVFACT", "OrderLines.CURRCY", "OrderLines.PRICE"})
+				in
+				    #"Expanded OrderLines"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,279 @@
+table phases_table
+	lineageTag: c77f205e-53fe-44e6-9b27-fe0b1f90cddd
+	sourceLineageTag: [dbo].[phases_table]
+
+	column 'page_info.per_page'
+		dataType: int64
+		formatString: 0
+		lineageTag: d527596c-f412-4e4e-935d-075e5968e943
+		sourceLineageTag: page_info.per_page
+		summarizeBy: sum
+		sourceColumn: page_info.per_page
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.page'
+		dataType: int64
+		formatString: 0
+		lineageTag: ad7f6e7e-a621-4bc9-80a4-0303d05c1512
+		sourceLineageTag: page_info.page
+		summarizeBy: sum
+		sourceColumn: page_info.page
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.sort_by.field_names'
+		dataType: string
+		lineageTag: 1fa7bf72-69a7-4f40-9314-5f047f3def12
+		sourceLineageTag: page_info.sort_by.field_names
+		summarizeBy: none
+		sourceColumn: page_info.sort_by.field_names
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.sort_by.order_by'
+		dataType: string
+		lineageTag: d5ca95aa-cc2c-46ea-9b99-6b5dee81ab9b
+		sourceLineageTag: page_info.sort_by.order_by
+		summarizeBy: none
+		sourceColumn: page_info.sort_by.order_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.end_date'
+		dataType: string
+		lineageTag: d4059a0f-0467-46d6-9735-4a8ea708c0bd
+		sourceLineageTag: milestones.end_date
+		summarizeBy: none
+		sourceColumn: milestones.end_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.owner.zpuid'
+		dataType: string
+		lineageTag: 8daac8d8-483c-4090-bff4-1bfb97a831e5
+		sourceLineageTag: milestones.owner.zpuid
+		summarizeBy: none
+		sourceColumn: milestones.owner.zpuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.owner.last_name'
+		dataType: string
+		lineageTag: 3c65ae72-ce1e-48a1-9b98-b6287bbcfda4
+		sourceLineageTag: milestones.owner.last_name
+		summarizeBy: none
+		sourceColumn: milestones.owner.last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.owner.is_client_user'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ecc28b91-5e4f-4f42-b1d6-14ff5e2acaf2
+		sourceLineageTag: milestones.owner.is_client_user
+		summarizeBy: none
+		sourceColumn: milestones.owner.is_client_user
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.owner.first_name'
+		dataType: string
+		lineageTag: b4c8cc4a-c447-44ab-9ba0-f2265f9817a2
+		sourceLineageTag: milestones.owner.first_name
+		summarizeBy: none
+		sourceColumn: milestones.owner.first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.owner.email'
+		dataType: string
+		lineageTag: cd2b4372-24ae-42b3-b0d6-24c5245c3d39
+		sourceLineageTag: milestones.owner.email
+		summarizeBy: none
+		sourceColumn: milestones.owner.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.owner.zuid'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4225c83a-500a-475c-bd3c-d83fc8fc1c74
+		sourceLineageTag: milestones.owner.zuid
+		summarizeBy: sum
+		sourceColumn: milestones.owner.zuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.created_time'
+		dataType: string
+		lineageTag: 915c6761-34ba-49c6-b9b9-3b24af0da6ce
+		sourceLineageTag: milestones.created_time
+		summarizeBy: none
+		sourceColumn: milestones.created_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.flag'
+		dataType: string
+		lineageTag: 04ef26ec-5b8a-4218-91b4-14dff36cb73e
+		sourceLineageTag: milestones.flag
+		summarizeBy: none
+		sourceColumn: milestones.flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.last_modified_time'
+		dataType: string
+		lineageTag: 66e4b1b8-ac23-41c0-90ac-0f1e1e4567b8
+		sourceLineageTag: milestones.last_modified_time
+		summarizeBy: none
+		sourceColumn: milestones.last_modified_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.status_type'
+		dataType: string
+		lineageTag: f6c7c624-6425-4581-b3e6-79748982ae6c
+		sourceLineageTag: milestones.status_type
+		summarizeBy: none
+		sourceColumn: milestones.status_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.name'
+		dataType: string
+		lineageTag: 86ceac79-80ed-4a80-97ea-dc3c7b1bae85
+		sourceLineageTag: milestones.name
+		summarizeBy: none
+		sourceColumn: milestones.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.id'
+		dataType: string
+		lineageTag: 45ee16eb-dcd6-439a-91e2-bf1d655c4eea
+		sourceLineageTag: milestones.id
+		summarizeBy: none
+		sourceColumn: milestones.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.created_by.zpuid'
+		dataType: string
+		lineageTag: cb7960aa-f16f-4631-b3b6-a5189fdbefb6
+		sourceLineageTag: milestones.created_by.zpuid
+		summarizeBy: none
+		sourceColumn: milestones.created_by.zpuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.created_by.last_name'
+		dataType: string
+		lineageTag: c93ee63c-a360-4085-97e1-ff0715192406
+		sourceLineageTag: milestones.created_by.last_name
+		summarizeBy: none
+		sourceColumn: milestones.created_by.last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.created_by.is_client_user'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ac5b3db6-e2b3-492b-bcbb-bd7d694142de
+		sourceLineageTag: milestones.created_by.is_client_user
+		summarizeBy: none
+		sourceColumn: milestones.created_by.is_client_user
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.created_by.first_name'
+		dataType: string
+		lineageTag: 7fb0fec0-686f-48c9-bf29-6434f3e75f16
+		sourceLineageTag: milestones.created_by.first_name
+		summarizeBy: none
+		sourceColumn: milestones.created_by.first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.created_by.email'
+		dataType: string
+		lineageTag: f103c0bf-ba20-4125-8edf-6bd01d909b33
+		sourceLineageTag: milestones.created_by.email
+		summarizeBy: none
+		sourceColumn: milestones.created_by.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.created_by.zuid'
+		dataType: int64
+		formatString: 0
+		lineageTag: 26cc7fce-424a-4efd-9a39-f72359f84ec0
+		sourceLineageTag: milestones.created_by.zuid
+		summarizeBy: sum
+		sourceColumn: milestones.created_by.zuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.budget_info.is_workfield_removed'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c0a25f8e-5c67-4b9f-aec5-d0ddbac004fb
+		sourceLineageTag: milestones.budget_info.is_workfield_removed
+		summarizeBy: none
+		sourceColumn: milestones.budget_info.is_workfield_removed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.start_date'
+		dataType: string
+		lineageTag: d06a484e-d891-4ae2-9ceb-7f53a9f8789c
+		sourceLineageTag: milestones.start_date
+		summarizeBy: none
+		sourceColumn: milestones.start_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.status.color_hexcode'
+		dataType: string
+		lineageTag: 038aa123-0985-418e-9765-7567cc58237a
+		sourceLineageTag: milestones.status.color_hexcode
+		summarizeBy: none
+		sourceColumn: milestones.status.color_hexcode
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.status.name'
+		dataType: string
+		lineageTag: 949e26c2-ac4f-4f9f-b315-fabdecb02648
+		sourceLineageTag: milestones.status.name
+		summarizeBy: none
+		sourceColumn: milestones.status.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.status.id'
+		dataType: string
+		lineageTag: c08d2091-ba1b-4bac-98bf-3798ee08a3c2
+		sourceLineageTag: milestones.status.id
+		summarizeBy: none
+		sourceColumn: milestones.status.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.status.is_closed'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 005b0b04-c43d-4bd3-bf39-803da7589524
+		sourceLineageTag: milestones.status.is_closed
+		summarizeBy: none
+		sourceColumn: milestones.status.is_closed
+
+		annotation SummarizationSetBy = Automatic
+
+	partition phases_table = entity
+		mode: directLake
+		source
+			entityName: phases_table
+			expressionSource: 'DirectLake - lh_zoho_projects'
+

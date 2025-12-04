@@ -1,0 +1,22 @@
+model ea2e5b95-59e2-4b9e-91c7-27f3d9c37c2a
+	culture: en-US
+	collation: Latin1_General_100_BIN2_UTF8
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["exec_requests_history","long_running_queries","frequently_run_queries","exec_sessions_history","sql_pool_insights","v_total_sales","sensor_data_json2","products","sensor_data_json","sales","accounts_module"]
+
+annotation SourceLineageTagType = DatabaseFullyQualifiedName
+
+ref table products
+ref table sales
+ref table v_total_sales
+ref table sensor_data_json2
+ref table sensor_data_json
+ref table accounts_module
+

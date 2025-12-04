@@ -1,0 +1,119 @@
+table WeeklyLastYearCalendar
+	lineageTag: 822b58a2-b3bd-4881-8ad8-07c6c2705c28
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 69c9c37f-3e66-4c1d-bfb4-5b51fe40bb71
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: dbf53ec1-0323-4d78-b614-aa6c45247ccd
+			defaultHierarchy: LocalDateTable_8787405a-7c0f-43f6-8dde-05a5ae58b0e0.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: a174559d-aaba-4d2c-8b68-0e8763ffd1ca
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week of Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: c376a37b-7cfe-44dd-88fd-cdf0c22b7b46
+		summarizeBy: sum
+		sourceColumn: Week of Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Item
+		dataType: string
+		lineageTag: 4c9eb058-9645-45dc-9424-a6fe0f41e026
+		summarizeBy: none
+		sourceColumn: Item
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column QTY =
+			VAR BegDate = WeeklyLastYearCalendar[Date].[DATE]
+			VAR CurrentItem = WeeklyLastYearCalendar[Item]
+			VAR FilteredTable =
+			    FILTER (
+			        Sales,
+			        Sales[DateByWk] = BegDate
+			            && Sales[Item] = CurrentItem
+			    )
+			RETURN
+			    CALCULATE (
+			        SUM ( Sales[QTY] ),
+			        FilteredTable
+			    ) + 0
+		lineageTag: bdd57cf5-d94e-41ad-a926-43d965dcbc8c
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Revenue =
+			VAR BegDate = WeeklyLastYearCalendar[Date].[DATE]
+			VAR CurrentItem = WeeklyLastYearCalendar[Item]
+			VAR FilteredTable =
+			    FILTER (
+			        Sales,
+			        Sales[DateByWk] = BegDate
+			            && Sales[Item] = CurrentItem
+			    )
+			RETURN
+			    CALCULATE (
+			        SUM ( Sales[Amount] ),
+			        FilteredTable
+			    ) + 0
+		lineageTag: c06e64b3-c402-4a90-95d9-68ae95566b0f
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition WeeklyLastYearCalendar-015ee65b-1ad1-4d27-9e23-b859b51e5881 = m
+		mode: import
+		source =
+				let
+				    Source = List.Dates(#"WeeklyLastYear", 53, #duration(7, 0, 0, 0)),
+				    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Date"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Date", type date}}),
+				    #"Inserted Year" = Table.AddColumn(#"Changed Type", "Year", each Date.Year([Date]), Int64.Type),
+				    #"Inserted Week of Year" = Table.AddColumn(#"Inserted Year", "Week of Year", each Date.WeekOfYear([Date]), Int64.Type),
+				    #"Added Custom" = Table.AddColumn(#"Inserted Week of Year", "Item", each Product),
+				    #"Expanded Item" = Table.ExpandTableColumn(#"Added Custom", "Item", {"Item"}, {"Item.Item"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Expanded Item",{{"Item.Item", "Item"}})
+				in
+				    #"Renamed Columns1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

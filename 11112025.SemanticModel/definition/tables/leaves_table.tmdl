@@ -1,0 +1,159 @@
+table leaves_table
+	lineageTag: a5d9b881-5f39-4ed6-8dc3-36cff1ce032a
+	sourceLineageTag: [dbo].[leaves_table]
+
+	column 'leaves.reason'
+		dataType: string
+		lineageTag: a6321c5a-7935-4c5d-8dc0-b635570bfcfa
+		sourceLineageTag: leaves.reason
+		summarizeBy: none
+		sourceColumn: leaves.reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.has_next_page'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ea9e031c-5b76-448f-b60e-21ee9f71e2fe
+		sourceLineageTag: page_info.has_next_page
+		summarizeBy: none
+		sourceColumn: page_info.has_next_page
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.index'
+		dataType: int64
+		formatString: 0
+		lineageTag: 3960d241-465b-4146-9f7b-6f40f4d752d4
+		sourceLineageTag: page_info.index
+		summarizeBy: sum
+		sourceColumn: page_info.index
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.range'
+		dataType: int64
+		formatString: 0
+		lineageTag: e37b0d90-e78f-4244-b459-c4c960a0dc62
+		sourceLineageTag: page_info.range
+		summarizeBy: sum
+		sourceColumn: page_info.range
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'leaves.user.zpuid'
+		dataType: int64
+		formatString: 0
+		lineageTag: 97d62640-3fe2-44a2-8cc5-624f44b32fb0
+		sourceLineageTag: leaves.user.zpuid
+		summarizeBy: sum
+		sourceColumn: leaves.user.zpuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'leaves.user.name'
+		dataType: string
+		lineageTag: 787c02e5-fcab-4e0f-8088-22f158c67f9e
+		sourceLineageTag: leaves.user.name
+		summarizeBy: none
+		sourceColumn: leaves.user.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'leaves.user.last_name'
+		dataType: string
+		lineageTag: f6b12101-cda3-4263-b21b-4b210463d8a9
+		sourceLineageTag: leaves.user.last_name
+		summarizeBy: none
+		sourceColumn: leaves.user.last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'leaves.user.first_name'
+		dataType: string
+		lineageTag: a5926f75-3fa5-4382-b9fd-4e4cfef55aac
+		sourceLineageTag: leaves.user.first_name
+		summarizeBy: none
+		sourceColumn: leaves.user.first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'leaves.user.email'
+		dataType: string
+		lineageTag: 696c810c-6f3c-4cbe-a93f-be3fae5d88c5
+		sourceLineageTag: leaves.user.email
+		summarizeBy: none
+		sourceColumn: leaves.user.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'leaves.user.zuid'
+		dataType: int64
+		formatString: 0
+		lineageTag: 030c90d7-535e-4f91-b3e8-4dec8c337fb6
+		sourceLineageTag: leaves.user.zuid
+		summarizeBy: sum
+		sourceColumn: leaves.user.zuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'leaves.created_time'
+		dataType: string
+		lineageTag: d61d8cb7-5158-45f2-885f-29ed0ad74771
+		sourceLineageTag: leaves.created_time
+		summarizeBy: none
+		sourceColumn: leaves.created_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'leaves.reference_id'
+		dataType: string
+		lineageTag: c06f098e-ddaa-4a2f-ac2b-f999071a4ff0
+		sourceLineageTag: leaves.reference_id
+		summarizeBy: none
+		sourceColumn: leaves.reference_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'leaves.from_date'
+		dataType: string
+		lineageTag: f5574e9c-d5fe-4a43-9cfc-eb7a743f8387
+		sourceLineageTag: leaves.from_date
+		summarizeBy: none
+		sourceColumn: leaves.from_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'leaves.to_date'
+		dataType: string
+		lineageTag: 1f43df5d-8dbe-41be-86fd-e9d0f8050bcf
+		sourceLineageTag: leaves.to_date
+		summarizeBy: none
+		sourceColumn: leaves.to_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'leaves.id'
+		dataType: string
+		lineageTag: 11714bba-4d1c-4e32-8848-497e0a5473e4
+		sourceLineageTag: leaves.id
+		summarizeBy: none
+		sourceColumn: leaves.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'leaves.type'
+		dataType: string
+		lineageTag: 2be99f20-17cf-46ef-b13a-9f9ccc4508e7
+		sourceLineageTag: leaves.type
+		summarizeBy: none
+		sourceColumn: leaves.type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition leaves_table = entity
+		mode: directLake
+		source
+			entityName: leaves_table
+			expressionSource: 'DirectLake - lh_zoho_projects'
+

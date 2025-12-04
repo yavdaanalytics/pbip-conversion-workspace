@@ -1,0 +1,49 @@
+table Parameters
+	lineageTag: 4826beeb-2bea-4bca-98fa-628fb2f8303e
+
+	column Table
+		dataType: string
+		lineageTag: f459f29f-4c15-4b18-b36e-df6e6d8b18df
+		summarizeBy: none
+		sourceColumn: Table
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Factor
+		dataType: double
+		lineageTag: d4c8f6c1-fa28-4443-82f3-df66d5dafc7a
+		summarizeBy: sum
+		sourceColumn: Factor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Value
+		dataType: double
+		lineageTag: 2ff527f6-5c77-46ba-ae24-49f826cc7d71
+		summarizeBy: sum
+		sourceColumn: Value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Parameters-074de71b-539d-421e-b674-5c724eb5892c = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(#"Subfolder Path" & "Parameters.csv"),[Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Table", type text}, {"Factor", type number}, {"Value", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

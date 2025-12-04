@@ -1,0 +1,47 @@
+table Param-TopNMeasure
+	lineageTag: 0b8efdc9-887c-4d99-81b4-4a68664b96f9
+
+	column Param-TopNMeasure
+		lineageTag: 020806b8-38ba-4d1b-8252-96b13caf2136
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Param-TopNMeasure Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Param-TopNMeasure Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Param-TopNMeasure Fields'
+		lineageTag: 1e7d61f1-091e-43d7-ab97-9cdc5da0b8d4
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Param-TopNMeasure Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Param-TopNMeasure Order'
+		formatString: 0
+		lineageTag: 665d2975-b731-4751-bb61-4235b36e5f65
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Param-TopNMeasure = calculated
+		mode: import
+		source =
+				{
+				    ("Revenue", NAMEOF('Measures Table'[Top N Revenue]), 0),
+				    ("Qty", NAMEOF('Measures Table'[Top N Qty]), 1),
+				    ("Gross Income", NAMEOF('Measures Table'[Top N Gross Income]), 2)
+				}
+
+	annotation PBI_Id = 948a409170ca443fa41304e6ac0ed382
+

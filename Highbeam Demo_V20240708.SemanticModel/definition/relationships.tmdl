@@ -1,0 +1,158 @@
+relationship cf92c37e-9b99-498a-9faa-6b7706cb1838
+	fromColumn: Product.'Preferred Vendor'
+	toColumn: MfgLeadTimes.'Preferred Vendor'
+
+relationship bdcc83cf-f760-4c04-b3e9-cf7ff9edf329
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: Product.Item
+	toColumn: ProductDescription.Item
+
+relationship fe4778f6-ffec-4020-87f7-eb7a26a75225
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Sales.ForecastDateBegWk
+	toColumn: LocalDateTable_4699747c-c05c-4669-8aa0-fd561d1627da.Date
+
+relationship e22c642c-bd17-48e5-a758-3b2b0724c708
+	joinOnDateBehavior: datePartOnly
+	fromColumn: WeeklyForecast.LeadTimeWkDate
+	toColumn: LocalDateTable_99168b0f-e733-47cb-9677-88d0dd39479a.Date
+
+relationship 1ee5873c-f19e-46bc-98d5-75de4a931dab
+	joinOnDateBehavior: datePartOnly
+	fromColumn: WeeklyLastYear.WeeklyLastYear
+	toColumn: LocalDateTable_cb994a56-129f-402b-9e66-dbf586018d13.Date
+
+relationship dbf53ec1-0323-4d78-b614-aa6c45247ccd
+	joinOnDateBehavior: datePartOnly
+	fromColumn: WeeklyLastYearCalendar.Date
+	toColumn: LocalDateTable_8787405a-7c0f-43f6-8dde-05a5ae58b0e0.Date
+
+relationship ec8429a1-671b-4477-8e99-86f1ebebc76f
+	fromColumn: WeeklyLastYearCalendar.Item
+	toColumn: Product.Item
+
+relationship 122e1175-22eb-4275-b266-8073ec915b85
+	fromColumn: Sales.Name
+	toColumn: NameCustomerDemo.Name
+
+relationship f6b90f4e-0eb0-4134-b470-bb70a575caa7
+	fromColumn: Sales.Date
+	toColumn: 'Date Table'.Date
+
+relationship b94b7eeb-f2dd-43e2-b180-ae44c40f5cca
+	fromColumn: WeeklyForecast.Item
+	toColumn: Product.Item
+
+relationship 910c9888-f4b0-490c-bd7b-b95c69ad39ab
+	fromColumn: WeeklyForecast.Date
+	toColumn: 'Date Table Weekly'.Date
+
+relationship 7efbd59a-94cb-4441-963a-22ac66db55e6
+	fromColumn: Sales.Item
+	toColumn: Product.Item
+
+relationship c31482bf-a049-4a6d-802c-afe626cb5054
+	joinOnDateBehavior: datePartOnly
+	fromColumn: InvStock.'Next Deliv'
+	toColumn: LocalDateTable_4896232e-932b-4c04-80fc-017c30a55016.Date
+
+relationship bf07f8fd-309f-4c3b-b829-e3ad16ad886c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Date Table Graph'.Date
+	toColumn: LocalDateTable_9ea264cf-b2ea-45b0-8dd5-98d3912e3943.Date
+
+relationship b785c1d3-c43f-4ea5-9186-1f25d5322624
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Date Table Weekly'.Date
+	toColumn: LocalDateTable_8605df26-1b42-41ee-938c-6297ce02b854.Date
+
+relationship c3427f87-e72f-4840-b57e-7e80ad67421b
+	fromColumn: InvStock.'Inventory Date'
+	toColumn: 'Date Table Weekly'.Date
+
+relationship 5b4071b0-05c3-49ed-84d5-51f72c479587
+	fromColumn: InvStock.'Inventory Date'
+	toColumn: 'Date Table Graph'.Date
+
+relationship f2d20b6f-84a5-4eee-b048-fc507474e992
+	isActive: false
+	fromColumn: InvStock.'Next Deliv Date'
+	toColumn: 'Date Table Graph'.Date
+
+relationship 87608fc7-8bed-45e3-812e-4d7a5cb8deff
+	isActive: false
+	fromColumn: InvStock.'Next Deliv Date'
+	toColumn: 'Date Table Weekly'.Date
+
+relationship 976f1c19-75cf-7ae0-21da-f4eab94e4d68
+	fromColumn: Sales.DateByWk
+	toColumn: 'Date Table Weekly'.Date
+
+relationship 8ada0441-1e4a-4580-8f3a-d67022b147df
+	joinOnDateBehavior: datePartOnly
+	fromColumn: WeeklyForecast.NextDeliveryDate
+	toColumn: LocalDateTable_4de7bca1-da8d-4966-8f0a-d60db97b8809.Date
+
+relationship 394aba97-8a77-4657-bd4a-376ad8a36e8f
+	fromColumn: 'Sales Weekly Forecast'.Item
+	toColumn: Product.Item
+
+relationship 2f69e83a-b435-4597-b1f3-c1849540d5ed
+	fromColumn: InvStock.Item
+	toColumn: Product.Item
+
+relationship 5e3f6dc8-034a-416a-9f6b-7e078e4f1bf2
+	fromColumn: 'Sales Weekly Forecast'.Date
+	toColumn: 'Date Table Graph'.Date
+
+relationship 212a6f6c-9a3c-4732-92f6-3373a65fbdc0
+	fromColumn: 'Sales Weekly Forecast'.Date
+	toColumn: 'Date Table Weekly'.Date
+
+relationship 7833c969-29a4-4a71-9181-3b00cd14cd34
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Sales.Start_DateOfCust(LTV)
+	toColumn: LocalDateTable_586a4776-589e-4f32-bea9-5ef406595c0b.Date
+
+relationship 78aecf9d-d74c-4af1-aacf-d325cc09ee66
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Sales.Last_DateOfCust(LTV)
+	toColumn: LocalDateTable_215ba3ef-3ab3-4230-b844-c09306d32735.Date
+
+relationship 2a72ae68-a7a9-4342-ac78-4d3210bc7675
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Sales.'First Purchase Date'
+	toColumn: LocalDateTable_71f76415-1bc8-43e2-b310-a998a7591f69.Date
+
+relationship 2097b287-a5be-46fc-99d1-209ba69b60f0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Sales.DateByMonth
+	toColumn: LocalDateTable_71ec0b08-e0d7-416d-b3b7-b5b08d401970.Date
+
+relationship 305a5fcc-4f47-4bb9-f546-0ca3b3929dca
+	fromColumn: Sales.Cohort
+	toColumn: 'Cohort Nos'.Value
+
+relationship 567fabec-27ad-48ab-97c0-56943fd25265
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'Measures Dropdown'.Value
+	toColumn: Param-BottomNMeasure.Param-BottomNMeasure
+
+relationship 5f1f8ddd-0441-48f8-aa37-afbc7fe16514
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'Measures Dropdown'.Value
+	toColumn: Param-TopNMeasure.Param-TopNMeasure
+
+relationship 560de99e-2d60-469c-b0cd-d90483c5ae96
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Sales.'Campaign Date'
+	toColumn: LocalDateTable_8d09b7eb-58d2-466f-8798-cb6ab55a3c88.Date
+
+relationship 40be1485-a6da-9506-2c7f-74f2c7be722f
+	toCardinality: many
+	fromColumn: 'Sales Weekly Forecast'.Date
+	toColumn: 'Date Table'.'Start of Week'
+

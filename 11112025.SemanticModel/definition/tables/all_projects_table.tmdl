@@ -1,0 +1,141 @@
+table all_projects_table
+	lineageTag: f14dd1fa-5c63-49b4-a0cc-a50af82c27b4
+	sourceLineageTag: [dbo].[all_projects_table]
+
+	column id
+		dataType: string
+		lineageTag: cb57c775-10dd-4c1c-9020-37d765b9e06a
+		sourceLineageTag: id
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column key
+		dataType: string
+		lineageTag: c0ab9d6a-82a9-427d-83b4-e2200b79fce0
+		sourceLineageTag: key
+		summarizeBy: none
+		sourceColumn: key
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		lineageTag: 89754671-ed46-4df3-a464-7c19f961046c
+		sourceLineageTag: name
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column project_type
+		dataType: string
+		lineageTag: c8f73333-b6b4-4c09-b69b-285e4d264af1
+		sourceLineageTag: project_type
+		summarizeBy: none
+		sourceColumn: project_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: bc699f42-0508-4337-83de-b92ba153e4b4
+		sourceLineageTag: description
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_public_project
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: cc87cb49-d24e-4c52-9de1-d48a418bc622
+		sourceLineageTag: is_public_project
+		summarizeBy: none
+		sourceColumn: is_public_project
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_date
+		dataType: string
+		lineageTag: 84fb742a-7964-4114-9e29-3b4f33ec9d75
+		sourceLineageTag: start_date
+		summarizeBy: none
+		sourceColumn: start_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_strict_project
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3274d7e1-b9a8-4956-bd23-82b45fcd91b4
+		sourceLineageTag: is_strict_project
+		summarizeBy: none
+		sourceColumn: is_strict_project
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_time
+		dataType: string
+		lineageTag: 455bd9cc-aff5-40b9-abad-a1d74d2b3cee
+		sourceLineageTag: created_time
+		summarizeBy: none
+		sourceColumn: created_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column modified_time
+		dataType: string
+		lineageTag: 84c99229-172c-4b7c-8020-ec3bf2518cbe
+		sourceLineageTag: modified_time
+		summarizeBy: none
+		sourceColumn: modified_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column business_hours_id
+		dataType: string
+		lineageTag: f12d1776-cc1c-4a07-846b-869d8c6bb454
+		sourceLineageTag: business_hours_id
+		summarizeBy: none
+		sourceColumn: business_hours_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_rollup_project
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 934d3ee5-388c-4053-8f42-3f20cc1c4ac3
+		sourceLineageTag: is_rollup_project
+		summarizeBy: none
+		sourceColumn: is_rollup_project
+
+		annotation SummarizationSetBy = Automatic
+
+	column percent_complete
+		dataType: int64
+		formatString: 0
+		lineageTag: c2ba7116-267b-46fb-a47a-3ceef9f553f3
+		sourceLineageTag: percent_complete
+		summarizeBy: sum
+		sourceColumn: percent_complete
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_completed
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 147b3bd9-b84f-41de-92e8-bcf0e975db3a
+		sourceLineageTag: is_completed
+		summarizeBy: none
+		sourceColumn: is_completed
+
+		annotation SummarizationSetBy = Automatic
+
+	partition all_projects_table = entity
+		mode: directLake
+		source
+			entityName: all_projects_table
+			expressionSource: 'DirectLake - lh_zoho_projects'
+

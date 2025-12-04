@@ -1,0 +1,694 @@
+expression CalendarStartMonth =
+		let
+		    Source = Date.StartOfMonth(DateTime.LocalNow()),
+		    #"Extracted Date" = Date.From(Source)
+		in
+		    #"Extracted Date"
+	lineageTag: 1cdd1656-b9cb-40b5-9bed-fe08baa41454
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Date
+
+expression CalendarStartWeek =
+		let
+		    Source = Date.StartOfWeek(DateTime.LocalNow(),Day.Monday),
+		    Custom1 = Source,
+		    #"Extracted Date" = Date.From(Custom1)
+		in
+		    #"Extracted Date"
+	lineageTag: 65e92e47-fb50-4bb3-9b25-73861c8889f0
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Date
+
+expression 'Sample File (2)' =
+		let
+		    Source = SharePoint.Files("https://highbeamanalytics.sharepoint.com/sites/HighBeamDevelopment/", [ApiVersion = 15]),
+		    #"Filtered Rows" = Table.SelectRows(Source, each ([Folder Path] = "https://highbeamanalytics.sharepoint.com/sites/HighBeamDevelopment/Shared Documents/Yavda/JODemox/Sales/")),
+		    Navigation1 = #"Filtered Rows"{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 1f28d1a8-aeb1-4555-9580-bf688e553fb3
+	queryGroup: 'Transform File from Sales (2)\Helper Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Binary
+
+expression Parameter2 = #"Sample File (2)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (2)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: a0ae9991-e7f5-4849-8885-3ed389677397
+	queryGroup: 'Transform File from Sales (2)\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (2)' =
+		let
+		    Source = Csv.Document(Parameter2,[Delimiter=",", Columns=12, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 4637ab14-ef01-42f5-bd6f-53b52f4ed56d
+	queryGroup: 'Transform File from Sales (2)'
+
+	annotation PBI_ResultType = Table
+
+expression 'Transform File (2)' =
+		let
+		    Source = (Parameter2 as binary) => let
+		    Source = Csv.Document(Parameter2,[Delimiter=",", Columns=12, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	lineageTag: 6f453b82-907c-4c7e-a4a3-578fbe3984c6
+	queryGroup: 'Transform File from Sales (2)\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression 'Sample File (3)' =
+		let
+		    Source = SharePoint.Files("https://highbeamanalytics.sharepoint.com/sites/HighBeamDevelopment", [ApiVersion = 15]),
+		    #"Filtered Rows1" = Table.SelectRows(Source, each ([Folder Path] = "https://highbeamanalytics.sharepoint.com/sites/HighBeamDevelopment/Shared Documents/Yavda/JODemox/Inventory Reports/")),
+		    Navigation1 = #"Filtered Rows1"{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 8f0d2683-6afe-44ff-8d0f-9dcc83f60008
+	queryGroup: 'Transform File from InvStock\Helper Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Binary
+
+expression Parameter3 = #"Sample File (3)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (3)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 4e646313-89f9-4fac-989c-d7d927a17171
+	queryGroup: 'Transform File from InvStock\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (3)' =
+		let
+		    Source = Csv.Document(Parameter3,[Delimiter=",", Columns=17, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: f0fe8b39-a854-4891-9cc2-36799d49f2c4
+	queryGroup: 'Transform File from InvStock'
+
+	annotation PBI_ResultType = Table
+
+expression 'Transform File (3)' =
+		let
+		    Source = (Parameter3 as binary) => let
+		    Source = Csv.Document(Parameter3,[Delimiter=",", Columns=17, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	lineageTag: 33a2519e-d5a5-4ccb-a084-81473d353d35
+	queryGroup: 'Transform File from InvStock\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression 'Sample File (4)' =
+		let
+		    Source = SharePoint.Files(MainPath, [ApiVersion = 15]),
+		    #"Filtered Rows2" = Table.SelectRows(Source, each ([Name] = "ProductListupdate.csv")),
+		    Navigation1 = #"Filtered Rows2"{0}[Content]
+		in
+		    Navigation1
+	lineageTag: d7b65671-5f94-4e6d-9760-313850ff0d33
+	queryGroup: 'Transform File from Product 2\Helper Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Binary
+
+expression Parameter4 = #"Sample File (4)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (4)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 9c0377d2-35f5-49a8-a448-76abd52e5aa1
+	queryGroup: 'Transform File from Product 2\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (4)' =
+		let
+		    Source = Csv.Document(Parameter4,[Delimiter=",", Columns=33, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 6b96f713-df8a-4073-9f48-84d56c5ee5be
+	queryGroup: 'Transform File from Product 2'
+
+	annotation PBI_ResultType = Table
+
+expression 'Transform File (4)' =
+		let
+		    Source = (Parameter4 as binary) => let
+		    Source = Csv.Document(Parameter4,[Delimiter=",", Columns=33, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	lineageTag: 6c79dfa2-1b5c-4287-9327-9ed1791f58b0
+	queryGroup: 'Transform File from Product 2\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression 'Transform File (5)' =
+		let
+		    Source = (Parameter3 as binary) => let
+		    Source = Csv.Document(Parameter3,[Delimiter=",", Columns=17, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	lineageTag: 0f4d63f1-3fe4-499f-97e1-0ba1a2aea253
+	queryGroup: Parameters
+
+	annotation PBI_ResultType = Function
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression 'Subfolder Path' = "https://highbeamanalytics.sharepoint.com/sites/HighBeamDevelopment/Shared Documents/Yavda/JODemox/" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: f5557e88-3e79-4c4a-a7e0-6cc4621fc029
+	queryGroup: Parameters
+
+	annotation PBI_ResultType = Text
+
+expression 'Inventory Path' = "Inventory Reports" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 1412c781-14b3-443b-a6e6-8b0ae50621dd
+	queryGroup: Parameters
+
+	annotation PBI_ResultType = Text
+
+expression MainPath = "https://highbeamanalytics.sharepoint.com/sites/HighBeamDevelopment/" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: ba2cee1a-02f9-4379-b53d-9beda409f1c9
+	queryGroup: Parameters
+
+	annotation PBI_ResultType = Text
+
+expression 'Sales Path' = "Sales/" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: c6f2d20f-e72f-4153-8868-350b64aa1442
+	queryGroup: Parameters
+
+	annotation PBI_ResultType = Text
+
+expression 'Forecast Data' =
+		let
+		    Source = R.Execute("library(prophet)#(lf)    require(readxl)#(lf)    library(tidyverse)#(lf)    library(dplyr)#(lf)    library(tidyr)#(lf)    library(ggplot2)#(lf)    #set the working directory from which the files will be read from#(lf)    setwd(""C:/Users/AmitMohanty/highbeamanalytics.com/HighBeam Development - Yavda/JODemox/Sales"")#(lf)#(lf)#(lf)    #create a list of the files from your target directory#(lf)    file_list <- list.files(path=""C:/Users/AmitMohanty/highbeamanalytics.com/HighBeam Development - Yavda/JODemox/Sales"",pattern = "".+.CSV"")#(lf)#(lf)    #initiate a blank data frame, each iteration of the loop will append the data from the given file to this variable#(lf)    dataset <- data.frame()#(lf)#(lf)    #had to specify columns to get rid of the total column#(lf)    for (i in 1:length(file_list)){#(lf)    temp_data <- read.csv(file_list[i]) #each file will be read in, specify which columns you need read in to avoid any errors#(lf)    temp_data <- temp_data %>% select(c('Date','Item','Amount'))#(lf)    temp_data$Class <- sapply(strsplit(gsub("".csv"", """", file_list[i]), ""_""), function(x){x[2]}) #clean the data as needed, in this case I am creating a new column that indicates which file each row of data came from#(lf)    dataset <- rbind(dataset, temp_data) #for each iteration, bind the new data to the building dataset#(lf)    }#(lf)    dataset$Date = as.Date(dataset$Date,format=""%m/%d/%Y"")#(lf)    items <- unique(dataset$Item)#(lf)    fulldata <- data.frame()#(lf)    for (i in 1:length(items)){#(lf)    df <- drop_na(dataset %>% group_by(Date) %>% summarise(Amount = sum(Amount)))#(lf)    names(df) <- c('ds', 'y') #(lf)    m <- prophet(df,daily.seasonality=TRUE)#(lf)#(lf)    future <- make_future_dataframe(m, periods=100)#(lf)    ##print(paste(i , ""-"" , items[i]))#(lf)    forecast <- predict(m, future)#(lf)    temp_data <- crossing(forecast, items[i])#(lf)    fulldata <- rbind(fulldata, temp_data)#(lf)    }"),
+		    fulldata = Source{[Name="fulldata"]}[Value],
+		    #"Renamed Columns" = Table.RenameColumns(fulldata,{{"items[i]", "Item"}, {"ds", "Date"}, {"trend", "Amount"}}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Date", type date}})
+		in
+		    #"Changed Type"
+	lineageTag: 87af725f-896e-4793-850d-ef904b7e695d
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Sales Forecast' =
+		let
+		    Source = SharePoint.Files(MainPath, [ApiVersion = 15]),
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.Contains([Folder Path], "/"&#"Sales Path")),
+		    #"Filtered Hidden Files1" = Table.SelectRows(#"Filtered Rows", each [Attributes]?[Hidden]? <> true),
+		    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (2)", each #"Transform File (2)"([Content])),
+		    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+		    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (2)"}),
+		    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (2)", Table.ColumnNames(#"Transform File (2)"(#"Sample File (2)"))),
+		    #"Changed Type with Locale" = Table.TransformColumnTypes(#"Expanded Table Column1", {{"Date", type date}}, "en-US"),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Changed Type with Locale",{{"Source.Name", type text}, {"", type text}, {"Type", type text}, {"Date", type date}, {"Num", type text}, {"Memo", type text}, {"Name", type text}, {"Item", type text}, {"Qty", Int64.Type}, {"U/M", type text}, {"Sales Price", type number}, {"Amount", type number}}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Source.Name", "", "Num", "Memo", "U/M"}),
+		    #"Filtered Rows1" = Table.SelectRows(#"Removed Columns", each ([Date] <> null)),
+		    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows1","Tevan","Tim",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","","Tim",Replacer.ReplaceValue,{"Rep"}),
+		    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","BOE","Bob",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","Boe","Bob",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","CA","Chip",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","Dan","David",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","Donna","David",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value6","GP","David",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value8" = Table.ReplaceValue(#"Replaced Value7","House","David",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value9" = Table.ReplaceValue(#"Replaced Value8","Jason","Jerry",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value10" = Table.ReplaceValue(#"Replaced Value9","Lisa","Larry",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value11" = Table.ReplaceValue(#"Replaced Value10","LISA","Larry",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value12" = Table.ReplaceValue(#"Replaced Value11","Velez","Larry",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value13" = Table.ReplaceValue(#"Replaced Value12","Web","Larry",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value14" = Table.ReplaceValue(#"Replaced Value13","AC","Larry",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value15" = Table.ReplaceValue(#"Replaced Value14","Hallo","Bob",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value16" = Table.ReplaceValue(#"Replaced Value15","HD","Shopify",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value17" = Table.ReplaceValue(#"Replaced Value16","Shopify.","Tim",Replacer.ReplaceText,{"Rep"}),
+		    #"Filtered Rows5" = Table.SelectRows(#"Replaced Value17", each ([Item] <> "Accessories" and [Item] <> "Additional Charges" and [Item] <> "Adjustment" and [Item] <> "Black FR" and [Item] <> "BOLD8WB" and [Item] <> "Booties" and [Item] <> "Buckles" and [Item] <> "Butyl Tape" and [Item] <> "Butyl Tape (Fab)" and [Item] <> "Butyl TapeWW" and [Item] <> "CCFR" and [Item] <> "Corrugate" and [Item] <> "Coupon" and [Item] <> "Custom" and [Item] <> "Customer Deposit" and [Item] <> "Customer Notes" and [Item] <> "DFC Yellow" and [Item] <> "DMR" and [Item] <> "DPC" and [Item] <> "Drainage" and [Item] <> "DST" and [Item] <> "DuctCap Covers" and [Item] <> "Dura Skrim" and [Item] <> "Exempt" and [Item] <> "Export Data 1" and [Item] <> "Export Data 2" and [Item] <> "Export Data 3" and [Item] <> "Export Data 4" and [Item] <> "Export Data 5" and [Item] <> "Export Data 6" and [Item] <> "Export Data 7" and [Item] <> "Export Data 8" and [Item] <> "Free Shipping" and [Item] <> "Greenhouse" and [Item] <> "Heat Shrink Wrap" and [Item] <> "Information Line Item" and [Item] <> "Interest" and [Item] <> "LLDPE" and [Item] <> "Logo SM" and [Item] <> "LTL Shipping" and [Item] <> "Material" and [Item] <> "MaterialVB" and [Item] <> "Netting" and [Item] <> "NSF Check" and [Item] <> "Packaging" and [Item] <> "Plain poly" and [Item] <> "Plain poly SD" and [Item] <> "Please Note" and [Item] <> "Product Sales" and [Item] <> "Promo Price" and [Item] <> "Protective Masking" and [Item] <> "PS" and [Item] <> "Radiant Barrier" and [Item] <> "Resale" and [Item] <> "Restocking Fee" and [Item] <> "Retail Delivery Fee" and [Item] <> "Root Barrier" and [Item] <> "Sales Tax" and [Item] <> "Sample" and [Item] <> "Shipping Tracking" and [Item] <> "SolaScrim" and [Item] <> "Surcharge" and [Item] <> "Tape" and [Item] <> "TieDownButtons" and [Item] <> "Tuff Scrim" and [Item] <> "Tufflite" and [Item] <> "USA" and [Item] <> "Woven Coated Polyethylene" and [Item] <> "WSticky Mats")),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows5",{"Date", "Item", "Qty"}),
+		    #"Grouped Rows1" = Table.Group(#"Removed Other Columns", {"Date", "Item"}, {{"Qty", each List.Sum([Qty]), type nullable number}}),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Grouped Rows1",{{"Date", type text}}),
+		    Custom1 = R.Execute("library(prophet)#(lf)    library(tidyverse)#(lf)    library(""lubridate"")#(lf)    library(""multidplyr"")#(lf)    library(""dplyr"", warn.conflicts = FALSE)#(lf) #(lf)    cluster <- new_cluster(10)#(lf)    cluster_library(cluster, ""dplyr"")#(lf)    cluster_library(cluster, ""prophet"")#(lf)    #set the working directory from which the files will be read from#(lf)    setwd(""C:/Users/amitmohanty/highbeamanalytics.com/HighBeam Development - Yavda/JODemox/Sales"")#(lf)    dataset$Date = as.Date(dataset$Date, ""%m/%d/%Y"")#(lf)    dataset <- drop_na(dataset,""Date"")#(lf)#(lf)    df <- aggregate(x = dataset$Item, #(lf)                               by = list(dataset$Item), #(lf)                               FUN = length)#(lf)    #(lf)    df <- filter(df, x >= 25)#(lf)    items <- unique(df$Group.1)#(lf)    #  print(items)#(lf)    dataset <- filter(dataset, dataset$Item %in% items)#(lf)#(lf)    df <- dataset %>% rename(""ds"" = ""Date"",  ""y"" = ""Qty"") #(lf)    df_temp <- df %>% group_by(Item) %>% partition(cluster)#(lf)#(lf)    # df_temp#(lf)fulldata = df_temp %>%  #(lf)  group_by(Item) %>%#(lf)  do(predict(prophet(.), #(lf)             make_future_dataframe(prophet(.),  periods = 100))) %>% collect() %>% select(ds, Item, yhat)",[dataset=#"Changed Type1"]),
+		    fulldata = Custom1{[Name="fulldata"]}[Value],
+		    #"Renamed Columns" = Table.RenameColumns(fulldata,{{"ds", "Date"}, {"yhat", "Qty"}}),
+		    #"Changed Type2" = Table.TransformColumnTypes(#"Renamed Columns",{{"Date", type date}, {"Qty", Int64.Type}}),
+		    #"Removed Other Columns2" = Table.SelectColumns(#"Changed Type2",{"Date", "Item", "Qty"}),
+		    #"Calculated Start of Week" = Table.TransformColumns(#"Removed Other Columns2",{{"Date", each Date.StartOfWeek(_,Day.Monday), type date}}),
+		    #"Grouped Rows" = Table.Group(#"Calculated Start of Week", {"Date", "Item"}, {{"Qty", each List.Sum([Qty]), type number}}),
+		    #"Filtered Rows2" = Table.SelectRows(#"Grouped Rows", each [Date] >= Date.StartOfWeek( Date.From(DateTime.FixedLocalNow()), Day.Monday)),
+		    #"Inserted Year" = Table.AddColumn(#"Filtered Rows2", "Year", each Date.Year([Date]), Int64.Type),
+		    #"Inserted Week of Year" = Table.AddColumn(#"Inserted Year", "Week of Year", each Date.WeekOfYear([Date]), Int64.Type)
+		in
+		    #"Inserted Week of Year"
+	lineageTag: b7b7de81-98f9-4417-8c46-382b67cf1181
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Sharepoint Data Extract' =
+		let
+		    Source = List.Accumulate( List.RemoveItems(Text.Split(Text.AfterDelimiter(#"Subfolder Path", "Shared Documents/"), "/"),{""}),SharePoint.Contents(MainPath, [ApiVersion = 15]){[Name="Shared Documents"]}[Content],(state,current) => state{[Name=current]}[Content]),
+		    #"Removed Other Columns" = Table.SelectColumns(Source,{"Content", "Name", "Folder Path"})
+		in
+		    #"Removed Other Columns"
+	lineageTag: 4e4c30f4-c6ec-4ea7-a9e3-9cd751fb8ce2
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Purchase =
+		let
+		    Source = #"Sharepoint Data Extract",
+		    #"Filtered Rows" = Table.SelectRows(Source, each [Name] = #"Purchase Path"),
+		    Content = #"Filtered Rows"{0}[Content],
+		    #"Filtered Hidden Files1" = Table.SelectRows(Content, each [Attributes]?[Hidden]? <> true),
+		    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File", each #"Transform File"([Content])),
+		    #"Removed Other Columns1" = Table.SelectColumns(#"Invoke Custom Function1",{"Transform File"}),
+		    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File", Table.ColumnNames(#"Transform File"(#"Sample File"))),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Item", type text}, {"Date", type date}, {"Cost Price", type number}}),
+		    #"Added Custom5" = Table.TransformColumnTypes(Table.AddColumn(#"Changed Type", "Date Diff", each Date.From(DateTime.LocalNow())-List.Max(#"Changed Type"[Date])),{{"Date Diff", Int64.Type}}),
+		    #"Added Custom1" = Table.AddColumn(#"Added Custom5", "Custom Date", each Date.AddDays([Date],[Date Diff])),
+		    #"Removed Columns5" = Table.RemoveColumns(#"Added Custom1",{"Date", "Date Diff"}),
+		    #"Renamed Columns5" = Table.RenameColumns(#"Removed Columns5",{{"Custom Date", "Date"}}),
+		    #"Changed Type5" = Table.TransformColumnTypes(#"Renamed Columns5",{{"Date", type date}}),
+		    #"Calculated Start of Week" = Table.TransformColumns(#"Changed Type5",{{"Date", each Date.StartOfWeek(_,Day.Monday), type date}}),
+		    #"Removed Duplicates" = Table.Distinct(#"Calculated Start of Week"),
+		    Custom1 = Table.Column(#"Date Table Weekly", "Date"),
+		    #"Converted to Table" = Table.FromList(Custom1, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+		    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Date"}}),
+		    #"Added Custom" = Table.AddColumn(#"Renamed Columns", "Item", each Product[Item]),
+		    #"Expanded Item" = Table.ExpandListColumn(#"Added Custom", "Item"),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Expanded Item",{{"Date", type date}, {"Item", type text}}),
+		    #"Merged Queries" = Table.NestedJoin(#"Changed Type1", {"Date", "Item"}, #"Removed Duplicates", {"Date", "Item"}, "Cost", JoinKind.LeftOuter),
+		    #"Expanded Cost" = Table.ExpandTableColumn(#"Merged Queries", "Cost", {"Cost Price"}, {"Cost Price"}),
+		    #"Grouped Rows1" = Table.Group(#"Expanded Cost", {"Item"}, {{"Date", each List.Min([Date]), type nullable date}}),
+		    #"Filtered Rows1" = Table.SelectRows(#"Expanded Cost", each [Cost Price] <> null and [Cost Price] <> ""),
+		    #"Grouped Rows" = Table.Group(#"Filtered Rows1", {"Item"}, {{"Min Date", each List.Min([Date]), type nullable date}, {"Data", each _, type table [Date=nullable date, Item=nullable text, Cost Price=nullable number]}}),
+		    #"Expanded Data" = Table.ExpandTableColumn(#"Grouped Rows", "Data", {"Date", "Cost Price"}, {"Date", "Cost Price"}),
+		    #"Filtered Rows2" = Table.SelectRows(#"Expanded Data", each ([Min Date] = [Date])),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows2",{"Item", "Cost Price"}),
+		    #"Merged Queries1" = Table.NestedJoin(#"Removed Other Columns", {"Item"}, #"Grouped Rows1", {"Item"}, "Date", JoinKind.Inner),
+		    #"Expanded Date" = Table.ExpandTableColumn(#"Merged Queries1", "Date", {"Date"}, {"Date"}),
+		    #"Merged Queries2" = Table.NestedJoin(#"Expanded Cost", {"Date", "Item"}, #"Expanded Date", {"Date", "Item"}, "Expanded Cost", JoinKind.LeftOuter),
+		    #"Expanded Expanded Cost" = Table.ExpandTableColumn(#"Merged Queries2", "Expanded Cost", {"Cost Price"}, {"Cost Price.1"}),
+		    #"Replaced Value" = Table.ReplaceValue(#"Expanded Expanded Cost",each [Cost Price],each if [Cost Price] = null then [Cost Price.1] else [Cost Price],Replacer.ReplaceValue,{"Cost Price"}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Replaced Value",{"Cost Price.1"}),
+		    #"Sorted Rows" = Table.Sort(#"Removed Columns",{{"Item", Order.Ascending}, {"Date", Order.Ascending}}),
+		    #"Filled Down" = Table.FillDown(#"Sorted Rows",{"Cost Price"})
+		in
+		    #"Filled Down"
+	lineageTag: d74cf109-f289-4052-bde0-cc61b72d42fd
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Purchase Path' = "Purchase Reports" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 5d4cdb0f-230e-4638-a800-f5c32594bc62
+	queryGroup: Parameters
+
+	annotation PBI_ResultType = Text
+
+expression 'Sample File' =
+		let
+		    Source = #"Sharepoint Data Extract",
+		    #"Filtered Rows" = Table.SelectRows(Source, each [Name] = #"Purchase Path"),
+		    Content = #"Filtered Rows"{0}[Content],
+		    Navigation1 = Content{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 7e534bfe-1a4b-4f04-8d30-575df3e700c6
+	queryGroup: 'Transform File from Purchase Reports\Helper Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Binary
+
+expression Parameter1 = #"Sample File" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 36e8b945-64e0-49b4-9fa1-aa357dbd4db4
+	queryGroup: 'Transform File from Purchase Reports\Helper Queries'
+
+	annotation PBI_ResultType = Exception
+
+expression 'Transform Sample File' =
+		let
+		    Source = Csv.Document(Parameter1,[Delimiter=",", Columns=16, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Replaced Value" = Table.ReplaceValue(Source,"",null,Replacer.ReplaceValue,{"Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7", "Column8", "Column9", "Column10", "Column11", "Column12", "Column13", "Column14", "Column15", "Column16"}),
+		    #"Filled Down" = Table.FillDown(#"Replaced Value",{"Column1"}),
+		    #"Filled Up" = Table.FillUp(#"Filled Down",{"Column1"}),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Filled Up", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Inventory", type text}, {"Trans #", Int64.Type}, {"Date", type date}, {"Num", type text}, {"Name Account #", type text}, {"Memo", type text}, {"Name", type text}, {"Source Name", type text}, {"Item", type text}, {"Account", type text}, {"Rep", type text}, {"Qty", Int64.Type}, {"U/M", type text}, {"Cost Price", type number}, {"Amount", type number}, {"Account Type", type text}}),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"Item", "Date", "Cost Price"}),
+		    #"Filtered Rows" = Table.SelectRows(#"Removed Other Columns", each [Item] <> null and [Item] <> ""),
+		    #"Removed Duplicates" = Table.Distinct(#"Filtered Rows")
+		in
+		    #"Removed Duplicates"
+	lineageTag: 85cee0b7-5cb4-4d5b-a75f-66040265a75a
+	queryGroup: 'Transform File from Purchase Reports'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Transform File' =
+		let
+		    Source = (Parameter1 as binary) => let
+		    Source = Csv.Document(Parameter1,[Delimiter=",", Columns=16, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Replaced Value" = Table.ReplaceValue(Source,"",null,Replacer.ReplaceValue,{"Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7", "Column8", "Column9", "Column10", "Column11", "Column12", "Column13", "Column14", "Column15", "Column16"}),
+		    #"Filled Down" = Table.FillDown(#"Replaced Value",{"Column1"}),
+		    #"Filled Up" = Table.FillUp(#"Filled Down",{"Column1"}),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Filled Up", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Inventory", type text}, {"Trans #", Int64.Type}, {"Date", type date}, {"Num", type text}, {"Name Account #", type text}, {"Memo", type text}, {"Name", type text}, {"Source Name", type text}, {"Item", type text}, {"Account", type text}, {"Rep", type text}, {"Qty", Int64.Type}, {"U/M", type text}, {"Cost Price", type number}, {"Amount", type number}, {"Account Type", type text}}),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"Item", "Date", "Cost Price"}),
+		    #"Filtered Rows" = Table.SelectRows(#"Removed Other Columns", each [Item] <> null and [Item] <> ""),
+		    #"Removed Duplicates" = Table.Distinct(#"Filtered Rows")
+		in
+		    #"Removed Duplicates"
+		in
+		    Source
+	lineageTag: e4f95828-b109-4f1d-bd86-1e13b1b400fc
+	queryGroup: 'Transform File from Purchase Reports\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression 'Exclude Items' =
+		let
+		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("ZVLRbqMwEPwVK0+pVCp7sSl5BKdpT5dEFHN1L1EfLIJUFFeJKNW1f38G2xDaJ2Zm18usx/v9LOIilbOX6/0s2QS3DDu4WMQWZUAteCR426M0JuEzw9gRZr93uyRTTfs+MLG08KQPsUxJeMkADwx1NLphUk4kigmbNtHoBnwXTyLA3EIOQbJMLM54Suwp3lSHug1Q9tGUr+q9mohC6coa5aKty+PXRjnjhzK055eC4FUOOL6kkcOApXTXshSR8T9iScB5vNsJv2cH/YUZzEeZe/meyzBiftJDSgO3iONx8LPUQxggeDWgm1U+FOLAJvQguFHdECFvt916PdsITmNjJHfO+1v0WORRN2xCwVfz9Sqbr1RZ67r9Qpkqj1dWFwsCjPJ1Tornbwr8UOh37jrEq2qOKK1bm54wGXCI3K97Rr0R0VaVrlChzq53iNXWC5QIk59buLgHhpEnTa3KQBQ9+aPbRqGnfJz0pM6nJlVNU1cN+ltpffpn9VSfyiPBb7UmDFyKTmSdCFMR8Fl/2Edm3kjnZoxXchMNjT/9Y7hsMDWgn35W3xlGY6fJDijkcmAh3sqLEnNs9yuTSmtEAM2RWGdwNZEBz38XgI348h8=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Item = _t]),
+		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Item", type text}}),
+		    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each [Item] <> null and [Item] <> ""),
+		    #"Duplicated Column" = Table.DuplicateColumn(#"Filtered Rows", "Item", "Item - Upper"),
+		    #"Uppercased Text" = Table.TransformColumns(#"Duplicated Column",{{"Item - Upper", Text.Upper, type text}})
+		in
+		    #"Uppercased Text"
+	lineageTag: 298a2714-e302-46f4-a731-076cc7af2926
+
+	annotation PBI_ResultType = Table
+
+expression 'Sales Weekly' =
+		let
+		    Source = SharePoint.Files(MainPath, [ApiVersion = 15]),
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.Contains([Folder Path], "/"&#"Sales Path")),
+		    #"Filtered Hidden Files1" = Table.SelectRows(#"Filtered Rows", each [Attributes]?[Hidden]? <> true),
+		    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (2)", each #"Transform File (2)"([Content])),
+		    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+		    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (2)"}),
+		    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (2)", Table.ColumnNames(#"Transform File (2)"(#"Sample File (2)"))),
+		    #"Changed Type with Locale" = Table.TransformColumnTypes(#"Expanded Table Column1", {{"Date", type date}}, "en-US"),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Changed Type with Locale",{{"Source.Name", type text}, {"", type text}, {"Type", type text}, {"Date", type date}, {"Num", type text}, {"Memo", type text}, {"Name", type text}, {"Item", type text}, {"Qty", Int64.Type}, {"U/M", type text}, {"Sales Price", type number}, {"Amount", type number}}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Source.Name", "", "Num", "Memo", "U/M"}),
+		    #"Filtered Rows1" = Table.SelectRows(#"Removed Columns", each ([Date] <> null)),
+		    #"Filtered Rows5" = Table.SelectRows(#"Filtered Rows1", each ([Item] <> "Accessories" and [Item] <> "Additional Charges" and [Item] <> "Adjustment" and [Item] <> "ASFR" and [Item] <> "Black FR" and [Item] <> "BOLD8WB" and [Item] <> "Booties" and [Item] <> "Buckles" and [Item] <> "Butyl Tape" and [Item] <> "Butyl Tape (Fab)" and [Item] <> "Butyl TapeWW" and [Item] <> "CC2" and [Item] <> "CCFR" and [Item] <> "Corrugate" and [Item] <> "Coupon" and [Item] <> "Custom" and [Item] <> "Customer Deposit" and [Item] <> "Customer Notes" and [Item] <> "DFC Yellow" and [Item] <> "DMR" and [Item] <> "DPC" and [Item] <> "Drainage" and [Item] <> "DST" and [Item] <> "DuctCap Covers" and [Item] <> "Dura Skrim" and [Item] <> "Exempt" and [Item] <> "Export Data 1" and [Item] <> "Export Data 2" and [Item] <> "Export Data 3" and [Item] <> "Export Data 4" and [Item] <> "Export Data 5" and [Item] <> "Export Data 6" and [Item] <> "Export Data 7" and [Item] <> "Export Data 8" and [Item] <> "Free Shipping" and [Item] <> "Geotextile" and [Item] <> "Greenhouse" and [Item] <> "Ground Shipping" and [Item] <> "Heat Shrink Wrap" and [Item] <> "Information Line Item" and [Item] <> "Interest" and [Item] <> "LLDPE" and [Item] <> "Logo SM" and [Item] <> "LTL Shipping" and [Item] <> "Material" and [Item] <> "MaterialVB" and [Item] <> "Netting" and [Item] <> "NSF Check" and [Item] <> "Packaging" and [Item] <> "Plain poly" and [Item] <> "Plain poly SD" and [Item] <> "Please Note" and [Item] <> "Product Sales" and [Item] <> "Promo Price" and [Item] <> "Protective Masking" and [Item] <> "PS" and [Item] <> "PS326" and [Item] <> "PS328" and [Item] <> "PS3610" and [Item] <> "PS368" and [Item] <> "PSBase" and [Item] <> "PSL" and [Item] <> "PVC" and [Item] <> "Radiant Barrier" and [Item] <> "Resale" and [Item] <> "Restocking Fee" and [Item] <> "Retail Delivery Fee" and [Item] <> "Root Barrier" and [Item] <> "Sales Tax" and [Item] <> "Sample" and [Item] <> "Shipping Tracking" and [Item] <> "SolaScrim" and [Item] <> "Steele Tape 10" and [Item] <> "Surcharge" and [Item] <> "Tape" and [Item] <> "TieDownButtons" and [Item] <> "Tuff Scrim" and [Item] <> "Tufflite" and [Item] <> "UPS Shipping" and [Item] <> "USA" and [Item] <> "Woven Coated Polyethylene" and [Item] <> "WSticky Mats")),
+		    #"Calculated Start of Week" = Table.TransformColumns(#"Filtered Rows5",{{"Date", each Date.StartOfWeek(_,Day.Monday), type date}}),
+		    #"Grouped Rows" = Table.Group(#"Calculated Start of Week", {"Date", "Item"}, {{"Qty", each List.Sum([Qty]),  Int64.Type}})
+		in
+		    #"Grouped Rows"
+	lineageTag: 7d8318cc-2683-41e1-acaa-122643e23c15
+
+	annotation PBI_ResultType = Table
+
+expression 'InvStock Original' =
+		let
+		    Source = #"Sharepoint Data Extract",
+		    #"Filtered Rows6" = Table.SelectRows(Source, each [Folder Path] = #"Subfolder Path" and [Name] = #"Inventory Path")[Content]{0},
+		    #"Filtered Hidden Files1" = Table.SelectRows(#"Filtered Rows6", each [Attributes]?[Hidden]? <> true),
+		    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (3)", each #"Transform File (3)"([Content])),
+		    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+		    #"Removed Columns1" = Table.RemoveColumns(#"Renamed Columns1",{"Content", "Extension", "Date accessed", "Date created", "Attributes", "Folder Path"}),
+		    #"Renamed Columns3" = Table.RenameColumns(#"Removed Columns1",{{"Date modified", "Date created"}}),
+		    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Renamed Columns3", "Transform File (3)", Table.ColumnNames(#"Transform File (3)"(#"Sample File (3)"))),
+		    #"Changed Type with Locale" = Table.TransformColumnTypes(#"Expanded Table Column1", {{"Next Deliv", type date}, {"Date", type date}}, "en-US"),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Changed Type with Locale",{{"Source.Name", type text}, {"", type text}, {"Category", type text}, {"Pref Vendor", type text}, {"Reorder Pt (Min)", Int64.Type}, {"Max", type any}, {"On Hand", Int64.Type}, {"On Sales Order", Int64.Type}, {"For Assemblies", Int64.Type}, {"Available", Int64.Type}, {"U/M", type text}, {"Order", type text}, {"On PO", Int64.Type}, {"Reorder Qty", Int64.Type}, {"Avg Cost", type number}, {"Next Deliv", type date}, {"Sales/Week", type number}, {"Date", type date}}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"", "Item"}}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns",{"Source.Name", "Category", "Reorder Pt (Min)", "Max", "For Assemblies", "U/M", "Order", "Reorder Qty", "Sales/Week"}),
+		    #"Changed Type2" = Table.TransformColumnTypes(#"Removed Columns",{{"Date created", type date}}),
+		    #"Filtered Rows" = Table.SelectRows(#"Changed Type2", each ([On Hand] <> null)),
+		    #"Renamed Columns2" = Table.RenameColumns(#"Filtered Rows",{{"Avg Cost", "Product Cost"}}),
+		    Custom3 = Table.TransformColumnTypes(Table.AddColumn(#"Renamed Columns2", "Date Diff", each Date.From(DateTime.LocalNow())-List.Max(#"Renamed Columns2"[Date created])),{{"Date Diff", Int64.Type}}),
+		    Custom2 = Table.TransformColumnTypes(Table.AddColumn(Custom3, "Custom Date", each Date.AddDays([Date created],[Date Diff])),{{"Custom Date", type date}}),
+		    #"Removed&Renamed Columns4" = Table.RenameColumns(Table.RemoveColumns(Custom2,{"Date created", "Date Diff"}),{{"Custom Date", "Date created"}}),
+		    Custom4 = Table.TransformColumnTypes(Table.AddColumn(#"Removed&Renamed Columns4", "Date Diff", each Date.From(DateTime.LocalNow())-List.Max(#"Removed&Renamed Columns4"[Next Deliv])),{{"Date Diff", Int64.Type}}),
+		    Custom5 = Table.TransformColumnTypes(Table.AddColumn(Custom4, "Custom Date", each Date.AddDays([Next Deliv],[Date Diff])),{{"Custom Date", type date}}),
+		    #"Removed&Renamed Columns5" = Table.RenameColumns(Table.RemoveColumns(Custom5,{"Next Deliv", "Date Diff"}),{{"Custom Date", "Next Deliv"}}),
+		    Custom6 = Table.TransformColumnTypes(Table.AddColumn(#"Removed&Renamed Columns5", "Date Diff", each Date.From(DateTime.LocalNow())-List.Max(#"Removed&Renamed Columns5"[Date])),{{"Date Diff", Int64.Type}}),
+		    Custom7 = Table.TransformColumnTypes(Table.AddColumn(Custom6, "Custom Date", each Date.AddDays([Date],[Date Diff])),{{"Custom Date", type date}}),
+		    #"Removed&Renamed Columns6" = Table.RenameColumns(Table.RemoveColumns(Custom7,{"Date", "Date Diff"}),{{"Custom Date", "Date"}}),
+		    #"Calculated Start of Week" = Table.TransformColumns(#"Removed&Renamed Columns6",{{"Date created", each Date.StartOfWeek(_, Day.Monday), type date}}),
+		    #"Added Custom" = Table.AddColumn(#"Calculated Start of Week", "Inventory Date", each if [Date] is null then [Date created] else [Date], type date),
+		    #"Calculate Start of Week" = Table.TransformColumns(#"Added Custom",{{"Inventory Date", each Date.StartOfWeek(_, Day.Monday), type date}}),
+		    #"Duplicated Column" = Table.DuplicateColumn(#"Calculate Start of Week", "Next Deliv", "Next Deliv Date"),
+		    #"Calculated Start of Week1" = Table.TransformColumns(#"Duplicated Column",{{"Next Deliv Date", each if Date.DayOfWeekName(_) = "Monday" then _ else Date.AddDays( Date.StartOfWeek(_, Day.Monday),7), type date}}),
+		    #"Replaced Value" = Table.ReplaceValue(#"Calculated Start of Week1",each [Next Deliv Date],let latest = List.Max(#"Calculated Start of Week1"[Inventory Date]) in each if _ < latest then null else _,Replacer.ReplaceValue,{"Next Deliv Date"}),
+		    #"Changed Type3" = Table.TransformColumnTypes(#"Replaced Value",{{"Next Deliv Date", type date}}),
+		    #"Removed Columns3" = Table.RemoveColumns(#"Changed Type3",{"Date created", "Date"})
+		in
+		    #"Removed Columns3"
+	lineageTag: d4bb3cf8-e22b-41a4-8fae-757ce9648061
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Sales Weekly Forecast Original' = ```
+		let
+		    Source = SharePoint.Contents(MainPath, [ApiVersion = 15]),
+		    #"Filtered Rows3" = Table.SelectRows(Source, each [Name] = "Shared Documents"),
+		    #"Removed Other Columns2" = Table.SelectColumns(#"Filtered Rows3",{"Content"}),
+		    #"Expanded Content" = Table.ExpandTableColumn(#"Removed Other Columns2", "Content", {"Content", "Name", "Extension", "Date accessed", "Date modified", "Date created", "Attributes", "Folder Path"}, {"Content.1", "Name", "Extension", "Date accessed", "Date modified", "Date created", "Attributes", "Folder Path"}),
+		    #"Filtered Rows4" = Table.SelectRows(#"Expanded Content", each [Name] = "Yavda"),
+		    #"Removed Other Columns4" = Table.SelectColumns(#"Filtered Rows4",{"Content.1"}),
+		    #"Expanded Content.1" = Table.ExpandTableColumn(#"Removed Other Columns4", "Content.1", {"Content", "Name", "Extension", "Date accessed", "Date modified", "Date created", "Attributes", "Folder Path"}, {"Content", "Name.1", "Extension.1", "Date accessed.1", "Date modified.1", "Date created.1", "Attributes.1", "Folder Path.1"}),
+		    #"Filtered Rows6" = Table.SelectRows(#"Expanded Content.1", each [Name.1] = "JODemox"),
+		    #"Removed Other Columns5" = Table.SelectColumns(#"Filtered Rows6",{"Content"}),
+		    #"Expanded Content1" = Table.ExpandTableColumn(#"Removed Other Columns5", "Content", {"Content", "Name", "Extension", "Date accessed", "Date modified", "Date created", "Attributes", "Folder Path"}, {"Content.1", "Name.2", "Extension.2", "Date accessed.2", "Date modified.2", "Date created.2", "Attributes.2", "Folder Path.2"}),
+		    #"Filtered Rows7" = Table.SelectRows(#"Expanded Content1", each [Name.2] = "Sales"),
+		    #"Removed Other Columns6" = Table.SelectColumns(#"Filtered Rows7",{"Content.1"}),
+		    #"Expanded Content.2" = Table.ExpandTableColumn(#"Removed Other Columns6", "Content.1", {"Attributes", "Content", "Date accessed", "Date created", "Date modified", "Extension", "Folder Path", "Name"}, {"Attributes", "Content", "Date accessed", "Date created", "Date modified", "Extension", "Folder Path", "Name"}),
+		    #"Filtered Hidden Files1" = Table.SelectRows(#"Expanded Content.2", each [Attributes]?[Hidden]? <> true),
+		    #"Filtered Rows" = Table.SelectRows(#"Filtered Hidden Files1", each Text.StartsWith([Name], "Sales")),
+		    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Rows", "Transform File (2)", each #"Transform File (2)"([Content])),
+		    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+		    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (2)"}),
+		    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (2)", Table.ColumnNames(#"Transform File (2)"(#"Sample File (2)"))),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Expanded Table Column1",{"Date", "Item", "Qty"}),
+		    #"Changed Type with Locale" = Table.TransformColumnTypes(#"Removed Other Columns", {{"Date", type date}}, "en-US"),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Changed Type with Locale",{{"Item", type text}, {"Qty", Int64.Type}}),
+		    #"Filtered Rows8" = Table.SelectRows(#"Changed Type", each [Date] <> null and [Date] <> ""),
+		    #"Filtered Rows5" = Table.SelectRows(#"Filtered Rows8", each ([Item] <> "Accessories" and [Item] <> "Additional Charges" and [Item] <> "Adjustment" and [Item] <> "ASFR" and [Item] <> "Black FR" and [Item] <> "BOLD8WB" and [Item] <> "Booties" and [Item] <> "Buckles" and [Item] <> "Butyl Tape" and [Item] <> "Butyl Tape (Fab)" and [Item] <> "Butyl TapeWW" and [Item] <> "CC2" and [Item] <> "CCFR" and [Item] <> "Corrugate" and [Item] <> "Coupon" and [Item] <> "Custom" and [Item] <> "Customer Deposit" and [Item] <> "Customer Notes" and [Item] <> "DFC Yellow" and [Item] <> "DMR" and [Item] <> "DPC" and [Item] <> "Drainage" and [Item] <> "DST" and [Item] <> "DuctCap Covers" and [Item] <> "Dura Skrim" and [Item] <> "Exempt" and [Item] <> "Export Data 1" and [Item] <> "Export Data 2" and [Item] <> "Export Data 3" and [Item] <> "Export Data 4" and [Item] <> "Export Data 5" and [Item] <> "Export Data 6" and [Item] <> "Export Data 7" and [Item] <> "Export Data 8" and [Item] <> "Free Shipping" and [Item] <> "Geotextile" and [Item] <> "Greenhouse" and [Item] <> "Ground Shipping" and [Item] <> "Heat Shrink Wrap" and [Item] <> "Information Line Item" and [Item] <> "Interest" and [Item] <> "LLDPE" and [Item] <> "Logo SM" and [Item] <> "LTL Shipping" and [Item] <> "Material" and [Item] <> "MaterialVB" and [Item] <> "Netting" and [Item] <> "NSF Check" and [Item] <> "Packaging" and [Item] <> "Plain poly" and [Item] <> "Plain poly SD" and [Item] <> "Please Note" and [Item] <> "Product Sales" and [Item] <> "Promo Price" and [Item] <> "Protective Masking" and [Item] <> "PS" and [Item] <> "PS326" and [Item] <> "PS328" and [Item] <> "PS3610" and [Item] <> "PS368" and [Item] <> "PSBase" and [Item] <> "PSL" and [Item] <> "PVC" and [Item] <> "Radiant Barrier" and [Item] <> "Resale" and [Item] <> "Restocking Fee" and [Item] <> "Retail Delivery Fee" and [Item] <> "Root Barrier" and [Item] <> "Sales Tax" and [Item] <> "Sample" and [Item] <> "Shipping Tracking" and [Item] <> "SolaScrim" and [Item] <> "Steele Tape 10" and [Item] <> "Surcharge" and [Item] <> "Tape" and [Item] <> "TieDownButtons" and [Item] <> "Tuff Scrim" and [Item] <> "Tufflite" and [Item] <> "UPS Shipping" and [Item] <> "USA" and [Item] <> "Woven Coated Polyethylene" and [Item] <> "WSticky Mats")),
+		    #"Added Custom" = Table.TransformColumnTypes(Table.AddColumn(#"Filtered Rows5", "Date Diff", each Date.From(DateTime.LocalNow())-List.Max(#"Filtered Rows5"[Date])),{{"Date Diff", Int64.Type}}),
+		    #"Added Custom1" = Table.AddColumn(#"Added Custom", "Custom Date", each Date.AddDays([Date],[Date Diff])),
+		    #"Removed Columns" = Table.RemoveColumns(#"Added Custom1",{"Date", "Date Diff"}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"Custom Date", "Date"}}),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns",{{"Date", type date}}) , 
+		    #"Calculated Start of Week" = Table.TransformColumns(#"Changed Type1",{{"Date", each Date.StartOfWeek(_,Day.Monday), type date}}),
+		    #"Grouped Rows" = Table.Group(#"Calculated Start of Week", {"Date", "Item"}, {{"Qty", each List.Sum([Qty]),  Int64.Type}}),
+		    #"Filtered Rows2" = Table.SelectRows(#"Grouped Rows", each [Qty] > 0),
+		    #"Items Count" = Table.Group(#"Filtered Rows2", {"Item"}, {{"Count", each Table.RowCount(_), Int64.Type}}),
+		    #"Items to keep" = Table.SelectRows(#"Items Count", each [Count] >= 5),
+		    #"Merged Queries1" = Table.NestedJoin( #"Filtered Rows2", {"Item"},#"Items to keep", {"Item"}, "Grouped Rows", JoinKind.Inner),
+		    #"Removed Columns1" = Table.RemoveColumns(#"Merged Queries1",{"Grouped Rows"}),
+		    #"Grouped Rows1" = Table.Group(#"Removed Columns1", {"Item"}, {{"Start Date", each List.Min([Date]), type nullable date}, {"End Date", each List.Max([Date]), type nullable date}}),
+		    #"Changed Type2" = Table.TransformColumnTypes(#"Grouped Rows1",{{"Start Date", Int64.Type}, {"End Date", Int64.Type}}),
+		    #"Added Custom2" = Table.AddColumn(#"Changed Type2", "Date", each {[Start Date]..[End Date]}),
+		    #"Expanded Dates" = Table.ExpandListColumn(#"Added Custom2", "Date"),
+		    #"Changed Type6" = Table.TransformColumnTypes(#"Expanded Dates",{{"Date", type date}}),
+		    #"Removed Other Columns22" = Table.SelectColumns(#"Changed Type6",{"Date", "Item"}),
+		    #"Calculated Start of Week1" = Table.TransformColumns(#"Removed Other Columns22",{{"Date", each Date.StartOfWeek(_,Day.Monday), type date}}),
+		    #"Removed Duplicates" = Table.Distinct(#"Calculated Start of Week1"),
+		    #"Merged Queries" = Table.NestedJoin(#"Removed Duplicates", {"Date", "Item"}, #"Removed Columns1", {"Date", "Item"}, "Removed Duplicates", JoinKind.LeftOuter),
+		    #"Expanded Removed Duplicates" = Table.ExpandTableColumn(#"Merged Queries", "Removed Duplicates", {"Qty"}, {"Qty"}),
+		    #"Sorted Rows" = Table.Sort(#"Expanded Removed Duplicates",{{"Date", Order.Ascending}}),
+		    #"Changed Type5" = Table.TransformColumnTypes(#"Sorted Rows",{{"Date", type text}}),
+		    #"Replaced Value" = Table.ReplaceValue(#"Changed Type5",null,0,Replacer.ReplaceValue,{"Qty"}),
+		    #"Run R script" = R.Execute("library(prophet)#(lf)    library(tidyverse)#(lf)    library(""lubridate"")#(lf)    library(""multidplyr"")#(lf)    library(""dplyr"", warn.conflicts = FALSE)#(lf)    num <- parallel::detectCores() - 2#(lf)    cluster <- new_cluster(num)#(lf)    cluster_library(cluster, ""dplyr"")#(lf)    cluster_library(cluster, ""prophet"")#(lf)    #set the working directory from which the files will be read from#(lf)    dataset$Date = as.Date(dataset$Date, ""%m/%d/%Y"")#(lf)    dataset <- drop_na(dataset,""Date"")#(lf)    df <- dataset %>% rename(""ds"" = ""Date"",  ""y"" = ""Qty"") #(lf)    df_temp <- df %>% group_by(Item) %>% partition(cluster)#(lf)    #(lf)    fulldata = df_temp %>% group_by(Item) %>% do(predict(prophet(.), make_future_dataframe(prophet(.), freq='week', periods = 52, include_history= FALSE))) %>% collect()",[dataset=#"Replaced Value"]),
+		    fulldata = #"Run R script"{[Name="fulldata"]}[Value],
+		    #"Removed Other Columns3" = Table.SelectColumns(fulldata,{"Item", "ds", "yhat_lower", "yhat_upper", "yhat"}),
+		    #"Renamed Columns4" = Table.RenameColumns(#"Removed Other Columns3",{{"ds", "Date"}, {"yhat", "Qty"}, {"yhat_lower", "Qty Future lower"}, {"yhat_upper", "Qty Future upper"}}),
+		    #"Changed Type24" = Table.TransformColumnTypes(#"Renamed Columns4",{{"Date", type date}, {"Qty", Int64.Type}, {"Qty Future lower", Int64.Type}, {"Qty Future upper", Int64.Type}}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Changed Type24",each [Qty] ,each if [Qty] < 0 then 0 else [Qty],Replacer.ReplaceValue,{"Qty"}),
+		    #"Changed Type4" = Table.TransformColumnTypes(#"Replaced Value1",{{"Qty", Int64.Type}}),
+		    #"Filtered Rows1" = Table.SelectRows(#"Changed Type4", each [Date] >= Date.StartOfWeek(Date.From( DateTime.FixedLocalNow()), Day.Monday))
+		in
+		    #"Filtered Rows1"
+		```
+	lineageTag: 70c2209d-410a-4de4-869b-f7ad5b79a9e5
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+
+expression 'Sales Original' =
+		let
+		    Source = SharePoint.Files(MainPath, [ApiVersion = 15]),
+		    #"Filtered Rows" = Table.SelectRows(Source, each Text.Contains([Folder Path], "/"&#"Sales Path")),
+		    #"Filtered Hidden Files1" = Table.SelectRows(#"Filtered Rows", each [Attributes]?[Hidden]? <> true),
+		    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (2)", each #"Transform File (2)"([Content])),
+		    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+		    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (2)"}),
+		    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (2)", Table.ColumnNames(#"Transform File (2)"(#"Sample File (2)"))),
+		    #"Changed Type with Locale" = Table.TransformColumnTypes(#"Expanded Table Column1", {{"Date", type date}}, "en-US"),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Changed Type with Locale",{{"Source.Name", type text}, {"", type text}, {"Type", type text}, {"Date", type date}, {"Num", type text}, {"Memo", type text}, {"Name", type text}, {"Item", type text}, {"Qty", Int64.Type}, {"U/M", type text}, {"Sales Price", type number}, {"Amount", type number}}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Source.Name", "", "Num", "Memo", "U/M"}),
+		    #"Filtered Rows1" = Table.SelectRows(#"Removed Columns", each ([Date] <> null)),
+		    #"Added Custom5" = Table.TransformColumnTypes(Table.AddColumn(#"Filtered Rows1", "Date Diff", each Date.From(DateTime.LocalNow())-List.Max(#"Filtered Rows1"[Date])),{{"Date Diff", Int64.Type}}),
+		    #"Added Custom1" = Table.AddColumn(#"Added Custom5", "Custom Date", each Date.AddDays([Date],[Date Diff])),
+		    #"Removed Columns1" = Table.RemoveColumns(#"Added Custom1",{"Date", "Date Diff"}),
+		    #"Renamed Columns5" = Table.RenameColumns(#"Removed Columns1",{{"Custom Date", "Date"}}),
+		    #"Changed Type5" = Table.TransformColumnTypes(#"Renamed Columns5",{{"Date", type date}}),
+		    #"Replaced Value" = Table.ReplaceValue(#"Changed Type5","Tevan","Tim",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","","Tim",Replacer.ReplaceValue,{"Rep"}),
+		    #"Filtered Rows2" = Table.SelectRows(#"Replaced Value1", each true),
+		    #"Replaced Value2" = Table.ReplaceValue(#"Filtered Rows2","BOE","Bob",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","Boe","Bob",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","CA","Chip",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","Dan","David",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","Donna","David",Replacer.ReplaceText,{"Rep"}),
+		    #"Filtered Rows3" = Table.SelectRows(#"Replaced Value6", each true),
+		    #"Replaced Value7" = Table.ReplaceValue(#"Filtered Rows3","GP","David",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value8" = Table.ReplaceValue(#"Replaced Value7","House","David",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value9" = Table.ReplaceValue(#"Replaced Value8","Jason","Jerry",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value10" = Table.ReplaceValue(#"Replaced Value9","Lisa","Larry",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value11" = Table.ReplaceValue(#"Replaced Value10","LISA","Larry",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value12" = Table.ReplaceValue(#"Replaced Value11","Velez","Larry",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value13" = Table.ReplaceValue(#"Replaced Value12","Web","Larry",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value14" = Table.ReplaceValue(#"Replaced Value13","AC","Larry",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value15" = Table.ReplaceValue(#"Replaced Value14","Hallo","Bob",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value16" = Table.ReplaceValue(#"Replaced Value15","HD","Shopify",Replacer.ReplaceText,{"Rep"}),
+		    #"Replaced Value17" = Table.ReplaceValue(#"Replaced Value16","Shopify.","Tim",Replacer.ReplaceText,{"Rep"}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Replaced Value17",{{"Rep", "Sales Person"}, {"Amount", "Revenue"}}),
+		    #"Filtered Rows5" = Table.SelectRows(#"Replaced Value17", each ([Item] <> "12WovenWB" and [Item] <> "636FRMSC" and [Item] <> "636FRMSCW" and [Item] <> "636FRMSCWHTW" and [Item] <> "6MSB24" and [Item] <> "Accessories" and [Item] <> "Additional Charges" and [Item] <> "Adjustment" and [Item] <> "ASFR" and [Item] <> "BEZAParts" and [Item] <> "BEZASD" and [Item] <> "Black FR" and [Item] <> "Bold 8WB26.5WW" and [Item] <> "BOLD8WB" and [Item] <> "Booties" and [Item] <> "Buckles" and [Item] <> "Butyl Tape" and [Item] <> "Butyl Tape (Fab)" and [Item] <> "Butyl TapeWW" and [Item] <> "CB824FR" and [Item] <> "CB85FR" and [Item] <> "CC2" and [Item] <> "CCFR" and [Item] <> "Corrugate" and [Item] <> "Coupon" and [Item] <> "Credit- Purchase" and [Item] <> "Credit- Sales" and [Item] <> "Custom" and [Item] <> "Customer Deposit" and [Item] <> "Customer Notes" and [Item] <> "DFC Yellow" and [Item] <> "DMR" and [Item] <> "DPC" and [Item] <> "Drainage" and [Item] <> "DS20WW24" and [Item] <> "DST" and [Item] <> "DuctCap Covers" and [Item] <> "Dura Skrim" and [Item] <> "DWT825-126" and [Item] <> "EasyZipHD" and [Item] <> "Exempt" and [Item] <> "Export Data 1" and [Item] <> "Export Data 2" and [Item] <> "Export Data 3" and [Item] <> "Export Data 4" and [Item] <> "Export Data 5" and [Item] <> "Export Data 6" and [Item] <> "Export Data 7" and [Item] <> "Export Data 8" and [Item] <> "Free Shipping" and [Item] <> "Geotextile" and [Item] <> "Greenhouse" and [Item] <> "Ground Shipping" and [Item] <> "HB8-24" and [Item] <> "HB8-5" and [Item] <> "HDPE" and [Item] <> "Heat Shrink Wrap" and [Item] <> "HSCFR14" and [Item] <> "HSW7NFR20" and [Item] <> "Information Line Item" and [Item] <> "Interest" and [Item] <> "Liner Materials" and [Item] <> "LLDPE" and [Item] <> "Logo SM" and [Item] <> "LTL Shipping" and [Item] <> "Material" and [Item] <> "MaterialVB" and [Item] <> "Netting" and [Item] <> "NSF Check" and [Item] <> "Packaging" and [Item] <> "Plain poly" and [Item] <> "Plain poly SD" and [Item] <> "Please Note" and [Item] <> "Product Sales" and [Item] <> "Promo Price" and [Item] <> "Protective Masking" and [Item] <> "PS" and [Item] <> "PS326" and [Item] <> "PS328" and [Item] <> "PS3610" and [Item] <> "PS368" and [Item] <> "PSBase" and [Item] <> "PSL" and [Item] <> "PSR620WW" and [Item] <> "PSR6FR12WW" and [Item] <> "PSR6FR20WW" and [Item] <> "PVC" and [Item] <> "Radiant Barrier" and [Item] <> "Resale" and [Item] <> "Restocking Fee" and [Item] <> "Retail Delivery Fee" and [Item] <> "RLFP(Facility Pack)" and [Item] <> "Root Barrier" and [Item] <> "RS91254CLR4" and [Item] <> "Sales Tax" and [Item] <> "Sample" and [Item] <> "Shipping Tracking" and [Item] <> "SolaScrim" and [Item] <> "SS10C26WW" and [Item] <> "SS10C33WW" and [Item] <> "SS10C40WW" and [Item] <> "SS10C4625WW" and [Item] <> "Steele Tape 10" and [Item] <> "StickyMats36" and [Item] <> "Surcharge" and [Item] <> "T ASFR620" and [Item] <> "Tape" and [Item] <> "TF100WW" and [Item] <> "TG250 20" and [Item] <> "TieDownButtons" and [Item] <> "Triac-ST" and [Item] <> "Tuff Scrim" and [Item] <> "Tufflite" and [Item] <> "UPS Shipping" and [Item] <> "USA" and [Item] <> "VaporBarrier Vapor Block" and [Item] <> "VaporBarrier Xtreme" and [Item] <> "VaporBarrier Yellow" and [Item] <> "VBlock10mil15200" and [Item] <> "VBlock15mil12200" and [Item] <> "VTW-12" and [Item] <> "VTW-12WW" and [Item] <> "VTW-24" and [Item] <> "Woven Coated Polyethylene" and [Item] <> "WSticky Mats" and [Item] <> "ZipUp-24" and [Item] <> "ZIPWall 12 ( SLP2)")),
+		    #"Calculated Start of Week" = Table.TransformColumns(#"Filtered Rows5",{{"Date", each Date.StartOfWeek(_, Day.Monday), type date}}),
+		    #"Merged Queries" = Table.NestedJoin(#"Calculated Start of Week", {"Date", "Item"}, Purchase, {"Date", "Item"}, "Purchase", JoinKind.LeftOuter),
+		    #"Expanded Purchase" = Table.ExpandTableColumn(#"Merged Queries", "Purchase", {"Cost Price"}, {"Cost"})
+		in
+		    #"Expanded Purchase"
+	lineageTag: 39cb0e35-24b6-446c-8f45-9c0601497874
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+
+expression 'Sample File (5)' =
+		let
+		    Source = #"Sharepoint Data Extract",
+		    #"Filtered Rows" = Table.SelectRows(Source, each [Name] = "Product DescriptionsTranslation.csv"),
+		    Navigation1 = #"Filtered Rows"{0}[Content]
+		in
+		    Navigation1
+	lineageTag: cc1ab6e1-f403-497b-81d9-2568b4c4e39d
+	queryGroup: 'Transform File from Product DescriptionsTranslation\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression Parameter5 = #"Sample File (5)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (5)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 0cdf50e4-7386-48d2-bc1f-432cbba3316c
+	queryGroup: 'Transform File from Product DescriptionsTranslation\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+expression 'Transform Sample File (5)' =
+		let
+		    Source = Csv.Document(Parameter5,[Delimiter=",", Columns=2, Encoding=1252, QuoteStyle=QuoteStyle.None])
+		in
+		    Source
+	lineageTag: f5896bef-734f-4846-827a-2cf5eef91b76
+	queryGroup: 'Transform File from Product DescriptionsTranslation'
+
+	annotation PBI_ResultType = Table
+
+expression 'Transform File (6)' =
+		let
+		    Source = (Parameter5 as binary) => let
+		    Source = Csv.Document(Parameter5,[Delimiter=",", Columns=2, Encoding=1252, QuoteStyle=QuoteStyle.None])
+		in
+		    Source
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File (5)""}" ]
+	lineageTag: 82036804-76ec-404a-8ef5-db4ca4a51c13
+	queryGroup: 'Transform File from Product DescriptionsTranslation\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+expression 'Campaign AdSpend' =
+		let
+		    Source = #"Sharepoint Data Extract",
+		    Data = Source{[Name="Data"]}[Content],
+		    #"Adspend Data csv" = Data{[Name="Adspend Data.csv"]}[Content],
+		    #"Imported CSV" = Csv.Document(#"Adspend Data csv",[Delimiter=",",  Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Campaigns", type text}, {"Ad Spend", type number}, {"Start ", type date}, {"Stop", type date}}),
+		    #"Added Custom" = Table.AddColumn(#"Changed Type", "Campaign Date", each {Number.From([#"Start "])..Number.From([Stop])}),
+		    #"Expanded Custom" = Table.ExpandListColumn(#"Added Custom", "Campaign Date"),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Expanded Custom",{{"Campaign Date", type date}}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Changed Type1",{"Start ", "Stop"})
+		in
+		    #"Removed Columns"
+	lineageTag: 77fbdff1-b213-4c77-a925-d84c2e43ea4b
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression CampaignByProduct =
+		let
+		    Source = #"Sharepoint Data Extract",
+		    #"LifeTime Value" = Source{[Name="LifeTime Value"]}[Content],
+		    #"CampaignByProduct csv" = #"LifeTime Value"{[Name="CampaignByProduct.csv"]}[Content],
+		    #"Imported CSV" = Csv.Document(#"CampaignByProduct csv",[Delimiter=",", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"SKU", type text}, {"Item", type text}, {"Manufacturer", type text}, {"Campaigns", type text}}),
+		    #"Merged Queries" = Table.NestedJoin(#"Changed Type1", {"Campaigns"}, #"Campaign AdSpend", {"Campaigns"}, "Adspend Data (2)", JoinKind.LeftOuter),
+		    #"Expanded Adspend Data (2)" = Table.ExpandTableColumn(#"Merged Queries", "Adspend Data (2)", {"Ad Spend", "Campaign Date"}, {"Ad Spend", "Campaign Date"}),
+		    #"Grouped Rows" = Table.Group(#"Expanded Adspend Data (2)", {"Campaigns", "Ad Spend"}, {{"SKU count", each List.Count(List.Distinct([SKU])), Int64.Type}, {"Data", each _, type table [SKU=nullable text, Item=nullable text, Manufacturer=nullable text, Campaigns=nullable text, Ad Spend=nullable number, Campaign Date=nullable date]}}),
+		    #"Added Custom" = Table.AddColumn(#"Grouped Rows", "Ad Cost", each [Ad Spend]/[SKU count]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom",{{"Ad Cost", Currency.Type}}),
+		    #"Expanded Data" = Table.ExpandTableColumn(#"Changed Type", "Data", {"SKU", "Item", "Manufacturer", "Campaign Date"}, {"SKU", "Item", "Manufacturer", "Campaign Date"})
+		in
+		    #"Expanded Data"
+	lineageTag: e5d26325-1f56-4da4-a325-6941f3a82928
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Product DescriptionsTranslation' =
+		let
+		    Source = #"Sharepoint Data Extract",
+		    #"Filtered Rows" = Table.SelectRows(Source, each [Name] = "Product DescriptionsTranslation.csv"),
+		    #"Filtered Hidden Files1" = Table.SelectRows(#"Filtered Rows", each [Attributes]?[Hidden]? <> true),
+		    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (6)", each #"Transform File (6)"([Content])),
+		    #"Removed Other Columns1" = Table.SelectColumns(#"Invoke Custom Function1", {"Transform File (6)"}),
+		    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (6)", Table.ColumnNames(#"Transform File (6)"(#"Sample File (5)"))),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Expanded Table Column1", [PromoteAllScalars=true]),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"SKU", type text}, {"Item", type text}}),
+		    #"Removed Duplicates" = Table.Distinct(#"Changed Type1"),
+		    #"Filtered Rows1" = Table.SelectRows(#"Removed Duplicates", each ([SKU] <> ""))
+		in
+		    #"Filtered Rows1"
+	lineageTag: 73870fa7-a3af-4889-b017-050a5399cfde
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

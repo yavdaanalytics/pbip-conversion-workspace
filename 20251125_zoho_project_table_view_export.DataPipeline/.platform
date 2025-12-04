@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "20251125_zoho_project_table_view_export"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "76624948-8753-bef3-4a90-2ef371d50656"
+  }
+}

@@ -1,0 +1,787 @@
+table Project_table
+	lineageTag: fdd7e737-2703-43f8-8f75-410ae9010432
+	sourceLineageTag: [dbo].[Project_table]
+
+	column 'tasks.closed_count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 5e0f74f5-784b-49fc-8b02-554471e98a0e
+		sourceLineageTag: tasks.closed_count
+		summarizeBy: sum
+		sourceColumn: tasks.closed_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.open_count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4f9d2573-86ea-4a55-a2d0-b9c4aa3cb74d
+		sourceLineageTag: issues.open_count
+		summarizeBy: sum
+		sourceColumn: issues.open_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.closed_count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 529c32c0-9aa7-4f0f-b2ce-7e32ad73613d
+		sourceLineageTag: issues.closed_count
+		summarizeBy: sum
+		sourceColumn: issues.closed_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.open_count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 87a1e8bf-fad4-4b49-92dd-716800adf88c
+		sourceLineageTag: milestones.open_count
+		summarizeBy: sum
+		sourceColumn: milestones.open_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'milestones.closed_count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 313b776a-8326-442b-822e-a00660f5f7fd
+		sourceLineageTag: milestones.closed_count
+		summarizeBy: sum
+		sourceColumn: milestones.closed_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_completed
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e6ed2b09-e93b-4f47-89fd-216e971ed71f
+		sourceLineageTag: is_completed
+		summarizeBy: none
+		sourceColumn: is_completed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.forecasted_hours'
+		dataType: string
+		lineageTag: 0fb38783-90b7-4680-b326-b0980886ecb4
+		sourceLineageTag: budget_info.forecasted_hours
+		summarizeBy: none
+		sourceColumn: budget_info.forecasted_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'project_group.id'
+		dataType: string
+		lineageTag: de049c16-9506-49f4-a89f-e6c49412b5db
+		sourceLineageTag: project_group.id
+		summarizeBy: none
+		sourceColumn: project_group.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'project_group.name'
+		dataType: string
+		lineageTag: 8ac52389-591e-4ad4-89e8-e91162b3fa69
+		sourceLineageTag: project_group.name
+		summarizeBy: none
+		sourceColumn: project_group.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'project_group.type'
+		dataType: string
+		lineageTag: 8966808a-f5c3-4e34-8deb-b2d3ad71d43d
+		sourceLineageTag: project_group.type
+		summarizeBy: none
+		sourceColumn: project_group.type
+
+		annotation SummarizationSetBy = Automatic
+
+	column percent_complete
+		dataType: int64
+		formatString: 0
+		lineageTag: f77ada87-764f-4628-b630-d626c512253f
+		sourceLineageTag: percent_complete
+		summarizeBy: sum
+		sourceColumn: percent_complete
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tasks.open_count'
+		dataType: int64
+		formatString: 0
+		lineageTag: d4e55779-ee40-402d-a34c-93a1013e7b8e
+		sourceLineageTag: tasks.open_count
+		summarizeBy: sum
+		sourceColumn: tasks.open_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.forecasted_cost.currency_code'
+		dataType: string
+		lineageTag: 3b2565d1-3b80-4e41-870c-4c7b530f64ad
+		sourceLineageTag: budget_info.forecasted_cost.currency_code
+		summarizeBy: none
+		sourceColumn: budget_info.forecasted_cost.currency_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.forecasted_cost.formatted_amount'
+		dataType: string
+		lineageTag: a7be0525-999e-42d9-9d1f-ba0a9a3f9e7b
+		sourceLineageTag: budget_info.forecasted_cost.formatted_amount
+		summarizeBy: none
+		sourceColumn: budget_info.forecasted_cost.formatted_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.forecasted_cost.amount'
+		dataType: double
+		lineageTag: 5ac70255-8f55-4265-ae48-9649ebe6a17a
+		sourceLineageTag: budget_info.forecasted_cost.amount
+		summarizeBy: sum
+		sourceColumn: budget_info.forecasted_cost.amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'budget_info.planned_hours'
+		dataType: string
+		lineageTag: 33c5771f-7c74-4345-a8a4-72467e0a5d4f
+		sourceLineageTag: budget_info.planned_hours
+		summarizeBy: none
+		sourceColumn: budget_info.planned_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.actual_hours'
+		dataType: string
+		lineageTag: 1065179c-2e0b-4bef-be70-efb968338afe
+		sourceLineageTag: budget_info.actual_hours
+		summarizeBy: none
+		sourceColumn: budget_info.actual_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.remaining_hours'
+		dataType: string
+		lineageTag: 470e90ab-5a9b-4211-b85c-2f53b4fc8ff0
+		sourceLineageTag: budget_info.remaining_hours
+		summarizeBy: none
+		sourceColumn: budget_info.remaining_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.planned_cost.currency_code'
+		dataType: string
+		lineageTag: 803216d4-ebcd-4879-a45d-60065740c093
+		sourceLineageTag: budget_info.planned_cost.currency_code
+		summarizeBy: none
+		sourceColumn: budget_info.planned_cost.currency_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.planned_cost.formatted_amount'
+		dataType: string
+		lineageTag: 6dd0ee3d-3ef7-40ab-a971-1d74bfc2c4ed
+		sourceLineageTag: budget_info.planned_cost.formatted_amount
+		summarizeBy: none
+		sourceColumn: budget_info.planned_cost.formatted_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.planned_cost.amount'
+		dataType: double
+		lineageTag: d5efc72c-b152-467d-9d7f-0ac6e479000c
+		sourceLineageTag: budget_info.planned_cost.amount
+		summarizeBy: sum
+		sourceColumn: budget_info.planned_cost.amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'budget_info.actual_cost.currency_code'
+		dataType: string
+		lineageTag: eb6fcf91-a212-47fc-a250-329118fc36a2
+		sourceLineageTag: budget_info.actual_cost.currency_code
+		summarizeBy: none
+		sourceColumn: budget_info.actual_cost.currency_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.actual_cost.formatted_amount'
+		dataType: string
+		lineageTag: efa98b5f-61a1-4127-9e3b-e9a4c914c105
+		sourceLineageTag: budget_info.actual_cost.formatted_amount
+		summarizeBy: none
+		sourceColumn: budget_info.actual_cost.formatted_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.actual_cost.amount'
+		dataType: double
+		lineageTag: 727ba98a-3e0f-43f0-bddf-45a14bbb940f
+		sourceLineageTag: budget_info.actual_cost.amount
+		summarizeBy: sum
+		sourceColumn: budget_info.actual_cost.amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'budget_info.fixed_cost.formatted_amount'
+		dataType: string
+		lineageTag: b496f04f-f407-4a1e-8c58-95aeed79cceb
+		sourceLineageTag: budget_info.fixed_cost.formatted_amount
+		summarizeBy: none
+		sourceColumn: budget_info.fixed_cost.formatted_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.fixed_cost.amount'
+		dataType: double
+		lineageTag: 0e45f47d-4e8a-41e3-8370-302db92f21b7
+		sourceLineageTag: budget_info.fixed_cost.amount
+		summarizeBy: sum
+		sourceColumn: budget_info.fixed_cost.amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'budget_info.tracking_method'
+		dataType: string
+		lineageTag: 9d35992f-9ef4-4e8c-acea-2ea3da20cf0d
+		sourceLineageTag: budget_info.tracking_method
+		summarizeBy: none
+		sourceColumn: budget_info.tracking_method
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.cost_per_hour.currency_code'
+		dataType: string
+		lineageTag: 5cd1b415-2a8c-4780-ad23-ebde9e2da609
+		sourceLineageTag: budget_info.cost_per_hour.currency_code
+		summarizeBy: none
+		sourceColumn: budget_info.cost_per_hour.currency_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.cost_per_hour.formatted_amount'
+		dataType: string
+		lineageTag: 51bd7afd-5f47-4e17-870e-2128490957a9
+		sourceLineageTag: budget_info.cost_per_hour.formatted_amount
+		summarizeBy: none
+		sourceColumn: budget_info.cost_per_hour.formatted_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.cost_per_hour.amount'
+		dataType: double
+		lineageTag: 231fa455-b3c2-4757-8990-705d16de2b07
+		sourceLineageTag: budget_info.cost_per_hour.amount
+		summarizeBy: sum
+		sourceColumn: budget_info.cost_per_hour.amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'budget_info.cost_budget.amount'
+		dataType: double
+		lineageTag: 2d29fcd6-780e-455e-9ecc-035bf7d88ec2
+		sourceLineageTag: budget_info.cost_budget.amount
+		summarizeBy: sum
+		sourceColumn: budget_info.cost_budget.amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'budget_info.hourly_budget'
+		dataType: string
+		lineageTag: 9b37317e-7128-4c35-83f8-d9b78acf4748
+		sourceLineageTag: budget_info.hourly_budget
+		summarizeBy: none
+		sourceColumn: budget_info.hourly_budget
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.rate_per_hour.currency_code'
+		dataType: string
+		lineageTag: b445d9b4-fbf9-41d6-937b-eaf831ad3453
+		sourceLineageTag: budget_info.rate_per_hour.currency_code
+		summarizeBy: none
+		sourceColumn: budget_info.rate_per_hour.currency_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.rate_per_hour.formatted_amount'
+		dataType: string
+		lineageTag: 953cd22c-8af0-46ec-8d2e-dc3b150b4448
+		sourceLineageTag: budget_info.rate_per_hour.formatted_amount
+		summarizeBy: none
+		sourceColumn: budget_info.rate_per_hour.formatted_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.rate_per_hour.amount'
+		dataType: double
+		lineageTag: 882c0911-3fe6-4564-a0c7-577ba472efb4
+		sourceLineageTag: budget_info.rate_per_hour.amount
+		summarizeBy: sum
+		sourceColumn: budget_info.rate_per_hour.amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'budget_info.fixed_cost.currency_code'
+		dataType: string
+		lineageTag: 485b95c2-ad4c-4229-82c3-4c439c207db7
+		sourceLineageTag: budget_info.fixed_cost.currency_code
+		summarizeBy: none
+		sourceColumn: budget_info.fixed_cost.currency_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_rollup_project
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6057c174-c6ec-4323-86d2-1f7e542cf860
+		sourceLineageTag: is_rollup_project
+		summarizeBy: none
+		sourceColumn: is_rollup_project
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.billing_method'
+		dataType: string
+		lineageTag: fde44b5d-cc93-468d-8f78-756370199bf7
+		sourceLineageTag: budget_info.billing_method
+		summarizeBy: none
+		sourceColumn: budget_info.billing_method
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.budget_type'
+		dataType: string
+		lineageTag: 374c8109-aa09-4ba9-88ec-d2cabf6fc512
+		sourceLineageTag: budget_info.budget_type
+		summarizeBy: none
+		sourceColumn: budget_info.budget_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.currency'
+		dataType: string
+		lineageTag: 1b9b4346-d440-4d9d-96bc-faa6d49b2394
+		sourceLineageTag: budget_info.currency
+		summarizeBy: none
+		sourceColumn: budget_info.currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.cost_budget.currency_code'
+		dataType: string
+		lineageTag: 00e81450-f63a-40de-a782-d13d65a57d35
+		sourceLineageTag: budget_info.cost_budget.currency_code
+		summarizeBy: none
+		sourceColumn: budget_info.cost_budget.currency_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'budget_info.cost_budget.formatted_amount'
+		dataType: string
+		lineageTag: dd478613-a560-4d43-b423-106ce13d0c9d
+		sourceLineageTag: budget_info.cost_budget.formatted_amount
+		summarizeBy: none
+		sourceColumn: budget_info.cost_budget.formatted_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'status.is_closed_type'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5a921a54-3214-4ecf-a4f7-ebb57b49effe
+		sourceLineageTag: status.is_closed_type
+		summarizeBy: none
+		sourceColumn: status.is_closed_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'layout.id'
+		dataType: string
+		lineageTag: cc9c1ecb-b484-4cbb-a8b3-a8a57e4148b6
+		sourceLineageTag: layout.id
+		summarizeBy: none
+		sourceColumn: layout.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'layout.name'
+		dataType: string
+		lineageTag: 5fc0ffc5-4889-4781-afc9-b8627d889547
+		sourceLineageTag: layout.name
+		summarizeBy: none
+		sourceColumn: layout.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'layout.is_default'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 07665adf-808b-4b88-8a66-a6874350a8ad
+		sourceLineageTag: layout.is_default
+		summarizeBy: none
+		sourceColumn: layout.is_default
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'layout.type'
+		dataType: string
+		lineageTag: 585e866b-213a-4efb-b3b0-24d0990e6594
+		sourceLineageTag: layout.type
+		summarizeBy: none
+		sourceColumn: layout.type
+
+		annotation SummarizationSetBy = Automatic
+
+	column business_hours_id
+		dataType: string
+		lineageTag: fae173cb-37cf-4df5-b4c3-fbf70e4db6b5
+		sourceLineageTag: business_hours_id
+		summarizeBy: none
+		sourceColumn: business_hours_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'updated_by.last_name'
+		dataType: string
+		lineageTag: a673ac8b-406e-4948-b5c4-966cac6f3c67
+		sourceLineageTag: updated_by.last_name
+		summarizeBy: none
+		sourceColumn: updated_by.last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'updated_by.full_name'
+		dataType: string
+		lineageTag: 41c52c2b-f50f-4462-9554-eb4a9bfd4227
+		sourceLineageTag: updated_by.full_name
+		summarizeBy: none
+		sourceColumn: updated_by.full_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'status.id'
+		dataType: string
+		lineageTag: 0f83810a-218a-4c6e-ac68-03da0ec3f8e2
+		sourceLineageTag: status.id
+		summarizeBy: none
+		sourceColumn: status.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'status.name'
+		dataType: string
+		lineageTag: efbde178-bb42-4942-8c53-30d95c32a0d5
+		sourceLineageTag: status.name
+		summarizeBy: none
+		sourceColumn: status.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'status.color'
+		dataType: string
+		lineageTag: 3cb73db1-7364-4186-909a-e7bcf07385ca
+		sourceLineageTag: status.color
+		summarizeBy: none
+		sourceColumn: status.color
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'status.color_hexcode'
+		dataType: string
+		lineageTag: 11fb38bd-cd0d-4c95-934f-dd3925a760b8
+		sourceLineageTag: status.color_hexcode
+		summarizeBy: none
+		sourceColumn: status.color_hexcode
+
+		annotation SummarizationSetBy = Automatic
+
+	column modified_time
+		dataType: string
+		lineageTag: b3bd629e-d351-4ed5-a5ad-34141b866f18
+		sourceLineageTag: modified_time
+		summarizeBy: none
+		sourceColumn: modified_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'updated_by.zuid'
+		dataType: int64
+		formatString: 0
+		lineageTag: 762be7de-0e89-4f58-8f5d-1e83fc3ccc67
+		sourceLineageTag: updated_by.zuid
+		summarizeBy: sum
+		sourceColumn: updated_by.zuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'updated_by.zpuid'
+		dataType: string
+		lineageTag: b03a2d92-01ad-4019-aaf3-2e0111b16a36
+		sourceLineageTag: updated_by.zpuid
+		summarizeBy: none
+		sourceColumn: updated_by.zpuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'updated_by.name'
+		dataType: string
+		lineageTag: d4463816-7aa7-48d5-8f96-264d793e10f2
+		sourceLineageTag: updated_by.name
+		summarizeBy: none
+		sourceColumn: updated_by.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'updated_by.email'
+		dataType: string
+		lineageTag: 993e0214-b8d0-4b25-b5d6-cd46540ccdf8
+		sourceLineageTag: updated_by.email
+		summarizeBy: none
+		sourceColumn: updated_by.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'updated_by.first_name'
+		dataType: string
+		lineageTag: 0fe1e660-6f83-48b0-874d-e4652bc0738e
+		sourceLineageTag: updated_by.first_name
+		summarizeBy: none
+		sourceColumn: updated_by.first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'created_by.zpuid'
+		dataType: string
+		lineageTag: 1beedf06-4c86-4d1f-beac-031fccda6ecc
+		sourceLineageTag: created_by.zpuid
+		summarizeBy: none
+		sourceColumn: created_by.zpuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'created_by.name'
+		dataType: string
+		lineageTag: 095afb92-b2c1-4bf8-b1fe-b1228dfd03ed
+		sourceLineageTag: created_by.name
+		summarizeBy: none
+		sourceColumn: created_by.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'created_by.email'
+		dataType: string
+		lineageTag: 20d71012-3891-49e3-8c3e-ac75488bfbca
+		sourceLineageTag: created_by.email
+		summarizeBy: none
+		sourceColumn: created_by.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'created_by.first_name'
+		dataType: string
+		lineageTag: 591a9d4c-6a3d-4318-b3c2-071e6d884c88
+		sourceLineageTag: created_by.first_name
+		summarizeBy: none
+		sourceColumn: created_by.first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'created_by.last_name'
+		dataType: string
+		lineageTag: 118ca502-29f5-43a7-8a1e-45e8145ad118
+		sourceLineageTag: created_by.last_name
+		summarizeBy: none
+		sourceColumn: created_by.last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'created_by.full_name'
+		dataType: string
+		lineageTag: 00ea5c0c-288e-4fc0-bebf-5319be779c4b
+		sourceLineageTag: created_by.full_name
+		summarizeBy: none
+		sourceColumn: created_by.full_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.full_name'
+		dataType: string
+		lineageTag: 7d70ba79-089f-4278-b005-4fa9468cfeee
+		sourceLineageTag: owner.full_name
+		summarizeBy: none
+		sourceColumn: owner.full_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_public_project
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 57409cfb-f260-4c35-8d28-71f6fe9dc458
+		sourceLineageTag: is_public_project
+		summarizeBy: none
+		sourceColumn: is_public_project
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_date
+		dataType: string
+		lineageTag: f320ef99-1c80-4724-bbd3-1e4b9b08c687
+		sourceLineageTag: start_date
+		summarizeBy: none
+		sourceColumn: start_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_strict_project
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: fa1d27ea-f314-439d-b019-cc41796e44ca
+		sourceLineageTag: is_strict_project
+		summarizeBy: none
+		sourceColumn: is_strict_project
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_time
+		dataType: string
+		lineageTag: 6e85b173-5ac8-4d09-af0e-09e5553b9fd7
+		sourceLineageTag: created_time
+		summarizeBy: none
+		sourceColumn: created_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'created_by.zuid'
+		dataType: int64
+		formatString: 0
+		lineageTag: 53697ece-cbf9-4ded-a55e-99728759655f
+		sourceLineageTag: created_by.zuid
+		summarizeBy: sum
+		sourceColumn: created_by.zuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.zuid'
+		dataType: int64
+		formatString: 0
+		lineageTag: f2fb04ff-0667-4e98-ad18-0398cd82b221
+		sourceLineageTag: owner.zuid
+		summarizeBy: sum
+		sourceColumn: owner.zuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.zpuid'
+		dataType: string
+		lineageTag: d927e90a-6f2a-4d91-bba5-af9f5e1a0f35
+		sourceLineageTag: owner.zpuid
+		summarizeBy: none
+		sourceColumn: owner.zpuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.name'
+		dataType: string
+		lineageTag: 87ec0ee6-ad5b-4446-8a7d-b072b77c8a64
+		sourceLineageTag: owner.name
+		summarizeBy: none
+		sourceColumn: owner.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.email'
+		dataType: string
+		lineageTag: 0345cc19-a108-4695-ac1c-67dd965a7907
+		sourceLineageTag: owner.email
+		summarizeBy: none
+		sourceColumn: owner.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.first_name'
+		dataType: string
+		lineageTag: 5bddfb62-47c6-44a4-a146-172947775d11
+		sourceLineageTag: owner.first_name
+		summarizeBy: none
+		sourceColumn: owner.first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.last_name'
+		dataType: string
+		lineageTag: b3e1d812-c265-4533-9f1a-f331582607da
+		sourceLineageTag: owner.last_name
+		summarizeBy: none
+		sourceColumn: owner.last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column id
+		dataType: string
+		lineageTag: 49a25f0d-f9dd-4041-94e4-37cb0db3fd79
+		sourceLineageTag: id
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column key
+		dataType: string
+		lineageTag: a9d7061f-b56e-4a83-97d6-96cd05da717f
+		sourceLineageTag: key
+		summarizeBy: none
+		sourceColumn: key
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		lineageTag: 0265e96a-84ec-420e-a81e-7b6fed55d777
+		sourceLineageTag: name
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column project_type
+		dataType: string
+		lineageTag: 16bd30d3-1793-42a7-926e-a2ecabb0dac5
+		sourceLineageTag: project_type
+		summarizeBy: none
+		sourceColumn: project_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: 938515b2-f0eb-4a2e-a660-37af31d451a4
+		sourceLineageTag: description
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Project_table = entity
+		mode: directLake
+		source
+			entityName: Project_table
+			expressionSource: 'DirectLake - lh_zoho_projects'
+

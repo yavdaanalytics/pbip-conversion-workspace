@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "Data Transformation from Json to Tables"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "356f01c4-6c19-a05c-4866-0df3e674a92d"
+  }
+}

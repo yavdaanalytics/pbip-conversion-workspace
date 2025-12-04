@@ -1,0 +1,47 @@
+table Param-BottomNMeasure
+	lineageTag: 30e886b3-9803-40a9-a7b6-7b1c50c41468
+
+	column Param-BottomNMeasure
+		lineageTag: 5c28e0bd-7226-495c-bc64-251d1c13ee28
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Param-BottomNMeasure Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Param-BottomNMeasure Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Param-BottomNMeasure Fields'
+		lineageTag: 905f3120-d6ea-4708-aade-1d78383e86c5
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Param-BottomNMeasure Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Param-BottomNMeasure Order'
+		formatString: 0
+		lineageTag: 3fc552e3-6571-4803-bb1e-711e8ff8325c
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Param-BottomNMeasure = calculated
+		mode: import
+		source =
+				{
+				    ("Revenue", NAMEOF('Measures Table'[Bottom N Revenue]), 0),
+				    ("Qty", NAMEOF('Measures Table'[Bottom N Qty]), 1),
+				    ("Gross Income", NAMEOF('Measures Table'[Bottom N Gross Income]), 2)
+				}
+
+	annotation PBI_Id = 92037a597a0d4b8bb6b78713ab8cbfdc
+

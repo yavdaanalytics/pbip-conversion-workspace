@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Lakehouse",
+    "displayName": "zohoprojects_LH"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "38198994-d512-91dc-4ad0-abc450678194"
+  }
+}

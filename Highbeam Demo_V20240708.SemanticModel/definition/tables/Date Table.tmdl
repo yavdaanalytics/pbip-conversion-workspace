@@ -1,0 +1,242 @@
+table 'Date Table'
+	lineageTag: 99df83c7-dc24-4fa6-a369-da52a528729f
+	dataCategory: Time
+
+	column 'Start of Week'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 77e4b47f-dce7-426f-a9c2-2b10964b177b
+		summarizeBy: none
+		sourceColumn: Start of Week
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: dd/mm/yyyy
+		lineageTag: 26d2bad2-2782-4ee4-8500-760cfcb35bd3
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 310b5eb5-8a3d-4967-bea9-e4f5a0204169
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Days'
+		dataType: int64
+		formatString: 0
+		lineageTag: a492c382-20e6-4efa-a0ff-0929a1ffc724
+		summarizeBy: sum
+		sourceColumn: Week Days
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Month Name'
+		dataType: string
+		lineageTag: a5ac3958-9da3-453e-9d40-0ca0936d5644
+		summarizeBy: none
+		sourceColumn: Week Month Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: 1c7a7dbd-a62f-4fd1-958f-e640dd9fc55a
+		summarizeBy: none
+		sourceColumn: Month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week
+		dataType: string
+		lineageTag: cc7f17fd-743a-48ca-8dc2-76e734ee2ae6
+		summarizeBy: none
+		sourceColumn: Week
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Start of Year'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 05dc87ff-0230-4c81-9b40-ce12d59c6de4
+		summarizeBy: none
+		sourceColumn: Start of Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Start of Month'
+		dataType: dateTime
+		formatString: mmmm yyyy
+		lineageTag: c97a600a-05d6-4714-a28b-2fbc463d1878
+		summarizeBy: none
+		sourceColumn: Start of Month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: afe01e47-6ed8-4cd0-ab60-777580a7fb23
+		summarizeBy: none
+		sourceColumn: Month Name
+		sortByColumn: 'month number'
+
+		changedProperty = IsHidden
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Year'
+		dataType: string
+		lineageTag: 6c27b834-3cb5-40f1-afe4-8b957582baef
+		summarizeBy: none
+		sourceColumn: Month Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'month number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9ed46885-4349-4281-b984-80447bed9d9a
+		summarizeBy: sum
+		sourceColumn: month number
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Days
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: dc9217a7-95bf-4906-a9df-dc2c44180997
+		summarizeBy: none
+		sourceColumn: Days
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Day
+		dataType: int64
+		formatString: 0
+		lineageTag: 8dfe6692-605e-4197-acd9-a5b23a464d95
+		summarizeBy: sum
+		sourceColumn: Day
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week_MonthNo
+		dataType: int64
+		formatString: 0
+		lineageTag: 886d31f8-9daa-4c68-8c18-ee9c6f7bd5cf
+		summarizeBy: sum
+		sourceColumn: Week_MonthNo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day-Month
+		dataType: string
+		lineageTag: e23004cc-8e31-4065-992b-487f377f6c7e
+		summarizeBy: none
+		sourceColumn: Day-Month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date Filter' = IF('Date Table'[Date]<=MAX(Sales[Date]), TRUE(),FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0bc03abf-b24f-4a55-94ff-a030995aab4e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date Forecast Filter' = IF('Date Table'[Start of Week]<=MAX('Sales Weekly Forecast'[Date]), TRUE(),FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 046c6336-f74c-49a5-91e4-291d16ecb57b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Date Table' = m
+		mode: import
+		source =
+				let
+				DateTable = List.Dates(List.Min(Sales[Date]), Duration.Days(Date.From(DateTime.FixedLocalNow()) - #date(2019,01,01)) + 730, #duration(1, 0, 0, 0)),
+				    #"Converted to Table" = Table.FromList(DateTable, Splitter.SplitByNothing(), null, null, ExtraValues.Ignore),
+				    #"Filtered Rows1" = Table.SelectRows(#"Converted to Table", each true),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Filtered Rows1",{{"Column1", type date}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Column1", "Date"}}),
+				    #"Inserted Year" = Table.AddColumn(#"Renamed Columns", "Year", each Date.Year([Date]), Int64.Type),
+				    #"Inserted Start of Week" = Table.AddColumn(#"Inserted Year", "Start of Week", each Date.StartOfWeek([Date], Day.Monday), type date),
+				    #"Inserted Month Name" = Table.AddColumn(#"Inserted Start of Week", "Month Name", each Date.MonthName([Start of Week]), type text),
+				    #"Extracted Day" = Table.TransformColumns(#"Inserted Month Name",{{"Start of Week", Date.Day, Int64.Type}}),
+				    #"Inserted First Characters" = Table.AddColumn(#"Extracted Day", "Month", each Text.Start([Month Name], 3), type text),
+				    #"Inserted Merged Column" = Table.AddColumn(#"Inserted First Characters", "Week", each Text.Combine({Text.From([Start of Week], "en-US"), [Month], Text.From([Year], "en-US")}, "-"), type text),
+				     #"Filtered Rows" = Table.SelectRows(#"Inserted Merged Column", each true),
+				    #"Inserted Start of Year" = Table.AddColumn(#"Filtered Rows", "Start of Year", each Date.StartOfYear([Date]), type date),
+				    #"Inserted Start of Month" = Table.AddColumn(#"Inserted Start of Year", "Start of Month", each Date.StartOfMonth([Date]), type date),
+				    #"Inserted Start of Week1" = Table.AddColumn(#"Inserted Start of Month", "Start of Week.1", each Date.StartOfWeek([Date], Day.Monday), type date),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Inserted Start of Week1",{{"Start of Week", "Week Days"}, {"Start of Week.1", "Start of Week"}}),
+				    #"Inserted Month Name1" = Table.AddColumn(#"Renamed Columns2", "Month Name.1", each Date.MonthName([Date]), type text),
+				    #"Inserted Merged Column2" = Table.AddColumn(#"Inserted Month Name1", "Month Year", each Text.Combine({[Month Name.1], Text.From([Year], "en-US")}, "-"), type text),
+				    #"Inserted Month" = Table.AddColumn(#"Inserted Merged Column2", "Month.1", each Date.Month([Date]), Int64.Type),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Inserted Month", "Date", "Date - Copy"),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Duplicated Column",{{"Date - Copy", "Days"}}),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Renamed Columns1",{{"Month.1", "month number"}, {"Month Name", "Week Month Name"}, {"Month Name.1", "Month Name"}}),
+				    #"Filtered Rows2" = Table.SelectRows(#"Renamed Columns3", each [Date] <> null and [Date] <> ""),
+				    #"Inserted Day" = Table.AddColumn(#"Filtered Rows2", "Day", each Date.Day([Date]), Int64.Type),
+				    #"Inserted Month1" = Table.AddColumn(#"Inserted Day", "Week_MonthNo", each Date.Month([Start of Week]), Int64.Type),
+				    #"Inserted Merged Column1" = Table.AddColumn(#"Inserted Month1", "Day-Month", each Text.Combine({Text.From([Day], "en-US"), [Month Name]}, "-"), type text),
+				    #"Removed Duplicates" = Table.Distinct(#"Inserted Merged Column1")
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_ResultType = Table
+

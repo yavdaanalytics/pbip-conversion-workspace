@@ -1,0 +1,82 @@
+table FactSalesOrder
+	lineageTag: c29d5979-12c6-42ff-a164-a39772c9633d
+	sourceLineageTag: [dbo].[FactSalesOrder]
+
+	column SalesOrderKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: c8380a31-c3a0-4b19-a124-47a22b5fff0f
+		sourceLineageTag: SalesOrderKey
+		summarizeBy: sum
+		sourceColumn: SalesOrderKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderDateKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 28b6fa16-9181-4e20-ab08-ce7b56510599
+		sourceLineageTag: SalesOrderDateKey
+		summarizeBy: sum
+		sourceColumn: SalesOrderDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 784372b6-024b-4f0d-9a41-5c7e2114f039
+		sourceLineageTag: ProductKey
+		summarizeBy: sum
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: c9a2921f-fe48-4130-aa94-90acd38a32b5
+		sourceLineageTag: CustomerKey
+		summarizeBy: sum
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: ae762a73-1416-4c20-aa3f-97f4fd1aae24
+		sourceLineageTag: Quantity
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTotal
+		dataType: int64
+		formatString: 0
+		sourceProviderType: decimal
+		lineageTag: 0fda8ec2-89f7-444f-b476-12a2215378e5
+		sourceLineageTag: SalesTotal
+		summarizeBy: sum
+		sourceColumn: SalesTotal
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactSalesOrder-d923945a-358f-4cd2-8648-145d92132fb9 = entity
+		mode: directLake
+		source
+			entityName: FactSalesOrder
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation IsTableInBiModel = True
+

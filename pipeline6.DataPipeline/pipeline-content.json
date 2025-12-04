@@ -1,0 +1,28 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "Web1",
+        "type": "WebActivity",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          "body": "refresh_token=1000.913fd6d9f40eac78498083c3e73e6d26.cf52b96d3bf2c907d4e1ca6b55172a2d&client_id=1000.Q0CVV3YGK1JWCURXZ9GJO6V6QYAU4X&client_secret=38924cb6cf753d66ba93f25a7e961c4179e31c8ad4&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=refresh_token"
+        },
+        "externalReferences": {
+          "connection": "a7ed7f9a-6616-4aaa-8147-136fd568b941"
+        }
+      }
+    ]
+  }
+}

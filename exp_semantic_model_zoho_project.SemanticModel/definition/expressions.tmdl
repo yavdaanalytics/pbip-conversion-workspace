@@ -1,0 +1,11 @@
+expression 'DirectLake - lh_zoho_projects_exp' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/4eb34a24-0d28-44c2-b26c-d20ec4c41693/01b21f02-29c1-4093-9f17-9155f0e66f7a", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: 00fcd3c2-109e-4be7-80bc-fb3be30c435e
+
+	annotation PBI_IncludeFutureArtifacts = False
+
+	annotation PBI_RemovedChildren = [{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[filter_task_table]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[filtered_task_table_2021]"}},"objectType":"Table"}]
+

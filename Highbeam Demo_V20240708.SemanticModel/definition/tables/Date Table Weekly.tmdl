@@ -1,0 +1,78 @@
+table 'Date Table Weekly'
+	lineageTag: 012881b2-c95a-429d-b985-a5b74f6fa0b2
+
+	column Date
+		dataType: dateTime
+		formatString: dd-mm-yyyy
+		lineageTag: 2d63fb1d-d55e-48c6-800f-fbbdb0f48ab5
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: b785c1d3-c43f-4ea5-9186-1f25d5322624
+			defaultHierarchy: LocalDateTable_8605df26-1b42-41ee-938c-6297ce02b854.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: f6a71921-7101-4645-bb4f-a30234cd4c87
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: 426e44ba-a221-4681-a0f4-a38c97527ac7
+		summarizeBy: none
+		sourceColumn: Month Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Refresh Date Flag' =
+			
+			IF('Date Table Weekly'[Date] == MAX(InvStock[Inventory Date]),TRUE(),FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d7b9b8f0-953f-49fb-aa41-3ebb32b91029
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Start & End Date filter' = IF('Date Table Weekly'[Date]>=MIN(Sales[Date]) && 'Date Table Weekly'[Date]<=MAX('Sales Weekly Forecast'[Date]),TRUE(),FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0aef1f9f-e45d-4599-9ced-737c9a7fb1ca
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Date Table Weekly' = m
+		mode: import
+		source =
+				let
+				DateTable = List.Dates(#date(2020,01,01), Duration.Days(Date.From(DateTime.FixedLocalNow()) - #date(2020,01,01)) + 730, #duration(1, 0, 0, 0)),
+				    #"Converted to Table" = Table.FromList(DateTable, Splitter.SplitByNothing(), null, null, ExtraValues.Ignore),
+				    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Date"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Date", type date}}),
+				    #"Calculated Start of Week" = Table.TransformColumns(#"Changed Type",{{"Date", each Date.StartOfWeek(_,Day.Monday), type date}}),
+				    #"Removed Duplicates1" = Table.Distinct(#"Calculated Start of Week"),
+				    #"Inserted Year" = Table.AddColumn(#"Removed Duplicates1", "Year", each Date.Year([Date]), Int64.Type),
+				    #"Inserted Month Name" = Table.AddColumn(#"Inserted Year", "Month Name", each Date.MonthName([Date]), type text),
+				    #"Extracted First Characters" = Table.TransformColumns(#"Inserted Month Name", {{"Month Name", each Text.Start(_, 3), type text}})
+				in
+				    #"Extracted First Characters"
+
+	annotation PBI_ResultType = Table
+

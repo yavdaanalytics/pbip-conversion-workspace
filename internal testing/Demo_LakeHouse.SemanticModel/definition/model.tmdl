@@ -1,0 +1,17 @@
+model fdd12c4a-d0dc-4b17-98cb-16a5c0f4b42d
+	culture: en-US
+	collation: Latin1_General_100_BIN2_UTF8
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["long_running_queries","frequently_run_queries","exec_sessions_history","sales"]
+
+annotation SourceLineageTagType = DatabaseFullyQualifiedName
+
+ref table sales
+

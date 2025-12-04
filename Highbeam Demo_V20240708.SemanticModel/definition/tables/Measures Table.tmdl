@@ -1,0 +1,2474 @@
+table 'Measures Table'
+	lineageTag: 15dbd381-012e-47fb-8c55-39863f1fc3bb
+
+	measure ExcessCashInInventoryM =
+			VAR CurrentWeek =
+			    CALCULATE (
+			        MIN ( WeeklyForecast[Date] )
+			    ) -- var CurrentItem = CALCULATE(DISTINCT(WeeklyForecast[Item]))
+			VAR ExcessCashInInventory =
+			    CALCULATE (
+			        SUM ( WeeklyForecast[ExcessCashInInventory] ),
+			        FILTER (
+			            WeeklyForecast,
+			            CurrentWeek = WeeklyForecast[Date]
+			        )
+			    )
+			RETURN
+			    ExcessCashInInventory
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: c5dde5a1-f072-41a8-b9c0-560e92ba976f
+
+		changedProperty = IsHidden
+
+	measure 'Total CoGS' =
+			CALCULATE (
+			    DIVIDE (
+			        SUM ( Sales[CoGS] ),
+			        SUM ( Sales[Amount] ),
+			        0
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 44936646-adff-4063-a9ae-55246f081c28
+
+		changedProperty = IsHidden
+
+	measure 'Total Gross Income' =
+			
+			VAR _GrossIncome = CALCULATE (
+			    SUM ( Sales[Gross Income] )
+			)
+			RETURN
+			COALESCE(_GrossIncome,0)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 753c419e-b62d-4827-aac2-f72ce62851b8
+
+		changedProperty = IsHidden
+
+	measure 'Total Revenue' =
+			
+			VAR _Revenue = CALCULATE (
+			    SUM ( Sales[Amount] )
+			)
+			RETURN
+			COALESCE(_Revenue,0)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: af5593a8-37e0-43c7-997a-829b29aa933b
+
+		changedProperty = IsHidden
+
+	measure CurrentInventoryValueM =
+			
+			VAR LatestInventoryDate = [Max Inventory Date]
+			VAR CurrentWeek =
+			    CALCULATE (
+			        MIN ( WeeklyForecast[Date] )
+			    ) --  var CurrentItem = CALCULATE(DISTINCT(WeeklyForecast[Item]))
+			VAR InventoryValue =
+			    CALCULATE (
+			        SUM ( WeeklyForecast[InventoryValue] ),
+			        FILTER (
+			            WeeklyForecast,
+			            CurrentWeek = WeeklyForecast[Date]
+			        )
+			    )
+			RETURN
+			    InventoryValue
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 001427db-9305-412d-99fd-e136e36bfa5a
+
+		changedProperty = IsHidden
+
+	measure CurrentSafetyStockValue =
+			VAR CurrentWeek =
+			    CALCULATE (
+			        MIN ( WeeklyForecast[Date] )
+			    ) --  var CurrentItem = CALCULATE(DISTINCT(WeeklyForecast[Item]))
+			VAR SafetyStockValue =
+			    CALCULATE (
+			        SUM ( WeeklyForecast[SafetyStockValue] ),
+			        FILTER (
+			            WeeklyForecast,
+			            CurrentWeek = WeeklyForecast[Date]
+			        )
+			    )
+			RETURN
+			    SafetyStockValue
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 81a321a0-eb57-4685-9ecb-89fc857f4042
+
+		changedProperty = IsHidden
+
+	measure CurrentOptimumInventoryValue =
+			VAR CurrentWeek =
+			    CALCULATE (
+			        MIN ( WeeklyForecast[Date] )
+			    ) --  var CurrentItem = CALCULATE(DISTINCT(WeeklyForecast[Item]))
+			VAR OptimumInventoryValue =
+			    CALCULATE (
+			        SUM ( WeeklyForecast[OptimumInventoryValue] ),
+			        FILTER (
+			            WeeklyForecast,
+			            CurrentWeek = WeeklyForecast[Date]
+			        )
+			    )
+			RETURN
+			    OptimumInventoryValue
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 778ceb29-bc21-4acc-9475-2fe8d513debd
+
+		changedProperty = IsHidden
+
+	measure 'Max Inventory Date' =
+			CALCULATE (
+			    MAX ( InvStock[Inventory Date] ),
+			    REMOVEFILTERS ( InvStock )
+			)
+		formatString: Short Date
+		lineageTag: beff4869-1b0d-4465-8a7e-cf35dbc32cf0
+
+		changedProperty = IsHidden
+
+	measure 'Inventory Sales' =
+			CALCULATE (
+			    SUM ( InvStock[On Hand] )
+			        - SUM ( 'Sales Weekly Forecast'[Qty] )
+			)
+			    + CALCULATE (
+			        SUM ( InvStock[On PO] ),
+			        // REMOVEFILTERS ( InvStock[Inventory Date] ),
+			        USERELATIONSHIP ( InvStock[Next Deliv Date], 'Date Table Graph'[Date] )
+				// ,InvStock[Inventory Date] >= MIN('Date Table Graph'[Date])
+			    )
+		formatString: 0
+		lineageTag: c34fdd95-df76-401a-a612-a352643c0188
+
+		changedProperty = IsHidden
+
+	measure 'Inventory Forecast Product' =
+			
+			VAR __item = VALUES('Product'[Item])
+			RETURN CALCULATE(
+				[Inventory Sales],
+				FILTER(
+					ALLSELECTED('Date Table Graph'[Date]),
+					ISONORAFTER('Date Table Graph'[Date], MAX('Date Table Graph'[Date]), DESC)
+				)
+			    , REMOVEFILTERS('ProductDescription'), REMOVEFILTERS('Date Table Weekly')
+			    ,__item
+			)
+		formatString: 0
+		lineageTag: b8e53102-50e5-4bd7-aa7f-ddd655eec25e
+
+		changedProperty = IsHidden
+
+	measure 'Revenue TY' = COALESCE(SUM(Sales[Amount]),0)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 5fa28a0d-f2a6-4753-b1fc-d05292acb818
+
+		changedProperty = IsHidden
+
+	measure Revenue_LY =
+			
+			VAR __PREV_YEAR = CALCULATE([Revenue TY], SAMEPERIODLASTYEAR('Date Table'[Date]))
+			RETURN COALESCE(__PREV_YEAR,0)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 5da8d47f-1fe0-4259-a0d7-1aca7c888018
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "YearOverYear"
+				}
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Revenue YOY%' =
+			
+			VAR __PREV_YEAR = CALCULATE([Revenue TY], SAMEPERIODLASTYEAR('Date Table'[Date]))
+			VAR __CURR_YEAR = [Revenue TY]
+			RETURN DIVIDE(__CURR_YEAR - __PREV_YEAR, __PREV_YEAR)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 69a86870-bcbb-49f0-b839-5e9ca67aa7c7
+
+		changedProperty = IsHidden
+
+	measure 'Unit Sold TY' =
+			
+			VAR _UnitSold = SUM(Sales[Qty])
+			RETURN
+			COALESCE(_UnitSold,0)
+		lineageTag: 62ec8208-e957-4c0d-ad87-fdaa5449e648
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Unit Sold YOY' =
+			
+			VAR __PREV_YEAR = CALCULATE([Unit Sold TY], SAMEPERIODLASTYEAR('Date Table'[Date]))
+			VAR __CURR_YEAR = [Unit Sold TY]
+			RETURN DIVIDE(__CURR_YEAR - __PREV_YEAR, __PREV_YEAR)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 1d1f9f75-ff55-4b8b-ab8c-f5bf1863ccdb
+
+		changedProperty = IsHidden
+
+	measure 'Unit Sold_LY' =
+			
+			VAR __PREV_YEAR = CALCULATE([Unit Sold TY], SAMEPERIODLASTYEAR('Date Table'[Date]))
+			RETURN COALESCE(__PREV_YEAR,0)
+		lineageTag: b8609e98-96cb-4893-990b-945c4c38f83f
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross Income TY' = SUM(Sales[Gross Income])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: e174663f-9b0f-4baa-8c16-ff41c3f9972f
+
+		changedProperty = IsHidden
+
+	measure 'Gross Income YOY' =
+			
+			VAR __PREV_YEAR = CALCULATE([Gross Income TY], SAMEPERIODLASTYEAR('Date Table'[Date]))
+			VAR __CURR_YEAR = [Gross Income TY]
+			RETURN DIVIDE(__CURR_YEAR - __PREV_YEAR, __PREV_YEAR)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: f9b5ada1-9ff0-4edc-8148-32bbb15fcef4
+
+		changedProperty = IsHidden
+
+	measure 'Gross Income LY' =
+			
+			VAR __PREV_YEAR = CALCULATE([Gross Income TY], SAMEPERIODLASTYEAR('Date Table'[Date]))
+			RETURN COALESCE(__PREV_YEAR,0)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 56093d03-4865-4b52-a030-4ebc64417798
+
+		changedProperty = IsHidden
+
+	measure 'Gross Margin %' = ```
+			
+			VAR _Result = IF(SUM(Sales[Sales Price])=0,BLANK(),
+			(Sum( Sales[Sales Price]) - Sum(Sales[Cost] )) /SUM(Sales[Sales Price]))
+			RETURN _Result
+			
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: c8c42eda-be62-4406-83c6-2b8d3848e698
+
+		changedProperty = IsHidden
+
+	measure 'Gross Margin% LY' =
+			
+			VAR __PREV_YEAR = CALCULATE([Gross Margin %], SAMEPERIODLASTYEAR('Date Table'[Date]))
+			RETURN COALESCE(__PREV_YEAR,0)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: e94a3868-79a2-4ec0-bf14-d3e0cf4fd72e
+
+		changedProperty = IsHidden
+
+	measure 'Gross Margin% YOY' =
+			
+			VAR __PREV_YEAR = [Gross Margin% LY]
+			VAR __CURR_YEAR = [Gross Margin %]
+			RETURN __CURR_YEAR - __PREV_YEAR
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: ad31d1b1-7f4a-4642-be8a-371411764a78
+
+		changedProperty = IsHidden
+
+	measure mRevenue = SUM(Sales[Amount])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: c8dc79e8-5e73-4da4-9465-dd299503cc3f
+
+		changedProperty = IsHidden
+
+	measure mQty = SUM(Sales[Qty])
+		lineageTag: a35cd1ae-58b4-45e5-8c01-7d6c76b5d122
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'mGross Income' = SUM(Sales[Gross Income])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 62f6c052-7a3b-4bed-ba75-3eb2caca8f1e
+
+		changedProperty = IsHidden
+
+	measure 'Top N Gross Income' = ```
+			
+			VAR Ranking_Item =  If([mGross Income]=0,BLANK(), RANKX(FILTER(ALL(ProductDescription[SKU]),[mGross Income]<>0),[mGross Income],,DESC))
+			
+			VAR Ranking_Prod_Cat = If([mGross Income]=0,BLANK(), RANKX(FILTER(ALL(ProductDescription[Product Category]),[mGross Income]<>0),[mGross Income],,DESC))
+			
+			VAR Ranking_Manu = If([mGross Income]=0,BLANK(), RANKX(FILTER(ALL('Product'[Manufacturer]),[mGross Income]<>0),[mGross Income],,DESC))
+			VAR _Ranking = IF(
+			    CONTAINSSTRING(SELECTEDVALUE('Parameter-Dim'[Parameter-Dim Fields]),"SKU")
+			    ,Ranking_Item
+			    ,IF(
+			        CONTAINSSTRING(SELECTEDVALUE('Parameter-Dim'[Parameter-Dim Fields]),"Product Category")
+			        ,Ranking_Prod_Cat
+			        ,Ranking_Manu))
+			    
+			
+			Return
+			
+			IF(_Ranking<='Choose N'[Choose_N Value],[mGross Income])
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Top & Bottom
+		lineageTag: 3f6a92c2-3771-4bb4-8619-7c0c19106dcf
+
+		changedProperty = IsHidden
+
+	measure 'Top N Qty' = ```
+			
+			VAR Ranking_Item =  If([mQty]=0,BLANK(), RANKX(FILTER(ALL(ProductDescription[SKU]),[mQty]<>0),[mQty],,DESC))
+			
+			VAR Ranking_Prod_Cat = If([mQty]=0,BLANK(), RANKX(FILTER(ALL(ProductDescription[Product Category]),[mQty]<>0),[mQty],,DESC))
+			
+			VAR Ranking_Manu = If([mQty]=0,BLANK(), RANKX(FILTER(ALL('Product'[Manufacturer]),[mQty]<>0),[mQty],,DESC))
+			VAR _Ranking = IF(
+			    CONTAINSSTRING(SELECTEDVALUE('Parameter-Dim'[Parameter-Dim Fields]),"SKU")
+			    ,Ranking_Item
+			    ,IF(
+			        CONTAINSSTRING(SELECTEDVALUE('Parameter-Dim'[Parameter-Dim Fields]),"Product Category")
+			        ,Ranking_Prod_Cat
+			        ,Ranking_Manu))
+			    
+			
+			Return
+			
+			IF(_Ranking<='Choose N'[Choose_N Value],[mQty])
+			```
+		formatString: #,0
+		displayFolder: Top & Bottom
+		lineageTag: 6c4b5903-9e95-4172-9299-71509f74c15e
+
+		changedProperty = IsHidden
+
+	measure 'Top N Revenue' = ```
+			
+			VAR Ranking_Item =  If([mRevenue]=0,BLANK(), RANKX(FILTER(ALL(ProductDescription[SKU]),[mRevenue]<>0),[mRevenue],,DESC))
+			
+			VAR Ranking_Prod_Cat = If([mRevenue]=0,BLANK(), RANKX(FILTER(ALL(ProductDescription[Product Category]),[mRevenue]<>0),[mRevenue],,DESC))
+			
+			VAR Ranking_Manu = If([mRevenue]=0,BLANK(), RANKX(FILTER(ALL('Product'[Manufacturer]),[mRevenue]<>0),[mRevenue],,DESC))
+			VAR _Ranking = IF(
+			    CONTAINSSTRING(SELECTEDVALUE('Parameter-Dim'[Parameter-Dim Fields]),"SKU")
+			    ,Ranking_Item
+			    ,IF(
+			        CONTAINSSTRING(SELECTEDVALUE('Parameter-Dim'[Parameter-Dim Fields]),"Product Category")
+			        ,Ranking_Prod_Cat
+			        ,Ranking_Manu))
+			    
+			
+			Return
+			
+			IF(_Ranking<='Choose N'[Choose_N Value],[mRevenue])
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Top & Bottom
+		lineageTag: 611e2831-f533-4425-b0e9-1cb2a2b87ee2
+
+		changedProperty = IsHidden
+
+	measure 'Bottom N Revenue' = ```
+			
+			VAR Ranking_Item =  If([mRevenue]=0,BLANK(), RANKX(FILTER(ALL(ProductDescription[SKU]),[mRevenue]<>0),[mRevenue],,ASC))
+			
+			VAR Ranking_Prod_Cat = If([mRevenue]=0,BLANK(), RANKX(FILTER(ALL(ProductDescription[Product Category]),[mRevenue]<>0),[mRevenue],,ASC))
+			
+			VAR Ranking_Manu = If([mRevenue]=0,BLANK(), RANKX(FILTER(ALL('Product'[Manufacturer]),[mRevenue]<>0),[mRevenue],,ASC))
+			VAR _Ranking = IF(
+			    CONTAINSSTRING(SELECTEDVALUE('Parameter-Dim'[Parameter-Dim Fields]),"SKU")
+			    ,Ranking_Item
+			    ,IF(
+			        CONTAINSSTRING(SELECTEDVALUE('Parameter-Dim'[Parameter-Dim Fields]),"Product Category")
+			        ,Ranking_Prod_Cat
+			        ,Ranking_Manu))
+			    
+			
+			Return
+			
+			IF(_Ranking<='Choose N'[Choose_N Value],[mRevenue])
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Top & Bottom
+		lineageTag: 6be0aa99-0ffa-4452-9739-69f233bbd1f5
+
+		changedProperty = IsHidden
+
+	measure 'Bottom N Qty' = ```
+			
+			VAR Ranking_Item =  If([mQty]=0,BLANK(), RANKX(FILTER(ALL(ProductDescription[SKU]),[mQty]<>0),[mQty],,ASC))
+			
+			VAR Ranking_Prod_Cat = If([mQty]=0,BLANK(), RANKX(FILTER(ALL(ProductDescription[Product Category]),[mQty]<>0),[mQty],,ASC))
+			
+			VAR Ranking_Manu = If([mQty]=0,BLANK(), RANKX(FILTER(ALL('Product'[Manufacturer]),[mQty]<>0),[mQty],,ASC))
+			VAR _Ranking = IF(
+			    CONTAINSSTRING(SELECTEDVALUE('Parameter-Dim'[Parameter-Dim Fields]),"SKU")
+			    ,Ranking_Item
+			    ,IF(
+			        CONTAINSSTRING(SELECTEDVALUE('Parameter-Dim'[Parameter-Dim Fields]),"Product Category")
+			        ,Ranking_Prod_Cat
+			        ,Ranking_Manu))
+			    
+			
+			Return
+			
+			IF(_Ranking<='Choose N'[Choose_N Value],[mQty])
+			```
+		formatString: #,0
+		displayFolder: Top & Bottom
+		lineageTag: c78b9ba5-a920-4ac8-9706-45bcb6eea1fd
+
+		changedProperty = IsHidden
+
+	measure 'Bottom N Gross Income' = ```
+			
+			VAR Ranking_Item =  If([mGross Income]=0,BLANK(), RANKX(FILTER(ALL(ProductDescription[SKU]),[mGross Income]<>0),[mGross Income],,ASC))
+			
+			VAR Ranking_Prod_Cat = If([mGross Income]=0,BLANK(), RANKX(FILTER(ALL(ProductDescription[Product Category]),[mGross Income]<>0),[mGross Income],,ASC))
+			
+			VAR Ranking_Manu = If([mGross Income]=0,BLANK(), RANKX(FILTER(ALL('Product'[Manufacturer]),[mGross Income]<>0),[mGross Income],,ASC))
+			VAR _Ranking = IF(
+			    CONTAINSSTRING(SELECTEDVALUE('Parameter-Dim'[Parameter-Dim Fields]),"SKU")
+			    ,Ranking_Item
+			    ,IF(
+			        CONTAINSSTRING(SELECTEDVALUE('Parameter-Dim'[Parameter-Dim Fields]),"Product Category")
+			        ,Ranking_Prod_Cat
+			        ,Ranking_Manu))
+			    
+			
+			Return
+			
+			IF(_Ranking<='Choose N'[Choose_N Value],[mGross Income])
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Top & Bottom
+		lineageTag: f55ff82b-701c-4590-ac14-32096ccc5bcf
+
+		changedProperty = IsHidden
+
+	measure 'Top N Title' = ```
+			
+			VAR _TopN = SELECTEDVALUE('Choose N'[Choose_N])
+			VAR _Dim =
+			SWITCH (
+			    SELECTEDVALUE ( 'Parameter-Dim'[Parameter-Dim Order] ),
+			    0, "SKU",
+			    1, "Product Category",
+			    2, "Manufacturer"
+			   
+			)
+			Var _Measure = 
+			    SELECTEDVALUE ( 'Measures Dropdown'[Value]) 
+			 
+			Return
+			 "Top "& _TopN&" "&_Dim &" " & "by"& " "&_Measure
+			
+			```
+		displayFolder: Top & Bottom
+		lineageTag: 2cb82067-4970-4478-96bf-6c743714410e
+
+		changedProperty = IsHidden
+
+	measure 'Bottom N Title' = ```
+			
+			VAR _TopN = SELECTEDVALUE('Choose N'[Choose_N])
+			VAR _Dim =
+			SWITCH (
+			    SELECTEDVALUE ( 'Parameter-Dim'[Parameter-Dim Order] ),
+			    0, "SKU",
+			    1, "Product Category",
+			    2, "Manufacturer"
+			   
+			)
+			
+			
+			Var _Measure = 
+			    SELECTEDVALUE ( 'Measures Dropdown'[Value])  
+			
+			 
+			Return
+			 "Bottom "& _TopN&" "&_Dim &" " & "by"& " "&_Measure
+			
+			```
+		displayFolder: Top & Bottom
+		lineageTag: 07033336-0a30-416c-bc14-3626e496dc88
+
+		changedProperty = IsHidden
+
+	measure 'CurrentSafetyStock product' =
+			
+			VAR CurrentWeek =
+			    CALCULATE (
+			        MIN ( WeeklyForecast[Date] )
+			    ) --  var CurrentItem = CALCULATE(DISTINCT(WeeklyForecast[Item]))
+			VAR SafetyStock =
+			    CALCULATE (
+			        SUM ( WeeklyForecast[SafetyStockWk] ),
+			        FILTER (
+			            WeeklyForecast,
+			            CurrentWeek = WeeklyForecast[Date]
+			        )
+			    )
+			RETURN
+			    SafetyStock
+		formatString: 0
+		lineageTag: 01125b3c-d12d-4249-a581-ba2b741f5f3f
+
+		changedProperty = IsHidden
+
+	measure CurrentLostRevenue =
+			VAR CurrentWeek =
+			    CALCULATE (
+			        MIN ( WeeklyForecast[Date] )
+			    ) --  var CurrentItem = CALCULATE(DISTINCT(WeeklyForecast[Item]))
+			VAR lostRevenue =
+			    CALCULATE (
+			        SUM ( WeeklyForecast[LostRevenueLTD] ),
+			        FILTER (
+			            WeeklyForecast,
+			            CurrentWeek = WeeklyForecast[Date]
+			        )
+			    )
+			RETURN
+			    lostRevenue
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 7d8d24b0-47a7-405f-b1ed-89369c98b0ec
+
+	measure CurrentRecommendation =
+			VAR CurrentWeek =
+			    CALCULATE (
+			        MIN ( WeeklyForecast[Date] )
+			    ) --  var CurrentItem = CALCULATE(DISTINCT(WeeklyForecast[Item]))
+			VAR Recommendation =
+			    CALCULATE (
+			        SUM ( WeeklyForecast[REC InventoryValue] ),
+			        FILTER (
+			            WeeklyForecast,
+			            CurrentWeek = WeeklyForecast[Date]
+			        )
+			    )
+			RETURN
+			    Recommendation
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 49313e86-23a8-41f3-b297-d7507295affb
+
+	measure 'Avg Sales LTV' = ```
+			
+			DIVIDE(
+			[Revenue TY], DISTINCTCOUNT(Sales[DateByMonth])*DISTINCTCOUNT(Sales[Name]))
+			
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Quality of Leads\Average\LTV
+		lineageTag: 92d78391-587a-4201-84a6-98ef566b9c39
+
+	measure 'RevenueByCampaign (LTV)' =
+			
+			COALESCE(CALCULATE(SUM(Sales[Amount]),Sales[Campaign] <> BLANK()),0)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: LTV
+		lineageTag: b8a7fe75-1fd1-49f3-97e1-ab7bbf601cf3
+
+	measure 'Cost to Acquire Customer (LTV)' =
+			
+			VAR _Customer_Count = CALCULATE(DISTINCTCOUNT(Sales[Name]),Sales[Campaign]<>BLANK())
+			RETURN
+			COALESCE(DIVIDE(SUM(Sales[Ad Cost]),_Customer_Count),0)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: LTV
+		lineageTag: eacb6a5c-ef66-439f-b74b-f12386dfe4ff
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Active Customer (LTV)' = DISTINCTCOUNT(Sales[Name])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: LTV
+		lineageTag: 3f5516bf-73b9-4de3-abd8-8e610ccbb150
+
+	measure 'Customer Life Time Value (CLTV)' =
+			
+			VAR _Cumulative = CALCULATE(SUM(Sales[Amount])
+			,FILTER(ALL('Date Table')
+			,'Date Table'[Date]<=MAX('Date Table'[Date])))
+			RETURN _Cumulative
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: LTV
+		lineageTag: f7035c9a-0621-456a-b1ba-00766ba69242
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Customer Life Time Value (CLTV)_KPI' =
+			CALCULATE(SUM(Sales[Amount])
+			)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: LTV
+		lineageTag: 7dcde6ca-200d-4fd4-8153-70fb988fe7ca
+
+	measure 'Cost to Acquire Customer (LTV) running total in Month Year' =
+			
+			CALCULATE(
+				[Cost to Acquire Customer (LTV)],
+				FILTER(
+					ALLSELECTED('Date Table'[Month Year]),
+					ISONORAFTER('Date Table'[Month Year], MAX('Date Table'[Month Year]), DESC)
+				)
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: LTV
+		lineageTag: 89c8063f-039c-450d-9392-5de81ac8def0
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "RunningTotal"
+				}
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Customer Retention %' = ```
+			
+			 DIVIDE([Retained Customers], [New Customers])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Retention
+		lineageTag: a77b4433-c10d-489b-9c19-8cd8e8072c20
+
+	measure 'Customer Retention (cohort)' =
+			
+			VAR CurrentMonthAfter = MAX(Sales[Cohort])
+			VAR CurrentFirstSalesMonth = MAX(Sales[First Purchase Date])
+			RETURN
+			CALCULATE(
+			    DISTINCTCOUNT(Sales[Name])
+			        ,Sales[DateByMonth]=EDATE(CurrentFirstSalesMonth,CurrentMonthAfter)
+			    )
+		formatString: #,0
+		displayFolder: Retention
+		lineageTag: cdd5b1f4-3674-4700-9882-7a96ea22bd3d
+
+	measure 'Customer Revenue Retention' = ```
+			
+			VAR CurrentMonthAfter = MAX(Sales[Cohort])
+			VAR CurrentFirstSalesMonth = MAX(Sales[First Purchase Date])
+			RETURN
+			
+			CALCULATE(
+			    SUM(Sales[Amount])
+			        ,Sales[DateByMonth]=EDATE(CurrentFirstSalesMonth,CurrentMonthAfter)
+			    ) 
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Retention
+		lineageTag: 0919d441-7273-4133-8d4c-11258e2902de
+
+	measure 'Net GrossIncome Retention' =
+			
+			VAR CurrentMonthAfter = MAX(Sales[Cohort])
+			VAR CurrentFirstSalesMonth = MAX(Sales[First Purchase Date])
+			RETURN
+			
+			CALCULATE(
+			    SUM(Sales[Net Gross Income])
+			        ,Sales[DateByMonth]=EDATE(CurrentFirstSalesMonth,CurrentMonthAfter)
+			    )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Retention
+		lineageTag: dfaa3767-54c1-415d-817c-ecba80606d4e
+
+	measure 'Net GrossIncome Retention %' =
+			
+			DIVIDE([Retained Net GrossIncome],[Total Net GrossIncome])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Retention
+		lineageTag: 32b8a0e4-282f-4685-b2be-1539e23c2b5d
+
+	measure 'COGS cohort' =
+			
+			VAR CurrentMonthAfter = SELECTEDVALUE(Sales[Cohort])
+			VAR CurrentFirstSalesMonth = SELECTEDVALUE(Sales[First Purchase Date])
+			RETURN
+			CALCULATE(
+			    SUM(Sales[Gross Income]),
+			          Sales[DateByMonth] =EDATE(CurrentFirstSalesMonth,CurrentMonthAfter)
+			    )
+		lineageTag: ffe4a4b9-eb29-4e70-ad07-3ab58316f8eb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'AdSpend cohort' =
+			
+			VAR CurrentMonthAfter = SELECTEDVALUE(Sales[Cohort])
+			VAR CurrentFirstSalesMonth = SELECTEDVALUE(Sales[First Purchase Date])
+			RETURN
+			CALCULATE(
+			    SUM(Sales[Ad Cost]),
+			          Sales[DateByMonth] =EDATE(CurrentFirstSalesMonth,CurrentMonthAfter)
+			    )
+		lineageTag: cb8c2bae-c32c-43a2-b96c-90830a9aa88e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Retained Customers' =
+			CALCULATE(DISTINCTCOUNT(Sales[Name])
+			                 )
+		formatString: 0
+		displayFolder: Quality of Leads\Customers\Existing Customers
+		lineageTag: 615b0926-a80f-49c2-bbdd-52f9affee687
+
+	measure 'Total Customers' =
+			
+			VAR __firstpuchaseDate = MAX(Sales[First Purchase Date])
+			VAR __cohort = MAX(Sales[Cohort]) - 1
+			RETURN CALCULATE(
+			    DISTINCTCOUNT(Sales[Name])
+			    ,REMOVEFILTERS(Sales[First Purchase Date],Sales[Cohort])
+			    ,Sales[DateByMonth] = EDATE(__firstpuchaseDate, __cohort)
+			    )
+		formatString: 0
+		displayFolder: Quality of Leads\Customers\Existing Customers
+		lineageTag: e2d54225-3101-456f-92da-f226517031d4
+
+	measure 'Total Revenues' =
+			
+			VAR __firstpuchaseDate = MAX(Sales[First Purchase Date])
+			VAR __cohort = MAX(Sales[Cohort]) - 1
+			RETURN CALCULATE(
+			   SUM(Sales[Amount])
+			    ,REMOVEFILTERS(Sales[First Purchase Date],Sales[Cohort])
+			    ,Sales[DateByMonth] = EDATE(__firstpuchaseDate, __cohort)
+			    )
+		lineageTag: 2729cf01-5384-4cf9-8ef3-f2aa7f86e696
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Customer Revenue Retention %' =
+			
+			DIVIDE([Customer Revenue Retention],[New Customer Purchase Value])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Retention
+		lineageTag: 1dc116f5-1dfd-4966-93be-6949537428c4
+
+	measure 'Retained Net GrossIncome' =
+			CALCULATE(SUM(Sales[Net Gross Income])
+			                 )
+		lineageTag: b6a1978f-b2f9-4c09-b37d-9c11bafeca2b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Net GrossIncome' =
+			
+			VAR __firstpuchaseDate = MAX(Sales[First Purchase Date])
+			VAR __cohort = MAX(Sales[Cohort]) - 1
+			RETURN CALCULATE(
+			    SUM(Sales[Net Gross Income])
+			    ,REMOVEFILTERS(Sales[First Purchase Date],Sales[Cohort])
+			    ,Sales[DateByMonth] = EDATE(__firstpuchaseDate, __cohort)
+			    )
+		lineageTag: c04d8732-9ab5-40d9-b565-4b07a927f4f0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'New Customers' =
+			CALCULATE(DISTINCTCOUNT(Sales[Name])
+			                                 ,Sales[Cohort] = 0
+			                 )
+		formatString: 0
+		displayFolder: Quality of Leads\Customers\New Customer
+		lineageTag: 944eb121-edcc-4da6-a38d-3cdedbbc5f32
+
+	measure 'New Customer Qty' =
+			CALCULATE(SUM(Sales[Qty])
+			                                 ,Sales[Cohort] = 0
+			                 )
+		displayFolder: Quality of Leads\Customers\New Customer
+		lineageTag: 42891d15-3034-4695-98ac-823a66cded38
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'New Customer Purchase Value' =
+			
+			CALCULATE(SUM(Sales[Amount])
+			,Sales[Cohort]=0)
+		displayFolder: Quality of Leads\Customers\New Customer
+		lineageTag: 4b68fdc8-aae1-4330-bbc0-67cafbd9194f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Avg_GrossIncome = ```
+			
+			DIVIDE(
+			[mGross Income], DISTINCTCOUNT(Sales[Date]))
+			
+			
+			```
+		displayFolder: Quality of Leads\Average
+		lineageTag: a21788fd-c6fb-4e22-8bdf-00ffae6101e6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg_Net GrossIncome' =
+			
+			VAR _NGI= CALCULATE(SUM(Sales[Net Gross Income]))
+			RETURN
+			DIVIDE(
+			    _NGI,DISTINCTCOUNT(Sales[Date]))
+		displayFolder: Quality of Leads\Average
+		lineageTag: 67ef7cfa-2808-4648-9b8e-2d26e9d7195d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales Revenue Growth Rate' =
+			
+			VAR _PreviousPeriod = CALCULATE(SUM(Sales[Amount]), SAMEPERIODLASTYEAR('Date Table'[Date]))
+			VAR _CurrentPeriod  = CALCULATE(SUM(Sales[Amount]))
+			RETURN
+			DIVIDE(_PreviousPeriod,_CurrentPeriod)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Sales Workbench
+		lineageTag: 14734cf5-bc3b-42a3-9597-0d65129d8579
+
+	measure 'Avg Sales/Mo' = ```
+			
+			DIVIDE(
+			[Revenue TY], CALCULATE(DISTINCTCOUNT(Sales[DateByMonth]), REMOVEFILTERS(Sales[First Purchase Date]))*DISTINCTCOUNT(Sales[Name]))
+			
+			
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 757d6bd5-ad6b-4e96-be49-3af90bcb13ad
+
+	measure 'Gross Income/Mo' = CALCULATE(SUM(Sales[Gross Income]), REMOVEFILTERS(Sales[First Purchase Date]))
+		lineageTag: 088e1a99-2435-4712-8ed2-b9a4413d530d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total GrossIncome' =
+			
+			VAR __firstpuchaseDate = MAX(Sales[First Purchase Date])
+			VAR __cohort = MAX(Sales[Cohort]) - 1
+			RETURN CALCULATE(
+			   SUM(Sales[Gross Income])
+			    ,REMOVEFILTERS(Sales[First Purchase Date],Sales[Cohort])
+			    ,Sales[DateByMonth] = EDATE(__firstpuchaseDate, __cohort)
+			    )
+		lineageTag: da79e726-93b5-4fee-980d-94be9df72f0c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'GrossIncome Retention' =
+			
+			VAR CurrentMonthAfter = MAX(Sales[Cohort])
+			VAR CurrentFirstSalesMonth = MAX(Sales[First Purchase Date])
+			RETURN
+			
+			CALCULATE(
+			    SUM(Sales[Gross Income])
+			        ,Sales[DateByMonth]=EDATE(CurrentFirstSalesMonth,CurrentMonthAfter)
+			    )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Retention
+		lineageTag: ccb5495e-3b04-4aab-9f8b-68083a8f647e
+
+	measure 'GrossIncome Retention%' = DIVIDE([GrossIncome Retention],[New GrossIncome])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Retention
+		lineageTag: ba4bcced-6044-4759-95d6-968ff79c1a9a
+
+	measure 'New GrossIncome' =
+			CALCULATE(SUM(Sales[Gross Income])
+			                                 ,Sales[Cohort] = 0
+			                 )
+		displayFolder: Quality of Leads\Customers\New Customer
+		lineageTag: 4917e5b0-f5cc-478e-90c3-e23e99f7529a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Customer Retention' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			Var CustomerRet =
+			COALESCE(
+			CALCULATE(
+			    DISTINCTCOUNT(Sales[Name])
+			         ,Sales[DateByMonth] = EDATE(MIN('Date Table'[Start of Month]),CurrentMonthAfter)
+			         ,REMOVEFILTERS('Date Table')
+			),0)
+			
+			
+			RETURN  
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+			```
+		formatString: 0
+		displayFolder: Cohort\Retention
+		lineageTag: fca94e41-32a8-4e02-82b1-eb81ba8a966e
+
+	measure 'Customer Cohort Kpi' = ```
+			
+			VAR maxDate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var minDate = MIN(Sales[First Purchase Date])
+			Var __periods = DATEDIFF(minDate,maxDate,MONTH)
+			Var New_cust_latest = 
+			CALCULATE([Customer Retention]
+			          ,'Cohort Nos'[Value] = 0
+			          ,'Date Table'[Start of Month] = maxDate 
+			          )
+			Var New_cust_prior_months = SUMX(CALCULATETABLE(DISTINCT('Date Table'[Start of Month])
+			                                ,'Date Table'[Start of Month] < maxDate 
+			                                  , 'Date Table'[Start of Month] >= minDate )
+			                                ,
+			                                CALCULATE([Customer Retention]
+			                                    ,'Cohort Nos'[Value] = 0)
+			            )
+			Var Avg_SelMnth = DIVIDE(New_cust_prior_months,__periods)
+			
+			RETURN DIVIDE(New_cust_latest - Avg_SelMnth, Avg_SelMnth)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Cohort\KPI
+		lineageTag: 21587c3d-3cd1-4252-9ba1-4689f4c8cd05
+
+	measure 'Revenue Cohort Kpi Margin' = ```
+			
+			VAR maxDate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var minDate = MIN(Sales[First Purchase Date])
+			Var __periods = DATEDIFF(minDate,maxDate,MONTH)
+			Var New_cust_latest = 
+			CALCULATE([Revenue Retention]
+			          ,'Cohort Nos'[Value] = 0
+			          ,'Date Table'[Start of Month] = maxDate 
+			          )
+			Var New_cust_prior_months = SUMX(CALCULATETABLE(DISTINCT('Date Table'[Start of Month])
+			                                ,'Date Table'[Start of Month] < maxDate 
+			                                  , 'Date Table'[Start of Month] >= minDate )
+			                                ,
+			                                CALCULATE([Revenue Retention]
+			                                    ,'Cohort Nos'[Value] = 0)
+			            )
+			Var Avg_SelMnth = DIVIDE(New_cust_prior_months,__periods)
+			
+			RETURN COALESCE(New_cust_latest - Avg_SelMnth,0)
+			```
+		formatString: \$#,0.00;-\$#,0.00;\$#,0.00
+		displayFolder: Cohort\KPI
+		lineageTag: 91a8a31d-a0db-496a-82a9-019931b49a87
+
+		annotation PBI_FormatHint = {"currencyCulture":"af-NA"}
+
+	measure 'GrossIncome Cohort Kpi Margin' = ```
+			
+			VAR maxDate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var minDate = MIN(Sales[First Purchase Date])
+			Var __periods = DATEDIFF(minDate,maxDate,MONTH)
+			Var New_cust_latest = 
+			CALCULATE([Gross Income Retention]
+			          ,'Cohort Nos'[Value] = 0
+			          ,'Date Table'[Start of Month] = maxDate 
+			          )
+			Var New_cust_prior_months = SUMX(CALCULATETABLE(DISTINCT('Date Table'[Start of Month])
+			                                ,'Date Table'[Start of Month] < maxDate 
+			                                  , 'Date Table'[Start of Month] >= minDate )
+			                                ,
+			                                CALCULATE([Gross Income Retention]
+			                                    ,'Cohort Nos'[Value] = 0)
+			            )
+			Var Avg_SelMnth = DIVIDE(New_cust_prior_months,__periods)
+			
+			RETURN COALESCE(New_cust_latest - Avg_SelMnth,0)
+			```
+		formatString: \$#,0.00;-\$#,0.00;\$#,0.00
+		displayFolder: Cohort\KPI
+		lineageTag: 5ccba235-5c6d-431b-afd3-ee05807ab231
+
+		annotation PBI_FormatHint = {"currencyCulture":"af-NA"}
+
+	measure 'Revenue Retention' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			Var CustomerRet =
+			COALESCE(
+			CALCULATE(
+			    SUM(Sales[Amount])
+			         ,Sales[DateByMonth] = EDATE(MIN('Date Table'[Start of Month]),CurrentMonthAfter)
+			         ,REMOVEFILTERS('Date Table')
+			),0)
+			
+			
+			RETURN  
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Cohort\Retention
+		lineageTag: b74bf924-4648-4c4b-baea-89d94fcac6ed
+
+	measure 'Gross Income Retention' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			Var CustomerRet =
+			COALESCE(
+			CALCULATE(
+			    SUM(Sales[Gross Income])
+			         ,Sales[DateByMonth] = EDATE(MIN('Date Table'[Start of Month]),CurrentMonthAfter)
+			         ,REMOVEFILTERS('Date Table')
+			),0)
+			
+			
+			RETURN  
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Cohort\Retention
+		lineageTag: 243b86c6-e220-4d0f-9b46-9ca65ae5b4bf
+
+	measure 'Bottom N Revenue Cohort KPI' =
+			
+			VAR Ranking_Item = RANKX(ALL(ProductDescription[SKU]),[Revenue Cohort Kpi without coalesce],,ASC)
+			
+			VAR Ranking_Prod_Cat = RANKX(ALL(ProductDescription[Product Category]),[Revenue Cohort Kpi without coalesce],,ASC)
+			
+			VAR Ranking_Color = RANKX(ALL('Product'[Color]),[Revenue Cohort Kpi without coalesce],,ASC)
+			
+			VAR _Ranking = SWITCH(MAX('Parameter-Dim'[Parameter-Dim Fields])
+			             ,"SKU", Ranking_Item
+			             ,"Product Category", Ranking_Prod_Cat
+			             ,"Color", Ranking_Color
+			    )
+			
+			RETURN IF(_Ranking<='Choose N'[Choose_N Value],[Revenue Cohort Kpi without coalesce])
+		displayFolder: Cohort\BottomN
+		lineageTag: 707fbe81-9ca8-4fea-9163-3b0f9c14b3d6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Customer Retention cohort %' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var NewCust = CALCULATE([Customer Retention]
+			                        ,'Cohort Nos'[Value] = 0)
+			                       
+			
+			VAR _Result =  FORMAT(DIVIDE([Customer Retention],NewCust),"0%")
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+			```
+		displayFolder: Cohort\Retention
+		lineageTag: be494aa5-3ade-4958-b239-452779671084
+
+	measure 'Selected Customer result' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [Customer Retention cohort %]
+			,[Customer Retention])
+		formatString: 0
+		displayFolder: Cohort\Selection\Values
+		lineageTag: 0c9bec03-333f-44ff-a180-8f86e98a64a8
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Net GrossIncome Cohort Margin' = ```
+			
+			VAR maxDate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var minDate = MIN(Sales[First Purchase Date])
+			Var __periods = DATEDIFF(minDate,maxDate,MONTH)
+			Var New_cust_latest = 
+			CALCULATE([NGI Retention]
+			          ,'Cohort Nos'[Value] = 0
+			          ,'Date Table'[Start of Month] = maxDate 
+			          )
+			Var New_cust_prior_months = SUMX(CALCULATETABLE(DISTINCT('Date Table'[Start of Month])
+			                                ,'Date Table'[Start of Month] < maxDate 
+			                                  , 'Date Table'[Start of Month] >= minDate )
+			                                ,
+			                                CALCULATE([NGI Retention]
+			                                    ,'Cohort Nos'[Value] = 0)
+			            )
+			Var Avg_SelMnth = DIVIDE(New_cust_prior_months,__periods)
+			
+			RETURN COALESCE(New_cust_latest - Avg_SelMnth,0)
+			```
+		formatString: \$#,0.00;-\$#,0.00;\$#,0.00
+		displayFolder: Cohort\KPI
+		lineageTag: a6ec98c1-1ecc-405e-9278-d59bc9f71cdf
+
+		annotation PBI_FormatHint = {"currencyCulture":"af-NA"}
+
+	measure 'Bottom N Customer Cohort' =
+			
+			
+			VAR Ranking_Item = RANKX(ALL(ProductDescription[SKU]),[Customer Cohort Kpi without coalesce],,ASC)
+			
+			VAR Ranking_Prod_Cat = RANKX(ALL(ProductDescription[Product Category]),[Customer Cohort Kpi without coalesce],,ASC)
+			
+			VAR Ranking_Color = RANKX(ALL('Product'[Color]),[Customer Cohort Kpi without coalesce],,ASC)
+			
+			VAR _Ranking = SWITCH(MAX('Parameter-Dim'[Parameter-Dim Fields])
+			             ,"SKU", Ranking_Item
+			             ,"Product Category", Ranking_Prod_Cat
+			             ,"Color", Ranking_Color
+			    )
+			
+			RETURN IF(_Ranking<='Choose N'[Choose_N Value],[Customer Cohort Kpi without coalesce])
+		displayFolder: Cohort\BottomN
+		lineageTag: 047ab36d-07c1-4ca4-b910-aabb9c0c07c6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Bottom N Cohort KPI' = ```
+			SWITCH( MAX('Measures Dropdown'[Value]) 
+			        ,"Customer#", [Bottom N Customer Cohort]
+			        ,"Revenue", [Bottom N Revenue Cohort KPI]
+			        ,"Gross Income", [Bottom N Gross Income Cohort KPI]
+			        ,"Net Gross Income", [Bottom N Net Gross Income Cohort KPI]
+			)
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Cohort\BottomN
+		lineageTag: fd1766c2-08b1-4de0-a996-9d0fd18da2a0
+
+	measure 'Top N Customer Cohort' =
+			
+			
+			VAR Ranking_Item = RANKX(ALL(ProductDescription[SKU]),[Customer Cohort Kpi without coalesce],,DESC)
+			
+			VAR Ranking_Prod_Cat = RANKX(ALL(ProductDescription[Product Category]),[Customer Cohort Kpi without coalesce],,DESC)
+			
+			VAR Ranking_Color = RANKX(ALL('Product'[Color]),[Customer Cohort Kpi without coalesce],,DESC)
+			
+			VAR _Ranking = SWITCH(MAX('Parameter-Dim'[Parameter-Dim Fields])
+			             ,"SKU", Ranking_Item
+			             ,"Product Category", Ranking_Prod_Cat
+			             ,"Color", Ranking_Color
+			    )
+			
+			RETURN IF(_Ranking<='Choose N'[Choose_N Value],[Customer Cohort Kpi without coalesce])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Cohort\TopN
+		lineageTag: e32b347d-0bee-490d-a1e8-c24d2fab0e9b
+
+	measure 'Bottom N Gross Income Cohort KPI' =
+			
+			VAR Ranking_Item = RANKX(ALL(ProductDescription[SKU]),[GrossIncome Cohort Kpi without coalesce],,ASC)
+			
+			VAR Ranking_Prod_Cat = RANKX(ALL(ProductDescription[Product Category]),[GrossIncome Cohort Kpi without coalesce],,ASC)
+			
+			VAR Ranking_Color = RANKX(ALL('Product'[Color]),[GrossIncome Cohort Kpi without coalesce],,ASC)
+			
+			VAR _Ranking = SWITCH(MAX('Parameter-Dim'[Parameter-Dim Fields])
+			             ,"SKU", Ranking_Item
+			             ,"Product Category", Ranking_Prod_Cat
+			             ,"Color", Ranking_Color
+			    )
+			
+			RETURN IF(_Ranking<='Choose N'[Choose_N Value],[GrossIncome Cohort Kpi without coalesce])
+		displayFolder: Cohort\BottomN
+		lineageTag: 7401b158-4e36-4afd-825f-d2e259824395
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Bottom N Net Gross Income Cohort KPI' =
+			
+			VAR Ranking_Item = RANKX(ALL(ProductDescription[SKU]),[NGI Cohort Kpi without coalesce],,ASC)
+			
+			VAR Ranking_Prod_Cat = RANKX(ALL(ProductDescription[Product Category]),[NGI Cohort Kpi without coalesce],,ASC)
+			
+			VAR Ranking_Color = RANKX(ALL('Product'[Color]),[NGI Cohort Kpi without coalesce],,ASC)
+			
+			VAR _Ranking = SWITCH(MAX('Parameter-Dim'[Parameter-Dim Fields])
+			             ,"SKU", Ranking_Item
+			             ,"Product Category", Ranking_Prod_Cat
+			             ,"Color", Ranking_Color
+			    )
+			
+			RETURN IF(_Ranking<='Choose N'[Choose_N Value],[NGI Cohort Kpi without coalesce])
+		displayFolder: Cohort\BottomN
+		lineageTag: 97b27159-d8d7-4931-8284-a2336ed59180
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Top N Revenue Cohort' =
+			
+			VAR Ranking_Item = RANKX(ALL(ProductDescription[SKU]),[Revenue Cohort Kpi without coalesce],,DESC)
+			
+			VAR Ranking_Prod_Cat = RANKX(ALL(ProductDescription[Product Category]),[Revenue Cohort Kpi without coalesce],,DESC)
+			
+			VAR Ranking_Color = RANKX(ALL('Product'[Color]),[Revenue Cohort Kpi without coalesce],,DESC)
+			
+			VAR _Ranking = SWITCH(MAX('Parameter-Dim'[Parameter-Dim Fields])
+			             ,"SKU", Ranking_Item
+			             ,"Product Category", Ranking_Prod_Cat
+			             ,"Color", Ranking_Color
+			    )
+			
+			RETURN IF(_Ranking<='Choose N'[Choose_N Value],FORMAT([Revenue Cohort Kpi without coalesce],"$#,##"))
+		displayFolder: Cohort\TopN
+		lineageTag: fbb426a8-86ff-4eb3-869d-863dc9ffc4c6
+
+	measure 'Top N Gross Income Cohort' =
+			
+			VAR Ranking_Item = RANKX(ALL(ProductDescription[SKU]),[GrossIncome Cohort Kpi without coalesce],,DESC)
+			
+			VAR Ranking_Prod_Cat = RANKX(ALL(ProductDescription[Product Category]),[GrossIncome Cohort Kpi without coalesce],,DESC)
+			
+			VAR Ranking_Color = RANKX(ALL('Product'[Color]),[GrossIncome Cohort Kpi without coalesce],,DESC)
+			
+			VAR _Ranking = SWITCH(MAX('Parameter-Dim'[Parameter-Dim Fields])
+			             ,"SKU", Ranking_Item
+			             ,"Product Category", Ranking_Prod_Cat
+			             ,"Color", Ranking_Color
+			    )
+			
+			RETURN IF(_Ranking<='Choose N'[Choose_N Value],FORMAT([GrossIncome Cohort Kpi without coalesce],"$#,##"))
+		displayFolder: Cohort\TopN
+		lineageTag: c94523ae-6df7-421c-8040-3bad53be457d
+
+	measure 'Top N Net Gross Income Cohort' =
+			
+			VAR Ranking_Item = RANKX(ALL(ProductDescription[SKU]),[NGI Cohort Kpi without coalesce],,DESC)
+			
+			VAR Ranking_Prod_Cat = RANKX(ALL(ProductDescription[Product Category]),[NGI Cohort Kpi without coalesce],,DESC)
+			
+			VAR Ranking_Color = RANKX(ALL('Product'[Color]),[NGI Cohort Kpi without coalesce],,DESC)
+			
+			VAR _Ranking = SWITCH(MAX('Parameter-Dim'[Parameter-Dim Fields])
+			             ,"SKU", Ranking_Item
+			             ,"Product Category", Ranking_Prod_Cat
+			             ,"Color", Ranking_Color
+			    )
+			RETURN IF(_Ranking<='Choose N'[Choose_N Value],[NGI Cohort Kpi without coalesce])
+		displayFolder: Cohort\TopN
+		lineageTag: fcb6945f-5e08-433a-a4bc-ef09288de9a0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Top N Cohort KPI' = ```
+			SWITCH( MAX('Measures Dropdown'[Value]) 
+			        ,"Customer#",FORMAT([Top N Customer Cohort],"0.0%")
+			        ,"Revenue", [Top N Revenue Cohort]
+			        ,"Gross Income", [Top N Gross Income Cohort]
+			        ,"Net Gross Income", [Top N Net Gross Income Cohort]
+			)
+			```
+		displayFolder: Cohort\TopN
+		lineageTag: 65e21144-f321-4e0d-9da2-9f175b02b207
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue Retention cohort %' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var NewCust = CALCULATE([Revenue Retention]
+			                        ,'Cohort Nos'[Value] = 0)
+			                       
+			
+			VAR _Result =  FORMAT(DIVIDE([Revenue Retention],NewCust),"0%")
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+			```
+		displayFolder: Cohort\Retention
+		lineageTag: 05647e93-b52a-41c2-9a36-dc089de518fe
+
+	measure 'Selected Revenue result' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [Revenue Retention cohort %]
+			,[Revenue Format])
+		displayFolder: Cohort\Selection\Values
+		lineageTag: 0a33943c-f135-409e-8768-84ff44c7d769
+
+	measure 'Gross Income Retention cohort %' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var NewCust = CALCULATE([Gross Income Retention]
+			                        ,'Cohort Nos'[Value] = 0)
+			                       
+			
+			VAR _Result =  FORMAT(DIVIDE([Gross Income Retention],NewCust),"0%")
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+			```
+		displayFolder: Cohort\Retention
+		lineageTag: 78cb836f-ec19-4780-ac8a-98c1b95ff8fd
+
+	measure 'Selected Gross Income result' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [Gross Income Retention cohort %]
+			,[Gross Income Format])
+		displayFolder: Cohort\Selection\Values
+		lineageTag: 167dd22b-1c36-4c1a-afa7-6caf57075b41
+
+	measure 'NGI Retention cohort %' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var NewCust = CALCULATE([NGI Retention]
+			                        ,'Cohort Nos'[Value] = 0)
+			                       
+			
+			VAR _Result =  FORMAT(DIVIDE([NGI Retention],NewCust),"0%")
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+			```
+		displayFolder: Cohort\Retention
+		lineageTag: 063ef539-828b-4446-8248-fab78f50ce58
+
+	measure 'Selected NGI result' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [NGI Retention cohort %]
+			,[NGI Format])
+		displayFolder: Cohort\Selection\Values
+		lineageTag: cbfc9445-2a3d-49e8-88e3-87ea16aee9e4
+
+	measure 'NGI Retention' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			Var CustomerRet =
+			COALESCE(
+			CALCULATE(
+			    SUM(Sales[Net Gross Income])
+			         ,Sales[DateByMonth] = EDATE(MIN('Date Table'[Start of Month]),CurrentMonthAfter)
+			         ,REMOVEFILTERS('Date Table')
+			),0)
+			
+			
+			RETURN  
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Cohort\Retention
+		lineageTag: bbfe6435-165c-43dc-a51c-03783d57783e
+
+	measure 'NGI Format' =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var NGI_Format = FORMAT([NGI Retention], "$#,##0")
+			
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), NGI_Format)
+		displayFolder: Cohort\Selection\Values
+		lineageTag: 5933f22e-fbd7-4272-a50d-20501378c753
+
+	measure 'Gross Income Format' =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var GI_Format = FORMAT([Gross Income Retention], "$#,##0")
+			
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), GI_Format)
+		displayFolder: Cohort\Selection\Values
+		lineageTag: 7e7c544d-f319-44b0-b2fd-f1a36faafdf4
+
+	measure 'Revenue Format' =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var Revenue_Format = FORMAT([Revenue Retention], "$#,##0")
+			
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), Revenue_Format)
+		displayFolder: Cohort\Selection\Values
+		lineageTag: a39cef42-2fe2-4823-9939-1500db91e930
+
+	measure 'Customer Retention without coalesce' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			Var CustomerRet =
+			CALCULATE(
+			    DISTINCTCOUNT(Sales[Name])
+			         ,Sales[DateByMonth] = EDATE(MIN('Date Table'[Start of Month]),CurrentMonthAfter)
+			         ,REMOVEFILTERS('Date Table')
+			)
+			
+			
+			RETURN  
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+			```
+		formatString: 0
+		displayFolder: Cohort\TopN
+		lineageTag: ad5a1f81-cd43-489b-8e54-4bd620b2c667
+
+	measure 'Customer Cohort Kpi without coalesce' = ```
+			
+			VAR maxDate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var minDate = MIN(Sales[First Purchase Date])
+			Var __periods = DATEDIFF(minDate,maxDate,MONTH)
+			Var New_cust_latest = 
+			CALCULATE([Customer Retention without coalesce]
+			          ,'Cohort Nos'[Value] = 0
+			          ,'Date Table'[Start of Month] = maxDate 
+			          )
+			Var New_cust_prior_months = SUMX(CALCULATETABLE(DISTINCT('Date Table'[Start of Month])
+			                                ,'Date Table'[Start of Month] < maxDate 
+			                                  , 'Date Table'[Start of Month] >= minDate )
+			                                ,
+			                                CALCULATE([Customer Retention without coalesce]
+			                                    ,'Cohort Nos'[Value] = 0)
+			            )
+			Var Avg_SelMnth = DIVIDE(New_cust_prior_months,__periods)
+			
+			RETURN DIVIDE(New_cust_latest,Avg_SelMnth)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Cohort\TopN
+		lineageTag: 6b2edba6-3293-490d-bed9-5445d4830798
+
+	measure 'Revenue Retention without coalesce' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			Var CustomerRet =
+			CALCULATE(
+			    SUM(Sales[Amount])
+			         ,Sales[DateByMonth] = EDATE(MIN('Date Table'[Start of Month]),CurrentMonthAfter)
+			         ,REMOVEFILTERS('Date Table')
+			)
+			
+			
+			RETURN  
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+			```
+		displayFolder: Cohort\TopN
+		lineageTag: 83bd54db-2aa3-4313-bb55-bfd0b1d14340
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue Cohort Kpi without coalesce' = ```
+			
+			VAR maxDate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var minDate = MIN(Sales[First Purchase Date])
+			Var __periods = DATEDIFF(minDate,maxDate,MONTH)
+			Var New_cust_latest = 
+			CALCULATE([Revenue Retention without coalesce]
+			          ,'Cohort Nos'[Value] = 0
+			          ,'Date Table'[Start of Month] = maxDate 
+			          )
+			Var New_cust_prior_months = SUMX(CALCULATETABLE(DISTINCT('Date Table'[Start of Month])
+			                                ,'Date Table'[Start of Month] < maxDate 
+			                                  , 'Date Table'[Start of Month] >= minDate )
+			                                ,
+			                                CALCULATE([Revenue Retention without coalesce]
+			                                    ,'Cohort Nos'[Value] = 0)
+			            )
+			Var Avg_SelMnth = DIVIDE(New_cust_prior_months,__periods)
+			
+			RETURN 
+			New_cust_latest - Avg_SelMnth
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: Cohort\TopN
+		lineageTag: 8ae9fb2b-781f-4caa-ad92-619334c2e0f2
+
+	measure 'Gross Income Retention without coalesce' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			Var CustomerRet =
+			CALCULATE(
+			    SUM(Sales[Gross Income])
+			         ,Sales[DateByMonth] = EDATE(MIN('Date Table'[Start of Month]),CurrentMonthAfter)
+			         ,REMOVEFILTERS('Date Table')
+			)
+			
+			
+			RETURN  
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Cohort\TopN
+		lineageTag: 7ab00e90-da37-42c1-97ac-1c3e4571c7be
+
+	measure 'GrossIncome Cohort Kpi without coalesce' = ```
+			
+			VAR maxDate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var minDate = MIN(Sales[First Purchase Date])
+			Var __periods = DATEDIFF(minDate,maxDate,MONTH)
+			Var New_cust_latest = 
+			CALCULATE([Gross Income Retention without coalesce]
+			          ,'Cohort Nos'[Value] = 0
+			          ,'Date Table'[Start of Month] = maxDate 
+			          )
+			Var New_cust_prior_months = SUMX(CALCULATETABLE(DISTINCT('Date Table'[Start of Month])
+			                                ,'Date Table'[Start of Month] < maxDate 
+			                                  , 'Date Table'[Start of Month] >= minDate )
+			                                ,
+			                                CALCULATE([Gross Income Retention without coalesce]
+			                                    ,'Cohort Nos'[Value] = 0)
+			            )
+			Var Avg_SelMnth = DIVIDE(New_cust_prior_months,__periods)
+			
+			RETURN 
+			New_cust_latest - Avg_SelMnth
+			```
+		displayFolder: Cohort\TopN
+		lineageTag: 6b3fb93e-39bb-483d-8578-11e13b15715b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'NGI Retention without coalesce' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			Var CustomerRet =
+			CALCULATE(
+			    SUM(Sales[Net Gross Income])
+			         ,Sales[DateByMonth] = EDATE(MIN('Date Table'[Start of Month]),CurrentMonthAfter)
+			         ,REMOVEFILTERS('Date Table')
+			)
+			
+			
+			RETURN  
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Cohort\TopN
+		lineageTag: 36a38773-97c4-454e-9ae1-d2efafae4e53
+
+	measure 'NGI Cohort Kpi without coalesce' = ```
+			
+			VAR maxDate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var minDate = MIN(Sales[First Purchase Date])
+			Var __periods = DATEDIFF(minDate,maxDate,MONTH)
+			Var New_cust_latest = 
+			CALCULATE([NGI Retention without coalesce]
+			          ,'Cohort Nos'[Value] = 0
+			          ,'Date Table'[Start of Month] = maxDate 
+			          )
+			Var New_cust_prior_months = SUMX(CALCULATETABLE(DISTINCT('Date Table'[Start of Month])
+			                                ,'Date Table'[Start of Month] < maxDate 
+			                                  , 'Date Table'[Start of Month] >= minDate )
+			                                ,
+			                                CALCULATE([NGI Retention without coalesce]
+			                                    ,'Cohort Nos'[Value] = 0)
+			            )
+			Var Avg_SelMnth = DIVIDE(New_cust_prior_months,__periods)
+			
+			RETURN 
+			New_cust_latest - Avg_SelMnth
+			```
+		formatString: \$#,0.0;(\$#,0.0);\$#,0.0
+		displayFolder: Cohort\TopN
+		lineageTag: 9f896db8-e2bd-454e-8941-9d508757d04c
+
+	measure 'Revenue YOY' =
+			
+			VAR __PREV_YEAR = [Revenue_LY]
+			VAR __CURR_YEAR = [Revenue TY]
+			RETURN COALESCE(__CURR_YEAR - __PREV_YEAR,0)
+		formatString: \$#,0.00;-\$#,0.00;\$#,0.00
+		lineageTag: 71fc3d85-42d3-4027-b35a-ceede48cfd5c
+
+		annotation PBI_FormatHint = {"currencyCulture":"af-NA"}
+
+	measure 'Revenue YOY Label' = ```
+			
+			 VAR Format_Diff_Value_Units =
+			 SWITCH(TRUE()
+			 ,[Revenue YOY] < 100000 , FORMAT([Revenue YOY], "$0,.00K")
+			 ,[Revenue YOY] < 1000000000 , FORMAT([Revenue YOY], "$0,,.00M"))
+			
+			 VAR value_per = COALESCE([Revenue YOY%],0)
+			
+			 RETURN 
+			Format_Diff_Value_Units & " (" & Format(value_per,"0.0%") & ")"
+			```
+		lineageTag: e3cb163d-9f8d-4cd7-a912-0ca5e9bed38a
+
+	measure 'Gross Income YOY Diff' =
+			
+			VAR __PREV_YEAR = [Gross Income LY]
+			VAR __CURR_YEAR = [Gross Income TY]
+			RETURN COALESCE(__CURR_YEAR - __PREV_YEAR,0)
+		formatString: \$#,0.00;-\$#,0.00;\$#,0.00
+		lineageTag: dae3743c-c3d3-47e1-a777-7cb2513c5a84
+
+		annotation PBI_FormatHint = {"currencyCulture":"af-NA"}
+
+	measure 'Gross Income YOY Label' = ```
+			
+			VAR Format_Diff_Value_Units =
+			 SWITCH(TRUE()
+			 ,[Gross Income YOY Diff] < 100000 , FORMAT([Gross Income YOY Diff], "$0,.00K")
+			 ,[Gross Income YOY Diff] < 1000000000 , FORMAT([Gross Income YOY Diff], "$0,,.00M"))
+			
+			 VAR value_per = COALESCE([Gross Income YOY],0)
+			
+			 RETURN 
+			Format_Diff_Value_Units & " (" & Format(value_per,"0.0%") & ")"
+			```
+		lineageTag: c228da74-0a80-400f-82fb-75f6e8482e70
+
+	measure 'Unit Sold YOY Diff' =
+			
+			VAR __PREV_YEAR = [Unit Sold_LY]
+			VAR __CURR_YEAR = [Unit Sold TY]
+			RETURN COALESCE(__CURR_YEAR - __PREV_YEAR,0)
+		lineageTag: 7b588542-9183-47eb-bc7c-0ba68bc71148
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Unit Sold YOY Label' = ```
+			
+			VAR Format_Diff_Value_Units =
+			 SWITCH(TRUE()
+			 ,[Unit Sold YOY Diff] < 100000 , FORMAT([Unit Sold YOY Diff], "$0,K")
+			 ,[Unit Sold YOY Diff] < 1000000000 , FORMAT([Unit Sold YOY Diff], "$0,,M"))
+			
+			 VAR value_per = COALESCE([Unit Sold YOY],0)
+			
+			 RETURN 
+			Format_Diff_Value_Units & " (" & Format(value_per,"0.0%") & ")"
+			```
+		lineageTag: 9438adc5-56b5-422d-8424-e5510ff75a65
+
+	measure 'Customer Cohort Kpi Margin' = ```
+			
+			VAR maxDate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var minDate = MIN(Sales[First Purchase Date])
+			Var __periods = DATEDIFF(minDate,maxDate,MONTH)
+			Var New_cust_latest = 
+			CALCULATE([Customer Retention]
+			          ,'Cohort Nos'[Value] = 0
+			          ,'Date Table'[Start of Month] = maxDate 
+			          )
+			Var New_cust_prior_months = SUMX(CALCULATETABLE(DISTINCT('Date Table'[Start of Month])
+			                                ,'Date Table'[Start of Month] < maxDate 
+			                                  , 'Date Table'[Start of Month] >= minDate )
+			                                ,
+			                                CALCULATE([Customer Retention]
+			                                    ,'Cohort Nos'[Value] = 0)
+			            )
+			Var Avg_SelMnth = DIVIDE(New_cust_prior_months,__periods)
+			
+			RETURN COALESCE(New_cust_latest - Avg_SelMnth,0)
+			```
+		displayFolder: Cohort\KPI
+		lineageTag: 82dc95ab-8d36-48c2-986d-53a9d71a90cc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Customer Growth Rate Label' =
+			
+			Var value_per = COALESCE([Customer Cohort Kpi],0)
+			RETURN
+			"(" & Format(value_per,"0.0#%") & ")"
+		displayFolder: Cohort\KPI
+		lineageTag: b70f8fb9-967a-4145-876f-904de6c63b18
+
+	measure 'Revenue Cohort Kpi %' = ```
+			
+			VAR maxDate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var minDate = MIN(Sales[First Purchase Date])
+			Var __periods = DATEDIFF(minDate,maxDate,MONTH)
+			Var New_cust_latest = 
+			CALCULATE([Revenue Retention]
+			          ,'Cohort Nos'[Value] = 0
+			          ,'Date Table'[Start of Month] = maxDate 
+			          )
+			Var New_cust_prior_months = SUMX(CALCULATETABLE(DISTINCT('Date Table'[Start of Month])
+			                                ,'Date Table'[Start of Month] < maxDate 
+			                                  , 'Date Table'[Start of Month] >= minDate )
+			                                ,
+			                                CALCULATE([Revenue Retention]
+			                                    ,'Cohort Nos'[Value] = 0)
+			            )
+			Var Avg_SelMnth = DIVIDE(New_cust_prior_months,__periods)
+			
+			RETURN DIVIDE(New_cust_latest - Avg_SelMnth, Avg_SelMnth)
+			```
+		displayFolder: Cohort\KPI
+		lineageTag: 260fb7cc-f175-4c55-9ed6-919441bb9769
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue Growth Rate Label' = ```
+			
+			 VAR value_per = COALESCE([Revenue Cohort Kpi %],0)
+			
+			 RETURN 
+			"(" & Format(value_per,"0.0#%") & ")"
+			```
+		displayFolder: Cohort\KPI
+		lineageTag: 94beb4cb-593a-4a82-aa2a-82d60418b7d4
+
+	measure 'GrossIncome Cohort Kpi %' = ```
+			
+			VAR maxDate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var minDate = MIN(Sales[First Purchase Date])
+			Var __periods = DATEDIFF(minDate,maxDate,MONTH)
+			Var New_cust_latest = 
+			CALCULATE([Gross Income Retention]
+			          ,'Cohort Nos'[Value] = 0
+			          ,'Date Table'[Start of Month] = maxDate 
+			          )
+			Var New_cust_prior_months = SUMX(CALCULATETABLE(DISTINCT('Date Table'[Start of Month])
+			                                ,'Date Table'[Start of Month] < maxDate 
+			                                  , 'Date Table'[Start of Month] >= minDate )
+			                                ,
+			                                CALCULATE([Gross Income Retention]
+			                                    ,'Cohort Nos'[Value] = 0)
+			            )
+			Var Avg_SelMnth = DIVIDE(New_cust_prior_months,__periods)
+			
+			RETURN DIVIDE(New_cust_latest - Avg_SelMnth, Avg_SelMnth)
+			```
+		displayFolder: Cohort\KPI
+		lineageTag: 0e516bf8-3a75-4571-9316-d2d1256f8b0d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross Income Growth Rate Label' = ```
+			
+			Var value_per = COALESCE([GrossIncome Cohort Kpi %],0)
+			
+			 RETURN 
+			"(" & Format(value_per,"0.0#%") & ")"
+			```
+		displayFolder: Cohort\KPI
+		lineageTag: 67185c48-84a7-4930-a616-91aff1c5803e
+
+	measure 'Net GrossIncome Cohort%' = ```
+			
+			VAR maxDate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var minDate = MIN(Sales[First Purchase Date])
+			Var __periods = DATEDIFF(minDate,maxDate,MONTH)
+			Var New_cust_latest = 
+			CALCULATE([NGI Retention]
+			          ,'Cohort Nos'[Value] = 0
+			          ,'Date Table'[Start of Month] = maxDate 
+			          )
+			Var New_cust_prior_months = SUMX(CALCULATETABLE(DISTINCT('Date Table'[Start of Month])
+			                                ,'Date Table'[Start of Month] < maxDate 
+			                                  , 'Date Table'[Start of Month] >= minDate )
+			                                ,
+			                                CALCULATE([NGI Retention]
+			                                    ,'Cohort Nos'[Value] = 0)
+			            )
+			Var Avg_SelMnth = DIVIDE(New_cust_prior_months,__periods)
+			
+			RETURN DIVIDE(New_cust_latest - Avg_SelMnth, Avg_SelMnth)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Cohort\KPI
+		lineageTag: 60c4e94e-ed0a-4131-8cfc-d168ff35c7f1
+
+	measure 'NGI Growth Rate Label' = ```
+			
+			 Var value_per = COALESCE([Net GrossIncome Cohort%],0)
+			
+			 RETURN  "(" & Format(value_per,"0.0#%") & ")"
+			```
+		displayFolder: Cohort\KPI
+		lineageTag: 3f91835e-0ec1-4a55-8ffb-595473bfb04f
+
+	measure 'Customer Retention cohort % Condn_Frmt' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var NewCust = CALCULATE([Customer Retention]
+			                        ,'Cohort Nos'[Value] = 0)
+			                       
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), DIVIDE([Customer Retention],NewCust))
+			```
+		displayFolder: Cohort\Selection\ColorFormatting
+		lineageTag: 0e337e74-0b54-4f51-b19a-58c2109ae258
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Selected Customer result Condn_Format' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [Customer Retention cohort % Condn_Frmt] * 100
+			,[Customer Retention])
+		displayFolder: Cohort\Selection\ColorFormatting
+		lineageTag: 08321ffd-089a-4b61-8ed9-59d53e9e986c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue Retention cohort % Condn_Frmt' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var NewCust = CALCULATE([Revenue Retention]
+			                        ,'Cohort Nos'[Value] = 0)
+			                       
+			
+			VAR _Result =  DIVIDE([Revenue Retention],NewCust)
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+			```
+		displayFolder: Cohort\Selection\ColorFormatting
+		lineageTag: 8f15f578-5763-4f5e-9a92-05f882673351
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross Income Retention cohort % Condn_Frmt' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var NewCust = CALCULATE([Gross Income Retention]
+			                        ,'Cohort Nos'[Value] = 0)
+			                       
+			
+			VAR _Result =  DIVIDE([Gross Income Retention],NewCust)
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+			```
+		displayFolder: Cohort\Selection\ColorFormatting
+		lineageTag: 9c5f45e3-269f-46eb-8ca5-7e0657719c10
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'NGI Retention cohort % Condn_Frmt' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var NewCust = CALCULATE([NGI Retention]
+			                        ,'Cohort Nos'[Value] = 0)
+			                       
+			
+			VAR _Result =  DIVIDE([NGI Retention],NewCust)
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+			```
+		displayFolder: Cohort\Selection\ColorFormatting
+		lineageTag: 6e325739-ff86-474e-80bc-a5867639ddef
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Selected Gross Income result Condn_Frmt' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [Gross Income Retention cohort % Condn_Frmt]*100
+			,[Gross Income Retention])
+		displayFolder: Cohort\Selection\ColorFormatting
+		lineageTag: 38f191aa-cc30-4456-bdde-4e618d450200
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Selected Revenue result Condn_Frmt' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [Revenue Retention cohort % Condn_Frmt] *100
+			,[Revenue Retention])
+		displayFolder: Cohort\Selection\ColorFormatting
+		lineageTag: 6769747f-94d4-449e-9bc4-7d1bb8512887
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Selected NGI result Condn_Frmt' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [NGI Retention cohort % Condn_Frmt]*100
+			,[NGI Retention])
+		displayFolder: Cohort\Selection\ColorFormatting
+		lineageTag: 4bac8138-3efa-4b40-9b6c-654a9cb248de
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Revenue_TTM =
+			
+			VAR _Max = MAX('Date Table'[Date])
+			VAR _Prev_Dates = DATESINPERIOD('Date Table'[Date],_Max,-12,MONTH)
+			RETURN
+			COALESCE(
+			CALCULATE(
+			    [Revenue TY]
+			    ,_Prev_Dates)
+			    ,0)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: b1009078-f1c3-4a49-89b6-1b0d08a89632
+
+	measure 'Gross Income_TTM' =
+			
+			VAR _Max = MAX('Date Table'[Date])
+			VAR _Prev_Dates = DATESINPERIOD('Date Table'[Date],_Max,-12,MONTH)
+			RETURN
+			COALESCE(
+			CALCULATE(
+			    [Gross Income TY]
+			    ,_Prev_Dates)
+			    ,0)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: dc17c087-0fbf-4b7e-96cd-552e5f703adb
+
+	measure 'Gross Margin%_TTM' =
+			
+			VAR _Max = MAX('Date Table'[Date])
+			VAR _Prev_Dates = DATESINPERIOD('Date Table'[Date],_Max,-12,MONTH)
+			RETURN
+			COALESCE(
+			    CALCULATE(
+			    [Gross Margin %]
+			    ,_Prev_Dates)
+			    ,0)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: f4e62935-6e16-4e66-9be8-0d187e9dd245
+
+	measure 'Unit Sold_TTM' =
+			
+			VAR _Max = MAX('Date Table'[Date])
+			VAR _Prev_Dates = DATESINPERIOD('Date Table'[Date],_Max,-12,MONTH)
+			RETURN
+			COALESCE(
+			CALCULATE(
+			    [Unit Sold TY]
+			    ,_Prev_Dates)
+			    ,0)
+		lineageTag: a1ac71cc-48f0-498f-9453-3eb9b360e0e9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Customer Acquisition to Retention%' =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			
+			VAR _Result = DIVIDE([Customer Aquisition to Retention],[New_Cust])
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+		displayFolder: Cohort\Acquisition - Retention\Formatting
+		lineageTag: caf55f87-2765-4961-986a-45b8243b22cc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Customer Aquisition to Retention% Format' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var NewCust = CALCULATE([Customer Aquisition to Retention]
+			                        ,'Cohort Nos'[Value] = 0)
+			                       
+			
+			VAR _Result =  FORMAT(DIVIDE([Customer Aquisition to Retention],[New_Cust]),"0%")
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+			```
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: dc2303d4-40a2-4cca-a1ca-bc717fdc35d2
+
+	measure 'Customer Aquisition to Retention' =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			VAR custbl =  DISTINCT( CALCULATETABLE(
+			    VALUES(Sales[Name])
+			    ,ALLSELECTED()
+			)
+			)
+			
+			Var CustomerRet =
+			COALESCE(
+			CALCULATE(
+			    DISTINCTCOUNT(Sales[Name])
+			         ,Sales[DateByMonth] = EDATE(MIN('Date Table'[Start of Month]),CurrentMonthAfter)
+			         ,REMOVEFILTERS('Date Table')
+			         ,custbl
+			         ,REMOVEFILTERS(ProductDescription)
+			         ,REMOVEFILTERS('Product')
+			),0)
+			
+			
+			RETURN  IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+		formatString: 0
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: 2514d688-bfa3-496c-8d94-d94f956cba33
+
+	measure 'Selected Customer' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [Customer Aquisition to Retention% Format]
+			,[Customer Aquisition to Retention])
+		formatString: 0
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: 4866c924-d0c9-4f54-93c3-c78cd99991e6
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure New_Cust =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			//VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			VAR custbl =  DISTINCT( CALCULATETABLE(
+			    VALUES(Sales[Name])
+			    ,ALLSELECTED()
+			)
+			)
+			
+			Var CustomerRet =
+			COALESCE(
+			CALCULATE(
+			        DISTINCTCOUNT(Sales[Name])
+			        , 'Cohort Nos'[Value] = 0
+			         ,custbl
+			         ,REMOVEFILTERS(ProductDescription)
+			         ,REMOVEFILTERS('Product')
+			        -- ,REMOVEFILTERS('Cohort Nos')
+			),0)
+			
+			
+			RETURN IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+		formatString: 0
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: c041c9cf-a2b7-4122-847b-143392cb4d39
+
+	measure 'Selected Customer Values_Formatting' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [Customer Acquisition to Retention%] * 100
+			,[Customer Aquisition to Retention])
+		displayFolder: Cohort\Acquisition - Retention\Formatting
+		lineageTag: cc9a848e-ce7e-4d2f-a0a0-a24abb3611bf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue Aquisition to Retention' =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			VAR custbl =  DISTINCT( CALCULATETABLE(
+			    VALUES(Sales[Name])
+			    ,ALLSELECTED()
+			)
+			)
+			
+			Var CustomerRet =
+			COALESCE(
+			CALCULATE(
+			    SUM(Sales[Amount])
+			         ,Sales[DateByMonth] = EDATE(MIN('Date Table'[Start of Month]),CurrentMonthAfter)
+			         ,REMOVEFILTERS('Date Table')
+			         ,custbl
+			         ,REMOVEFILTERS(ProductDescription)
+			         ,REMOVEFILTERS('Product')
+			),0)
+			
+			
+			RETURN  IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: 8bba98e7-8697-4ebf-9994-bcde8f93dc2d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure New_Revenue =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			//VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			VAR custbl =  DISTINCT( CALCULATETABLE(
+			    VALUES(Sales[Name])
+			    ,ALLSELECTED()
+			)
+			)
+			
+			Var CustomerRet =
+			COALESCE(
+			CALCULATE(
+			        SUM(Sales[Amount])
+			        , 'Cohort Nos'[Value] = 0
+			         ,custbl
+			         ,REMOVEFILTERS(ProductDescription)
+			         ,REMOVEFILTERS('Product')
+			        -- ,REMOVEFILTERS('Cohort Nos')
+			),0)
+			
+			
+			RETURN IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: 1b0154b0-8590-4d0c-9f22-cb0cf917e557
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue Aquisition to Retention% Format' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))                      
+			
+			VAR _Result =  FORMAT(DIVIDE([Revenue Aquisition to Retention],[New_Revenue]),"0%")
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+			```
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: 6337410e-feac-4b10-a22f-658c9b4842c2
+
+	measure 'Selected Revenue' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [Revenue Aquisition to Retention% Format]
+			,[Revenue Acq-Ret Format])
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: fc3fc009-76e1-47c9-97c8-b2b7f8d27fd8
+
+	measure 'Revenue Acq-Ret Format' =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var Revenue_Format = FORMAT([Revenue Aquisition to Retention], "$#,##0")
+			
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), Revenue_Format)
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: 8ebab609-daab-4d04-aa69-661bbc415767
+
+	measure 'Revenue Acquisition to Retention%' =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			
+			VAR _Result = DIVIDE([Revenue Aquisition to Retention],[New_Revenue])
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+		displayFolder: Cohort\Acquisition - Retention\Formatting
+		lineageTag: 17dd9a9d-2103-458e-b9c1-35457d42256b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Selected Revenue Values_Formatting' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [Revenue Acquisition to Retention%] * 100
+			,[Revenue Aquisition to Retention])
+		displayFolder: Cohort\Acquisition - Retention\Formatting
+		lineageTag: 6e7f37ea-115d-418e-baba-88f066c085b0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'GI Aquisition to Retention' =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			VAR custbl =  DISTINCT( CALCULATETABLE(
+			    VALUES(Sales[Name])
+			    ,ALLSELECTED()
+			)
+			)
+			
+			Var CustomerRet =
+			COALESCE(
+			CALCULATE(
+			    SUM(Sales[Gross Income])
+			         ,Sales[DateByMonth] = EDATE(MIN('Date Table'[Start of Month]),CurrentMonthAfter)
+			         ,REMOVEFILTERS('Date Table')
+			         ,custbl
+			         ,REMOVEFILTERS(ProductDescription)
+			         ,REMOVEFILTERS('Product')
+			),0)
+			
+			
+			RETURN  IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: 090c8ef6-5e38-470e-9887-0887c5ff65ad
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'GI Acq-Ret Format' =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var Revenue_Format = FORMAT([GI Aquisition to Retention], "$#,##0")
+			
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), Revenue_Format)
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: 042b2221-ef83-4382-80bc-2b9e329d8ed4
+
+	measure New_GI =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			//VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			VAR custbl =  DISTINCT( CALCULATETABLE(
+			    VALUES(Sales[Name])
+			    ,ALLSELECTED()
+			)
+			)
+			
+			Var CustomerRet =
+			COALESCE(
+			CALCULATE(
+			        SUM(Sales[Gross Income])
+			        , 'Cohort Nos'[Value] = 0
+			         ,custbl
+			         ,REMOVEFILTERS(ProductDescription)
+			         ,REMOVEFILTERS('Product')
+			        -- ,REMOVEFILTERS('Cohort Nos')
+			),0)
+			
+			
+			RETURN IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: cc61ab4e-0965-40c0-9d9a-f87e241ded9e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'GI Aquisition to Retention% Format' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))                      
+			
+			VAR _Result =  FORMAT(DIVIDE([GI Aquisition to Retention],[New_GI]),"0%")
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+			```
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: 798445c9-ebc3-4eb3-ba99-0f5844d51cd6
+
+	measure 'Selected GI' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [GI Aquisition to Retention% Format]
+			,[GI Acq-Ret Format])
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: 041e0678-785f-4f31-90f7-938826846295
+
+	measure 'GI Acquisition to Retention%' =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			
+			VAR _Result = DIVIDE([GI Aquisition to Retention],[New_GI])
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+		displayFolder: Cohort\Acquisition - Retention\Formatting
+		lineageTag: 2af41eba-bc7a-46fc-b65b-7aa84b1cfe68
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Selected GI Values_Formatting' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [GI Acquisition to Retention%] * 100
+			,[GI Aquisition to Retention])
+		displayFolder: Cohort\Acquisition - Retention\Formatting
+		lineageTag: 917ee321-0176-4f95-80ad-7b84f2161f47
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'NGI Aquisition to Retention' =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			VAR custbl =  DISTINCT( CALCULATETABLE(
+			    VALUES(Sales[Name])
+			    ,ALLSELECTED()
+			)
+			)
+			
+			Var CustomerRet =
+			COALESCE(
+			CALCULATE(
+			    SUM(Sales[Net Gross Income])
+			         ,Sales[DateByMonth] = EDATE(MIN('Date Table'[Start of Month]),CurrentMonthAfter)
+			         ,REMOVEFILTERS('Date Table')
+			         ,custbl
+			         ,REMOVEFILTERS(ProductDescription)
+			         ,REMOVEFILTERS('Product')
+			),0)
+			
+			
+			RETURN  IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: 876c9494-d413-4ec2-a007-ff625ff4bca2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure New_NGI =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			//VAR CurrentMonthAfter = MAX('Cohort Nos'[Value])
+			// VAR maxCohort = DATEDIFF(minDate, maxdate,MONTH)
+			VAR custbl =  DISTINCT( CALCULATETABLE(
+			    VALUES(Sales[Name])
+			    ,ALLSELECTED()
+			)
+			)
+			
+			Var CustomerRet =
+			COALESCE(
+			CALCULATE(
+			        SUM(Sales[Net Gross Income])
+			        , 'Cohort Nos'[Value] = 0
+			         ,custbl
+			         ,REMOVEFILTERS(ProductDescription)
+			         ,REMOVEFILTERS('Product')
+			        -- ,REMOVEFILTERS('Cohort Nos')
+			),0)
+			
+			
+			RETURN IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), CustomerRet)
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: 9f432976-f199-4991-9727-ea3c64a46caf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'NGI Acq-Ret Format' =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			Var Revenue_Format = FORMAT([NGI Aquisition to Retention], "$#,##0")
+			
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), Revenue_Format)
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: e2e83fd6-9bd7-40e9-8f44-5f001d65b7df
+
+	measure 'NGI Aquisition to Retention% Format' = ```
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))                      
+			
+			VAR _Result =  FORMAT(DIVIDE([NGI Aquisition to Retention],[New_NGI]),"0%")
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+			```
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: b818cf44-db4f-4c68-9de1-25c931a6dba4
+
+	measure 'Selected NGI' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [NGI Aquisition to Retention% Format]
+			,[NGI Acq-Ret Format])
+		displayFolder: Cohort\Acquisition - Retention\Values
+		lineageTag: f56be4cf-052a-42e9-a92b-dd087df165df
+
+	measure 'NGI Acquisition to Retention%' =
+			
+			Var minDate = CALCULATE(MIN(Sales[First Purchase Date]), REMOVEFILTERS('Date Table'), REMOVEFILTERS('Cohort Nos'), ALLSELECTED(Sales[First Purchase Date]))
+			VAR maxdate = CALCULATE(MAX(Sales[DateByMonth]), REMOVEFILTERS(Sales))
+			
+			VAR _Result = DIVIDE([NGI Aquisition to Retention],[New_NGI])
+			RETURN
+			IF(MAX('Date Table'[Start of Month]) >= minDate && MAX('Date Table'[Start of Month]) <= maxdate && MAX('Cohort Nos'[Value]) <= DATEDIFF(MAX('Date Table'[Start of Month]), maxdate,MONTH), _Result)
+		displayFolder: Cohort\Acquisition - Retention\Formatting
+		lineageTag: aaa94919-0656-4134-97ee-ffa1d1be2267
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Selected NGI Values_Formatting' =
+			
+			SWITCH(MAX('# or $ / % Selection'[Column1])
+			,"%", [NGI Acquisition to Retention%] * 100
+			,[NGI Aquisition to Retention])
+		displayFolder: Cohort\Acquisition - Retention\Formatting
+		lineageTag: e9500291-7854-4932-b476-e241ca70dc3a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Format_NGICohort% =
+			
+			IF([Net GrossIncome Cohort%] >= 0.0,"#2F8AC3","#EB5559")
+		lineageTag: 1a2075db-88bd-4b8c-9c84-7dda3dd9e83b
+
+	measure Format_CustCohort% =
+			
+			IF([Customer Cohort Kpi] >= 0.0,"#2F8AC3","#EB5559")
+		lineageTag: cd64d9de-5fa4-4ae7-a8bd-57920d2274a2
+
+	measure Format_RevenueCohort% =
+			
+			IF([Revenue Cohort Kpi %] >= 0.0,"#2F8AC3","#EB5559")
+		lineageTag: 6170fefc-5bb5-4bba-92df-203d6ccdadd5
+
+	measure Format_GICohort% =
+			
+			IF([GrossIncome Cohort Kpi %] >= 0.0,"#2F8AC3","#EB5559")
+		lineageTag: c55a9502-c3b0-4958-9586-5cb2d862c882
+
+	measure 'Gross Margin % KPI' = ```
+			
+			VAR _Result = IF(SUM(Sales[Sales Price])=0,BLANK(),
+			(Sum( Sales[Sales Price]) - Sum(Sales[Cost] )) /SUM(Sales[Sales Price]))
+			RETURN COALESCE(_Result,0)
+			
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: e39a140b-0ca3-44e5-a75b-352cec9c7d28
+
+	measure 'CurrentLostRevenue -test' =
+			VAR CurrentWeek =
+			    CALCULATE (
+			        MIN ( WeeklyForecast[Date] )
+			    ) --  var CurrentItem = CALCULATE(DISTINCT(WeeklyForecast[Item]))
+			VAR lostRevenue =
+			    CALCULATE (
+			        SUM ( WeeklyForecast[LostRevenueLTD] ),
+			        FILTER (
+			            WeeklyForecast,
+			            CurrentWeek = WeeklyForecast[Date]
+			        )
+			    )
+			RETURN CurrentWeek
+			    --lostRevenue
+		formatString: General Date
+		lineageTag: e71910ad-c8bc-4bf1-a9bb-05d00c8005c3
+
+	partition 'Measures Table-5e0cbc5c-95cb-4cf8-865d-ed49a2e0cb28' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Measures = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Measures", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Measures"})
+				in
+				    #"Removed Columns"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

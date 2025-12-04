@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Reflex",
+    "displayName": "Contoso Shipping Reflex-ShA"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "aa68eb3b-4335-8ca7-4950-2ccf77da33ef"
+  }
+}

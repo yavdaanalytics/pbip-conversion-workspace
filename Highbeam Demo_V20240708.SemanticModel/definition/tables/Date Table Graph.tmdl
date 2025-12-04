@@ -1,0 +1,60 @@
+table 'Date Table Graph'
+	lineageTag: b1c16a45-3bb6-45aa-a72f-d22ce44cea59
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4468e68b-42fb-41a9-b42b-952a44d88b31
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: bf07f8fd-309f-4c3b-b829-e3ad16ad886c
+			defaultHierarchy: LocalDateTable_9ea264cf-b2ea-45b0-8dd5-98d3912e3943.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: b1733975-e065-48a3-a8ec-622f46871f62
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: bd6dd377-72e7-4325-9409-07babd6c6e4a
+		summarizeBy: none
+		sourceColumn: Month Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Date Table Graph' = m
+		mode: import
+		source =
+				let
+				DateTable = List.Dates(#date(2020,01,01), Duration.Days(Date.From(DateTime.FixedLocalNow()) - #date(2020,01,01)) + 730, #duration(1, 0, 0, 0)),
+				    #"Converted to Table" = Table.FromList(DateTable, Splitter.SplitByNothing(), null, null, ExtraValues.Ignore),
+				    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Date"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Date", type date}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each [Date] > Date.From(DateTime.FixedLocalNow()) and [Date] < Date.AddMonths(Date.From(DateTime.FixedLocalNow()),6)),
+				    #"Calculated Start of Week" = Table.TransformColumns(#"Filtered Rows",{{"Date", each Date.StartOfWeek(_,Day.Monday), type date}}),
+				    #"Removed Duplicates1" = Table.Distinct(#"Calculated Start of Week"),
+				    #"Inserted Year" = Table.AddColumn(#"Removed Duplicates1", "Year", each Date.Year([Date]), Int64.Type),
+				    #"Inserted Month Name" = Table.AddColumn(#"Inserted Year", "Month Name", each Date.MonthName([Date]), type text)
+				in
+				    #"Inserted Month Name"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,408 @@
+table loghrs_04
+	lineageTag: 1096a8d4-4c88-48de-ab4a-3679d26bb687
+	sourceLineageTag: [dbo].[loghrs_04]
+
+	column 'log_hours.non_billable_hours'
+		dataType: string
+		lineageTag: abd3aa3c-4fb6-4d1f-b4c7-2c103c84cb58
+		sourceLineageTag: log_hours.non_billable_hours
+		summarizeBy: none
+		sourceColumn: log_hours.non_billable_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'log_hours.billable_hours'
+		dataType: string
+		lineageTag: 5461ca40-fac9-4bb4-a4d3-e0d9188cff07
+		sourceLineageTag: log_hours.billable_hours
+		summarizeBy: none
+		sourceColumn: log_hours.billable_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'log_hours.total_hours'
+		dataType: string
+		lineageTag: 99c44d6d-227d-4423-8aff-6832ed4770e2
+		sourceLineageTag: log_hours.total_hours
+		summarizeBy: none
+		sourceColumn: log_hours.total_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.date'
+		dataType: string
+		lineageTag: a57d70e2-e828-4116-9fc8-6f336077c2a1
+		sourceLineageTag: time_logs.date
+		summarizeBy: none
+		sourceColumn: time_logs.date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.owner.zpuid'
+		dataType: string
+		lineageTag: 7f4201e5-cac3-4cb9-8c6d-b3ef7844281a
+		sourceLineageTag: time_logs.log_details.owner.zpuid
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.owner.zpuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.owner.image_url'
+		dataType: string
+		lineageTag: fb7ba467-cd70-4ee6-b770-68fd7691928b
+		sourceLineageTag: time_logs.log_details.owner.image_url
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.owner.image_url
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_hours.billable_hours'
+		dataType: string
+		lineageTag: 04abb966-505d-4ffc-9d90-23d8ff241f12
+		sourceLineageTag: time_logs.log_hours.billable_hours
+		summarizeBy: none
+		sourceColumn: time_logs.log_hours.billable_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_hours.total_hours'
+		dataType: string
+		lineageTag: ada0baa6-b400-4c06-837b-3b061bfbadf9
+		sourceLineageTag: time_logs.log_hours.total_hours
+		summarizeBy: none
+		sourceColumn: time_logs.log_hours.total_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.added_by.email'
+		dataType: string
+		lineageTag: 6d1f5f5d-20d8-4121-b2c2-4caeb828466f
+		sourceLineageTag: time_logs.log_details.added_by.email
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.added_by.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.added_by.zuid'
+		dataType: int64
+		formatString: 0
+		lineageTag: 36e9b598-6d63-4dc1-a3e9-b525e3d0df1b
+		sourceLineageTag: time_logs.log_details.added_by.zuid
+		summarizeBy: sum
+		sourceColumn: time_logs.log_details.added_by.zuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.billing_status'
+		dataType: string
+		lineageTag: f4f64536-5efb-4d9b-bdbc-25bf906b1570
+		sourceLineageTag: time_logs.log_details.billing_status
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.billing_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.id'
+		dataType: string
+		lineageTag: 2f2923fa-0d97-4245-a488-3b992b13c425
+		sourceLineageTag: time_logs.log_details.id
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.log_hour'
+		dataType: string
+		lineageTag: ab72040f-689a-418f-ae0d-fa9f0da4d195
+		sourceLineageTag: time_logs.log_details.log_hour
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.log_hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_hours.non_billable_hours'
+		dataType: string
+		lineageTag: 074f0e47-39f0-4784-9585-305c1649842c
+		sourceLineageTag: time_logs.log_hours.non_billable_hours
+		summarizeBy: none
+		sourceColumn: time_logs.log_hours.non_billable_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.cost_rate_per_hour.currency_id'
+		dataType: string
+		lineageTag: 10e129a5-9d70-4bff-958e-fad616c52449
+		sourceLineageTag: time_logs.log_details.cost_rate_per_hour.currency_id
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.cost_rate_per_hour.currency_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.cost_rate_per_hour.currency_code'
+		dataType: string
+		lineageTag: f81c6026-a352-41ff-981f-c3ce56b47c9a
+		sourceLineageTag: time_logs.log_details.cost_rate_per_hour.currency_code
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.cost_rate_per_hour.currency_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.added_by.zpuid'
+		dataType: string
+		lineageTag: ceccead5-f258-4c79-9c5a-5c20166484c6
+		sourceLineageTag: time_logs.log_details.added_by.zpuid
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.added_by.zpuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.added_by.name'
+		dataType: string
+		lineageTag: 0d66b8d2-1265-4945-b764-9c122a548b58
+		sourceLineageTag: time_logs.log_details.added_by.name
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.added_by.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.added_by.last_name'
+		dataType: string
+		lineageTag: c9781c9c-4eb3-48a8-b6b1-e98f9423325d
+		sourceLineageTag: time_logs.log_details.added_by.last_name
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.added_by.last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.added_by.first_name'
+		dataType: string
+		lineageTag: b967733b-36db-48e7-b416-fcad5d2713d9
+		sourceLineageTag: time_logs.log_details.added_by.first_name
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.added_by.first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.approval.status'
+		dataType: string
+		lineageTag: b12bfddf-099c-43c3-bf58-e0bbe6a10045
+		sourceLineageTag: time_logs.log_details.approval.status
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.approval.status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.project.name'
+		dataType: string
+		lineageTag: 4e3df75d-084c-4608-a849-0cc5a005c5a7
+		sourceLineageTag: time_logs.log_details.project.name
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.project.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.project.id'
+		dataType: string
+		lineageTag: e79adb19-0c17-40df-b1ee-968df6365b9a
+		sourceLineageTag: time_logs.log_details.project.id
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.project.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.type'
+		dataType: string
+		lineageTag: 8012abf4-5729-468a-a460-95fcbb48de2b
+		sourceLineageTag: time_logs.log_details.type
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.cost_rate_per_hour.amount'
+		dataType: string
+		lineageTag: f1d39361-5ceb-4e51-b6c5-437452c0ac01
+		sourceLineageTag: time_logs.log_details.cost_rate_per_hour.amount
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.cost_rate_per_hour.amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.cost_rate_per_hour.formatted_amount'
+		dataType: string
+		lineageTag: 34350595-522d-431b-afbe-996606f138e5
+		sourceLineageTag: time_logs.log_details.cost_rate_per_hour.formatted_amount
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.cost_rate_per_hour.formatted_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.notes'
+		dataType: string
+		lineageTag: 7de3012d-66b4-4016-95fb-6726f570ec4d
+		sourceLineageTag: time_logs.log_details.notes
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.notes
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.last_modified_time'
+		dataType: string
+		lineageTag: 988344a6-f602-4bf7-bbc6-ece695b9dd2f
+		sourceLineageTag: time_logs.log_details.last_modified_time
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.last_modified_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.cost.amount'
+		dataType: string
+		lineageTag: 4a79586a-97d0-4cf8-aa12-aed5f2cc7db3
+		sourceLineageTag: time_logs.log_details.cost.amount
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.cost.amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.cost.formatted_amount'
+		dataType: string
+		lineageTag: 2b0560f0-604a-4584-ad96-66f5cf9bc721
+		sourceLineageTag: time_logs.log_details.cost.formatted_amount
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.cost.formatted_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.cost.currency_id'
+		dataType: string
+		lineageTag: c95c67cd-63f4-49d4-a331-5ba288636dba
+		sourceLineageTag: time_logs.log_details.cost.currency_id
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.cost.currency_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.cost.currency_code'
+		dataType: string
+		lineageTag: c6bec78f-95bd-43d8-8a50-2bad1df10d5b
+		sourceLineageTag: time_logs.log_details.cost.currency_code
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.cost.currency_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.created_time'
+		dataType: string
+		lineageTag: 4b732084-8b6d-432c-94b5-355a510bbf7e
+		sourceLineageTag: time_logs.log_details.created_time
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.created_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.sprints_log_id'
+		dataType: string
+		lineageTag: 164e7acd-e841-4c12-a96b-09d9d1a242d3
+		sourceLineageTag: time_logs.log_details.sprints_log_id
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.sprints_log_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.module_detail.prefix'
+		dataType: string
+		lineageTag: 5583385e-5f74-44ba-9daa-31a5660b52ad
+		sourceLineageTag: time_logs.log_details.module_detail.prefix
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.module_detail.prefix
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.module_detail.name'
+		dataType: string
+		lineageTag: 0fc30bff-212b-4b69-889d-568c3a08abb0
+		sourceLineageTag: time_logs.log_details.module_detail.name
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.module_detail.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.module_detail.id'
+		dataType: string
+		lineageTag: 8c23e75f-4e37-4182-ab68-f59cdac75872
+		sourceLineageTag: time_logs.log_details.module_detail.id
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.module_detail.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.module_detail.type'
+		dataType: string
+		lineageTag: 00d3c9c7-dfd1-4479-81da-415f028c48f2
+		sourceLineageTag: time_logs.log_details.module_detail.type
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.module_detail.type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.owner.name'
+		dataType: string
+		lineageTag: d639686c-99e7-4527-b7ad-492ca67988e1
+		sourceLineageTag: time_logs.log_details.owner.name
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.owner.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.owner.last_name'
+		dataType: string
+		lineageTag: 60bfe4fb-9f29-4b91-9a0a-0c9c118bf157
+		sourceLineageTag: time_logs.log_details.owner.last_name
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.owner.last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.owner.first_name'
+		dataType: string
+		lineageTag: e390e2f9-c8c8-4182-990c-86f37ac63aa2
+		sourceLineageTag: time_logs.log_details.owner.first_name
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.owner.first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.owner.email'
+		dataType: string
+		lineageTag: c1d7545f-6345-4d5c-a95e-119a570b75e1
+		sourceLineageTag: time_logs.log_details.owner.email
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.owner.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.owner.zuid'
+		dataType: int64
+		formatString: 0
+		lineageTag: 3d6b2b34-e071-487c-b61b-a1c830e35b85
+		sourceLineageTag: time_logs.log_details.owner.zuid
+		summarizeBy: sum
+		sourceColumn: time_logs.log_details.owner.zuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'time_logs.log_details.date'
+		dataType: string
+		lineageTag: 2bd7588b-1870-41c6-b0d3-c301cd3c9f99
+		sourceLineageTag: time_logs.log_details.date
+		summarizeBy: none
+		sourceColumn: time_logs.log_details.date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition loghrs_04 = entity
+		mode: directLake
+		source
+			entityName: loghrs_04
+			expressionSource: 'DirectLake - lh_zoho_projects_exp'
+

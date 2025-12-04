@@ -1,0 +1,18 @@
+table 'Cohort Nos'
+	lineageTag: 7c6c10ca-d801-4207-9d5c-a36e853bb52f
+
+	column Value
+		formatString: 0
+		lineageTag: 3cc95391-b462-471b-83d0-24e61294e425
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Cohort Nos' = calculated
+		mode: import
+		source = GENERATESERIES(0,DISTINCTCOUNT(Sales[DateByMonth])-1,1)
+
+	annotation PBI_Id = 5b5f254996ce480f8372f550d2e05abb
+

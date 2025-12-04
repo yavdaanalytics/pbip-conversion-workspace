@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "PaginatedReport",
+    "displayName": "paginated report mrp orders"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "95a96c71-5127-854f-4884-b6948595d048"
+  }
+}

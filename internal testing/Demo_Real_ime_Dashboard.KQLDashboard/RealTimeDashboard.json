@@ -1,0 +1,51 @@
+{
+  "schema_version": "52",
+  "title": "Demo_Real_ime_Dashboard",
+  "tiles": [],
+  "baseQueries": [],
+  "parameters": [
+    {
+      "kind": "duration",
+      "id": "1ba337b3-f598-4ea0-826b-2ac22bae6cf9",
+      "displayName": "Time range",
+      "description": "",
+      "beginVariableName": "_startTime",
+      "endVariableName": "_endTime",
+      "defaultValue": {
+        "kind": "dynamic",
+        "count": 1,
+        "unit": "hours"
+      },
+      "showOnPages": {
+        "kind": "all"
+      }
+    }
+  ],
+  "dataSources": [
+    {
+      "kind": "kusto-trident",
+      "scopeId": "kusto-trident",
+      "clusterUri": "https://trd-8zfbpkcbjctpafke0g.z0.kusto.fabric.microsoft.com",
+      "database": "a01e4b51-a37c-4edb-888b-d4cb8fb62eab",
+      "name": "RealtimeIntelligenceP1",
+      "id": "366e3def-df21-4b6f-807d-bafb18b7aee2",
+      "workspace": "4eb34a24-0d28-44c2-b26c-d20ec4c41693"
+    },
+    {
+      "kind": "kusto-trident",
+      "scopeId": "kusto-trident",
+      "clusterUri": "https://trd-b0a6cejg37fauyasav.z9.kusto.fabric.microsoft.com",
+      "database": "0f0cf3f1-0af3-443c-8f54-6f9d84937374",
+      "name": "to",
+      "id": "5407161e-7a44-4933-b66c-cbfa5abc54df",
+      "workspace": "4eb34a24-0d28-44c2-b26c-d20ec4c41693"
+    }
+  ],
+  "pages": [
+    {
+      "name": "Page 1",
+      "id": "a7504d45-c0b2-4321-8f25-bdc255b74638"
+    }
+  ],
+  "queries": []
+}

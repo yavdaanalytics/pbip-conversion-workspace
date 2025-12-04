@@ -1,0 +1,375 @@
+table issues_table
+	lineageTag: f1e1e1af-bf45-4e62-b97b-fb681bac2722
+	sourceLineageTag: [dbo].[issues_table]
+
+	column 'page_info.per_page'
+		dataType: int64
+		formatString: 0
+		lineageTag: 085948ce-9448-4f35-9fc9-05a901a51e62
+		sourceLineageTag: page_info.per_page
+		summarizeBy: sum
+		sourceColumn: page_info.per_page
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.page'
+		dataType: int64
+		formatString: 0
+		lineageTag: 5be165e4-d456-4706-998c-b58e84bfddbf
+		sourceLineageTag: page_info.page
+		summarizeBy: sum
+		sourceColumn: page_info.page
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.sort_by.field_names'
+		dataType: string
+		lineageTag: 51ccf10c-f4f6-4903-af50-706838dd30ca
+		sourceLineageTag: page_info.sort_by.field_names
+		summarizeBy: none
+		sourceColumn: page_info.sort_by.field_names
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.sort_by.order_by'
+		dataType: string
+		lineageTag: 6694e97d-132f-4215-ab9f-51875e8028cd
+		sourceLineageTag: page_info.sort_by.order_by
+		summarizeBy: none
+		sourceColumn: page_info.sort_by.order_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.id'
+		dataType: string
+		lineageTag: 4d407888-6ac7-40a6-80c0-7e2fbc602eb7
+		sourceLineageTag: issues.id
+		summarizeBy: none
+		sourceColumn: issues.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.prefix'
+		dataType: string
+		lineageTag: 035141b0-40fc-4e6f-aa1d-b67fa69c9630
+		sourceLineageTag: issues.prefix
+		summarizeBy: none
+		sourceColumn: issues.prefix
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.name'
+		dataType: string
+		lineageTag: 8aee7958-e850-4117-8740-125313767da3
+		sourceLineageTag: issues.name
+		summarizeBy: none
+		sourceColumn: issues.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.project.id'
+		dataType: string
+		lineageTag: 8d5a0ee4-7630-4938-ac76-7d608e96da81
+		sourceLineageTag: issues.project.id
+		summarizeBy: none
+		sourceColumn: issues.project.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.project.name'
+		dataType: string
+		lineageTag: d31fe05c-a5ad-4d26-ba74-b894c214b701
+		sourceLineageTag: issues.project.name
+		summarizeBy: none
+		sourceColumn: issues.project.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.flag'
+		dataType: string
+		lineageTag: 8dcc3e61-006d-4e81-ab7a-cc5e8af35b02
+		sourceLineageTag: issues.flag
+		summarizeBy: none
+		sourceColumn: issues.flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.created_time'
+		dataType: string
+		lineageTag: ca1f12d3-0a22-414a-8207-290a2058335b
+		sourceLineageTag: issues.created_time
+		summarizeBy: none
+		sourceColumn: issues.created_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.created_by.zuid'
+		dataType: int64
+		formatString: 0
+		lineageTag: 8e16b209-fd71-4dfb-a372-c761867a56c4
+		sourceLineageTag: issues.created_by.zuid
+		summarizeBy: sum
+		sourceColumn: issues.created_by.zuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.created_by.zpuid'
+		dataType: string
+		lineageTag: d1b724fe-59e6-4c10-b03c-5275996099e4
+		sourceLineageTag: issues.created_by.zpuid
+		summarizeBy: none
+		sourceColumn: issues.created_by.zpuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.created_by.name'
+		dataType: string
+		lineageTag: 35c82f7e-01b6-4875-a91a-c5e7ee36c178
+		sourceLineageTag: issues.created_by.name
+		summarizeBy: none
+		sourceColumn: issues.created_by.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.created_by.email'
+		dataType: string
+		lineageTag: b1372162-7c28-4d66-a775-7906f9170a4b
+		sourceLineageTag: issues.created_by.email
+		summarizeBy: none
+		sourceColumn: issues.created_by.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.created_by.first_name'
+		dataType: string
+		lineageTag: bd53ed1f-ead2-4d12-8297-345f1bef8673
+		sourceLineageTag: issues.created_by.first_name
+		summarizeBy: none
+		sourceColumn: issues.created_by.first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.created_by.last_name'
+		dataType: string
+		lineageTag: a71577e6-3279-44c7-a73a-81dbf2a81830
+		sourceLineageTag: issues.created_by.last_name
+		summarizeBy: none
+		sourceColumn: issues.created_by.last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.status.id'
+		dataType: string
+		lineageTag: e2d3fb15-8c4e-4327-808f-d5b5d89f5945
+		sourceLineageTag: issues.status.id
+		summarizeBy: none
+		sourceColumn: issues.status.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.status.name'
+		dataType: string
+		lineageTag: 1fd73365-bdbf-4b65-bb4f-83ab979ffc4c
+		sourceLineageTag: issues.status.name
+		summarizeBy: none
+		sourceColumn: issues.status.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.status.color'
+		dataType: string
+		lineageTag: 240763fc-dae0-46ba-8414-c41d4540c958
+		sourceLineageTag: issues.status.color
+		summarizeBy: none
+		sourceColumn: issues.status.color
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.status.color_hexcode'
+		dataType: string
+		lineageTag: 6f7a4ae6-05de-434b-a4d4-c163dead71fe
+		sourceLineageTag: issues.status.color_hexcode
+		summarizeBy: none
+		sourceColumn: issues.status.color_hexcode
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.status.is_closed_type'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5a29497d-1d0e-4d22-b686-0b45f3ec6fbd
+		sourceLineageTag: issues.status.is_closed_type
+		summarizeBy: none
+		sourceColumn: issues.status.is_closed_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.assignee.zuid'
+		dataType: int64
+		formatString: 0
+		lineageTag: c17e2233-d0e7-41c5-aeca-a7900d55f709
+		sourceLineageTag: issues.assignee.zuid
+		summarizeBy: sum
+		sourceColumn: issues.assignee.zuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.assignee.zpuid'
+		dataType: string
+		lineageTag: eb9eec12-ff1b-4d9c-9f65-a8b71ce2f95f
+		sourceLineageTag: issues.assignee.zpuid
+		summarizeBy: none
+		sourceColumn: issues.assignee.zpuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.assignee.name'
+		dataType: string
+		lineageTag: 5ae04f72-84e0-463e-a556-e52c11d7e699
+		sourceLineageTag: issues.assignee.name
+		summarizeBy: none
+		sourceColumn: issues.assignee.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.assignee.email'
+		dataType: string
+		lineageTag: 5c3bb9dc-f60a-4d60-81ea-55db07540cc0
+		sourceLineageTag: issues.assignee.email
+		summarizeBy: none
+		sourceColumn: issues.assignee.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.assignee.first_name'
+		dataType: string
+		lineageTag: 13e617ae-1e8b-4357-978e-e38a2559b090
+		sourceLineageTag: issues.assignee.first_name
+		summarizeBy: none
+		sourceColumn: issues.assignee.first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.assignee.last_name'
+		dataType: string
+		lineageTag: 2d00695d-c579-45ec-b671-7cb6a440bece
+		sourceLineageTag: issues.assignee.last_name
+		summarizeBy: none
+		sourceColumn: issues.assignee.last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.due_date'
+		dataType: string
+		lineageTag: e2eee101-6e60-4a4a-9b82-d8fb700ec881
+		sourceLineageTag: issues.due_date
+		summarizeBy: none
+		sourceColumn: issues.due_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.last_updated_time'
+		dataType: string
+		lineageTag: 2eb72e8e-6143-4ae7-bd40-32b9070c1e5a
+		sourceLineageTag: issues.last_updated_time
+		summarizeBy: none
+		sourceColumn: issues.last_updated_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.affected_milestone.id'
+		dataType: string
+		lineageTag: d43376dc-d65f-4665-91ef-4a00e1918ce7
+		sourceLineageTag: issues.affected_milestone.id
+		summarizeBy: none
+		sourceColumn: issues.affected_milestone.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.affected_milestone.value'
+		dataType: string
+		lineageTag: 5c2938e8-4102-4245-b3e4-081728bc5549
+		sourceLineageTag: issues.affected_milestone.value
+		summarizeBy: none
+		sourceColumn: issues.affected_milestone.value
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.severity.id'
+		dataType: string
+		lineageTag: 69562cdb-2dfa-47a3-b738-ce92fed94dcb
+		sourceLineageTag: issues.severity.id
+		summarizeBy: none
+		sourceColumn: issues.severity.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.severity.value'
+		dataType: string
+		lineageTag: e371197c-dfdc-4fbb-8325-193ec3b3b07b
+		sourceLineageTag: issues.severity.value
+		summarizeBy: none
+		sourceColumn: issues.severity.value
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.classification.id'
+		dataType: string
+		lineageTag: 7343863c-97b2-44b9-9444-dc6d0d475aa0
+		sourceLineageTag: issues.classification.id
+		summarizeBy: none
+		sourceColumn: issues.classification.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.classification.value'
+		dataType: string
+		lineageTag: d7d55754-b057-4897-8415-ce3e2ab65bae
+		sourceLineageTag: issues.classification.value
+		summarizeBy: none
+		sourceColumn: issues.classification.value
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.is_it_reproducible.id'
+		dataType: string
+		lineageTag: eb528ea7-d609-42da-8096-f4ec3c8530a9
+		sourceLineageTag: issues.is_it_reproducible.id
+		summarizeBy: none
+		sourceColumn: issues.is_it_reproducible.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.is_it_reproducible.value'
+		dataType: string
+		lineageTag: d4a06d30-ff6e-4ff1-9413-9c29615cee56
+		sourceLineageTag: issues.is_it_reproducible.value
+		summarizeBy: none
+		sourceColumn: issues.is_it_reproducible.value
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.module.id'
+		dataType: string
+		lineageTag: b6896da8-c6a6-4339-8aa8-5da1794b1376
+		sourceLineageTag: issues.module.id
+		summarizeBy: none
+		sourceColumn: issues.module.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'issues.module.value'
+		dataType: string
+		lineageTag: 068763f9-115e-4783-b08f-a631c13f381e
+		sourceLineageTag: issues.module.value
+		summarizeBy: none
+		sourceColumn: issues.module.value
+
+		annotation SummarizationSetBy = Automatic
+
+	partition issues_table = entity
+		mode: directLake
+		source
+			entityName: issues_table
+			expressionSource: 'DirectLake - lh_zoho_projects'
+

@@ -1,0 +1,100 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'Transform File from Sales (2)'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup 'Transform File from Sales (2)\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from InvStock'
+
+	annotation PBI_QueryGroupOrder = 4
+
+queryGroup 'Transform File from InvStock\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Product 2'
+
+	annotation PBI_QueryGroupOrder = 6
+
+queryGroup 'Transform File from Product 2\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Transform File from Purchase Reports'
+
+	annotation PBI_QueryGroupOrder = 8
+
+queryGroup 'Transform File from Purchase Reports\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup Parameters
+
+	annotation PBI_QueryGroupOrder = 10
+
+queryGroup 'Transform File from Product DescriptionsTranslation'
+
+	annotation PBI_QueryGroupOrder = 9
+
+queryGroup 'Transform File from Product DescriptionsTranslation\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation PBI_QueryOrder = ["Sharepoint Data Extract","InvStock","Sales","Sales Weekly Forecast","Purchase","Product","Date Table","Measures Table","CalendarStartMonth","CalendarStartWeek","WeeklyForecast","MfgLeadTimes","Parameters","ProductDescription","WeeklyLastYear","WeeklyLastYearCalendar","NameCustomerDemo","Sample File (2)","Parameter2","Transform Sample File (2)","Transform File (2)","Sample File (3)","Parameter3","Transform Sample File (3)","Transform File (3)","Sample File (4)","Parameter4","Transform Sample File (4)","Transform File (4)","Transform File (5)","Subfolder Path","Inventory Path","Purchase Path","MainPath","Sales Path","Forecast Data","Sales Forecast","Exclude Items","Date Table Weekly","Date Table Graph","Sales Weekly","Sample File","Parameter1","Transform Sample File","Transform File","InvStock Original","Sales Weekly Forecast Original","Sales Original","Product DescriptionsTranslation","Sample File (5)","Parameter5","Transform Sample File (5)","Transform File (6)","Campaign AdSpend","CampaignByProduct","# or $ / % Selection"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.131.1203.0 (24.07)
+
+annotation __TEdtr = 1
+
+ref table Product
+ref table Sales
+ref table 'Measures Table'
+ref table WeeklyForecast
+ref table MfgLeadTimes
+ref table Parameters
+ref table ProductDescription
+ref table DateTableTemplate_9bdca166-a546-4c7d-8c68-af9ade18d1a0
+ref table LocalDateTable_4699747c-c05c-4669-8aa0-fd561d1627da
+ref table LocalDateTable_99168b0f-e733-47cb-9677-88d0dd39479a
+ref table WeeklyLastYear
+ref table LocalDateTable_cb994a56-129f-402b-9e66-dbf586018d13
+ref table WeeklyLastYearCalendar
+ref table LocalDateTable_8787405a-7c0f-43f6-8dde-05a5ae58b0e0
+ref table NameCustomerDemo
+ref table InvStock
+ref table 'Date Table'
+ref table 'Date Table Weekly'
+ref table LocalDateTable_4896232e-932b-4c04-80fc-017c30a55016
+ref table 'Date Table Graph'
+ref table LocalDateTable_9ea264cf-b2ea-45b0-8dd5-98d3912e3943
+ref table LocalDateTable_8605df26-1b42-41ee-938c-6297ce02b854
+ref table LocalDateTable_4de7bca1-da8d-4966-8f0a-d60db97b8809
+ref table 'Sales Weekly Forecast'
+ref table 'Choose N'
+ref table Parameter-Dim
+ref table Param-TopNMeasure
+ref table Param-BottomNMeasure
+ref table 'Measures Dropdown'
+ref table LocalDateTable_586a4776-589e-4f32-bea9-5ef406595c0b
+ref table LocalDateTable_215ba3ef-3ab3-4230-b844-c09306d32735
+ref table LocalDateTable_71f76415-1bc8-43e2-b310-a998a7591f69
+ref table LocalDateTable_71ec0b08-e0d7-416d-b3b7-b5b08d401970
+ref table 'Cohort Nos'
+ref table '# or $ / % Selection'
+ref table LocalDateTable_8d09b7eb-58d2-466f-8798-cb6ab55a3c88
+
+ref cultureInfo en-US
+

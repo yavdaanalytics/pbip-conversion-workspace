@@ -1,0 +1,17 @@
+table 'Measures Dropdown'
+	lineageTag: 713b8b2b-185f-4a4e-8073-a50d5dbcc5c7
+
+	column Value
+		lineageTag: cda3e47d-d0d1-4113-9ccc-c35b48e2ebba
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Measures Dropdown' = calculated
+		mode: import
+		source = {"Revenue","Qty","Gross Income", "Customer#", "Net Gross Income"}
+
+	annotation PBI_Id = 0d6b29858f2f43b38a1b98bc49bf4b6b
+

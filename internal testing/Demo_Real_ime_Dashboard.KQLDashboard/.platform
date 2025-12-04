@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "KQLDashboard",
+    "displayName": "Demo_Real_ime_Dashboard",
+    "description": "Demo_Real_ime_Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9797af75-c60a-b9f9-4cb2-c6823549d966"
+  }
+}

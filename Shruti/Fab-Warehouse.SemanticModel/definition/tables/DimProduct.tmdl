@@ -1,0 +1,67 @@
+table DimProduct
+	lineageTag: 70727ae2-0502-46b2-b597-676d1bdb6919
+	sourceLineageTag: [dbo].[DimProduct]
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: e80a35f8-d210-4d95-b368-ae1b040571ed
+		sourceLineageTag: ProductKey
+		summarizeBy: sum
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductAltKey
+		dataType: string
+		isHidden
+		sourceProviderType: varchar
+		lineageTag: 091d7b98-ff79-494b-9722-cb8bc4bf0181
+		sourceLineageTag: ProductAltKey
+		summarizeBy: none
+		sourceColumn: ProductAltKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: cf7da3e1-a3bb-4897-a612-f1a1d86ee74d
+		sourceLineageTag: ProductName
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 2b249cd7-f98a-45c5-ac26-af8c45d1f6ef
+		sourceLineageTag: Category
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column ListPrice
+		dataType: int64
+		formatString: 0
+		sourceProviderType: decimal
+		lineageTag: 66edddb1-986f-48a3-9f09-83637c5d1690
+		sourceLineageTag: ListPrice
+		summarizeBy: sum
+		sourceColumn: ListPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimProduct-929ed45e-721e-4628-8f5e-a6549a637e74 = entity
+		mode: directLake
+		source
+			entityName: DimProduct
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation IsTableInBiModel = True
+

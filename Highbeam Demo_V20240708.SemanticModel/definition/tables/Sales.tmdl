@@ -1,0 +1,413 @@
+table Sales
+	lineageTag: 4f7a8a9c-b74f-44ff-980d-a1a5bb16e117
+
+	column Type
+		dataType: string
+		lineageTag: 1d9908ad-146d-47ab-bad9-c632cd60a78a
+		summarizeBy: none
+		sourceColumn: Type
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 42dfe673-4097-4f63-b7e0-486f1d506fe8
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Name
+		dataType: string
+		lineageTag: a9f7a97e-d0b7-4f84-9f9f-57fee22dc0bc
+		summarizeBy: none
+		sourceColumn: Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Item
+		dataType: string
+		lineageTag: 2ffbed6c-12ea-4b5e-9e40-30c630f65f77
+		summarizeBy: none
+		sourceColumn: Item
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Qty
+		dataType: double
+		formatString: 0
+		lineageTag: aa8c0f04-88f9-4ed6-b66d-8d69bc5693b1
+		summarizeBy: sum
+		sourceColumn: Qty
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column 'Sales Price'
+		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 50330589-a165-478e-84ff-6846ce39128d
+		summarizeBy: sum
+		sourceColumn: Sales Price
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateByWk = Sales[Date] - WEEKDAY ( Sales[Date], 2 ) + 1
+		formatString: Mm/dd/yyyy
+		lineageTag: 6208affc-1d36-4848-bdd5-a3d228d9caf6
+		summarizeBy: none
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column ForecastDateBegWk =
+			IF (
+			    TODAY () - WEEKDAY ( TODAY (), 2 ) + 1
+			        <= DATE ( YEAR (
+			            TODAY ()
+			        ), MONTH ( [Date] ), DAY ( [DATE] ) )
+			            - WEEKDAY (
+			                DATE ( YEAR (
+			                    TODAY ()
+			                ), MONTH ( [Date] ), DAY ( [DATE] ) ),
+			                2
+			            ) + 1,
+			    DATE ( YEAR (
+			        TODAY ()
+			    ), MONTH ( [Date] ), DAY ( [DATE] ) )
+			        - WEEKDAY (
+			            DATE ( YEAR (
+			                TODAY ()
+			            ), MONTH ( [Date] ), DAY ( [DATE] ) ),
+			            2
+			        ) + 1,
+			    DATE ( YEAR ( TODAY () ) + 1, MONTH ( [Date] ), DAY ( [DATE] ) )
+			        - WEEKDAY (
+			            DATE ( YEAR ( TODAY () ) + 1, MONTH ( [Date] ), DAY ( [DATE] ) ),
+			            2
+			        ) + 1
+			)
+		formatString: dddd\, mmmm d\, yyyy
+		lineageTag: 863326fe-a4df-496a-8d64-564e709090f0
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: fe4778f6-ffec-4020-87f7-eb7a26a75225
+			defaultHierarchy: LocalDateTable_4699747c-c05c-4669-8aa0-fd561d1627da.'Date Hierarchy'
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column SKU =
+			CALCULATE (
+			    DISTINCT ( 'ProductDescription'[SKU] ),
+			    FILTER (
+			        'ProductDescription',
+			        ProductDescription[Item] = 'Sales'[Item]
+			    )
+			)
+		lineageTag: 87ac3deb-60bf-460e-bab8-4afb6d7bf799
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Gross Income' = ( Sales[Sales Price] - Sales[Cost] ) * Sales[Qty]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: cbadab5e-591b-4019-bd58-dfe889bf91cb
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer =
+			CALCULATE (
+			    DISTINCT ( NameCustomerDemo[Customer] ),
+			    FILTER (
+			        'NameCustomerDemo',
+			        NameCustomerDemo[Name] = Sales[Name]
+			    )
+			)
+		lineageTag: 8a86bab3-b343-4447-b877-803676f85c38
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Channel =
+			IF (
+			    Sales[Customer] = "Amazon",
+			    "Amazon",
+			    IF (
+			        Sales[Customer] = "Shopify",
+			        "Shopify",
+			        "Direct Sales"
+			    )
+			)
+		lineageTag: e4d24697-7792-4197-aedc-070e50dc7512
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CoGS = Sales[Cost] * Sales[Qty]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 0e39dc59-c4b1-4566-8cb6-d331a9895451
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Cost
+		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: b3224889-7e99-4e11-9b6f-9fead526b178
+		summarizeBy: sum
+		sourceColumn: Cost
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Rep
+		dataType: string
+		lineageTag: 66fcaf94-7c3f-49eb-8544-83383a0d6be9
+		summarizeBy: none
+		sourceColumn: Rep
+
+		annotation SummarizationSetBy = Automatic
+
+	column Amount
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: bfb79757-65b8-4bb9-a33d-9a73484942ae
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column Item&SKU = Sales[Item]&": "&Sales[SKU]
+		lineageTag: b8c829a9-d3aa-41fe-ab16-5c930f445502
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Start_DateOfCust(LTV) = CALCULATE(MIN(Sales[Date]),ALLEXCEPT(Sales,Sales[Customer]))
+		formatString: Short Date
+		lineageTag: bf11b1d5-bc29-4323-a8c7-c92f05ea41e3
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 7833c969-29a4-4a71-9181-3b00cd14cd34
+			defaultHierarchy: LocalDateTable_586a4776-589e-4f32-bea9-5ef406595c0b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Last_DateOfCust(LTV) = CALCULATE(MAX(Sales[Date]),ALLEXCEPT(Sales,Sales[Customer]))
+		formatString: Short Date
+		lineageTag: e99b27e7-eff4-4e81-82d9-14f6dfc454fe
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 78aecf9d-d74c-4af1-aacf-d325cc09ee66
+			defaultHierarchy: LocalDateTable_215ba3ef-3ab3-4230-b844-c09306d32735.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Months since first purchase (LTV)' = DATEDIFF(Sales[Start_DateOfCust(LTV)],Sales[Last_DateOfCust(LTV)],DAY)+1
+		formatString: 0
+		lineageTag: af669402-0de4-4379-9c03-a0c0a764d1e5
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cost By Campaign (LTV)' = COALESCE(Sales[Ad Cost],0)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: daee0761-1c6c-4ca8-bdd6-87d3e0384ee6
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Gross Income (LTV)' = (Sales[Sales Price]-Sales[Cost]) * Sales[Qty]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 27be913e-b3ba-460d-8355-adb7a26e934a
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Net Gross Income' = Sales[Gross Income]-Sales[Cost By Campaign (LTV)]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: dca93f86-7b47-4fbf-b5e3-600e95740c80
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustRep = Sales[Customer] & "-" & Sales[Rep]
+		lineageTag: e950644e-b78e-4282-b967-777dc6e5cc73
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'First Purchase Date'
+		dataType: dateTime
+		formatString: mmmm yyyy
+		displayFolder: Customers\New Customer
+		lineageTag: a73a35c2-3243-4c45-8ab7-77f359736ec7
+		summarizeBy: none
+		sourceColumn: First Purchase Date
+
+		variation Variation
+			isDefault
+			relationship: 2a72ae68-a7a9-4342-ac78-4d3210bc7675
+			defaultHierarchy: LocalDateTable_71f76415-1bc8-43e2-b310-a998a7591f69.'Date Hierarchy'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column DateByMonth
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9e4bc022-4ab0-4754-8f3d-4b4a5ff87d50
+		summarizeBy: none
+		sourceColumn: DateByMonth
+
+		variation Variation
+			isDefault
+			relationship: 2097b287-a5be-46fc-99d1-209ba69b60f0
+			defaultHierarchy: LocalDateTable_71ec0b08-e0d7-416d-b3b7-b5b08d401970.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Cohort = DATEDIFF(Sales[First Purchase Date], Sales[DateByMonth],MONTH)
+		dataType: int64
+		formatString: 0
+		lineageTag: b39d25a8-a65a-4195-b11d-35c673179c34
+		summarizeBy: none
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+	column 'Ad Spend'
+		dataType: double
+		lineageTag: 6b6fa0d0-7e85-4b63-b95f-1345d8ced0b4
+		summarizeBy: sum
+		sourceColumn: Ad Spend
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'SKU count'
+		dataType: int64
+		formatString: 0
+		lineageTag: 15b8a93e-9174-476f-9b9e-b33f73b133ff
+		summarizeBy: sum
+		sourceColumn: SKU count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Campaign Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 45352736-2383-42ae-aad4-3e9e111dd1fd
+		summarizeBy: none
+		sourceColumn: Campaign Date
+
+		variation Variation
+			isDefault
+			relationship: 560de99e-2d60-469c-b0cd-d90483c5ae96
+			defaultHierarchy: LocalDateTable_8d09b7eb-58d2-466f-8798-cb6ab55a3c88.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Ad Cost'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 06de92b4-09d0-43af-b73a-43da0e8e83bb
+		summarizeBy: sum
+		sourceColumn: Ad Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Campaign
+		dataType: string
+		lineageTag: 223fb4db-e087-4cce-bee1-1cd452606b23
+		summarizeBy: none
+		sourceColumn: Campaign
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales-f1fb72f6-d5f3-4f6f-8c50-37ede7b60e22 = m
+		mode: import
+		source =
+				let
+				    Source = #"Sales Original",
+				    #"Filtered Rows" = Table.SelectRows(Source, each ([Item] <> "CC2-ADA" and [Item] <> "CC2-MB")),
+				    #"Inserted Start of Month" = Table.AddColumn(#"Filtered Rows", "Start of Month", each Date.StartOfMonth([Date]), type date),
+				    #"Grouped Rows" = Table.Group(#"Inserted Start of Month", {"Name"}, {{"First Purchase Date", each List.Min([Start of Month]), type date}, {"Data", each _, type table [Type=nullable text, Name=nullable text, Item=nullable text, Rep=nullable text, Qty=nullable number, Sales Price=nullable number, Amount=nullable number, Date=date, Cost=number, Start of Month=date]}}),
+				    #"Expanded Data" = Table.ExpandTableColumn(#"Grouped Rows", "Data", {"Type", "Name", "Item", "Rep", "Qty", "Sales Price", "Amount", "Date", "Cost", "Start of Month"}, {"Type", "Name.1", "Item", "Rep", "Qty", "Sales Price", "Amount", "Date", "Cost", "Start of Month"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Expanded Data",{{"Start of Month", "DateByMonth"}, {"First Purchase Date", "First Purchase Date"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns",{"Name.1"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Columns", {"Item", "Date"}, CampaignByProduct, {"Item", "Campaign Date"}, "CampaignByProduct", JoinKind.LeftOuter),
+				    #"Expanded CampaignByProduct" = Table.ExpandTableColumn(#"Merged Queries", "CampaignByProduct", {"Campaigns", "Ad Spend", "SKU count", "Campaign Date", "Ad Cost"}, {"Campaign", "Ad Spend", "SKU count", "Campaign Date", "Ad Cost"})
+				in
+				    #"Expanded CampaignByProduct"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Exception
+

@@ -1,0 +1,21 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.124.1960.0 (23.12)
+
+annotation PBI_QueryOrder = ["All Tables","Orders","OrderLines","MRP_Orders"]
+
+ref table DateTableTemplate_a73a9e21-4151-404e-a00e-b6b4417ce5e4
+ref table MRP_Orders
+ref table LocalDateTable_cd7c6e52-a555-48a4-a973-af2369cf396a
+ref table LocalDateTable_b2293cb0-1676-41f5-9f58-671b7071be82
+
+ref cultureInfo en-US
+

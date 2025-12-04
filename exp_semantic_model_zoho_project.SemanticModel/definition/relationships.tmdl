@@ -1,0 +1,4 @@
+relationship 1ff1f2ff-9508-23ed-7a7c-97e38efa21ae
+	fromColumn: issues_table.'issues.project.id'
+	toColumn: all_projects_table.id
+

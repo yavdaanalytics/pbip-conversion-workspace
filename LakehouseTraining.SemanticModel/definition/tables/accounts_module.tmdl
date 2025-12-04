@@ -1,0 +1,203 @@
+table accounts_module
+	lineageTag: 6f144a4a-89c6-436b-96cf-4f64bdf8c5ea
+	sourceLineageTag: [dbo].[accounts_module]
+
+	column Module
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 25db3135-780c-4d00-b719-c1b763b21831
+		sourceLineageTag: Module
+		summarizeBy: none
+		sourceColumn: Module
+
+		annotation SummarizationSetBy = Automatic
+
+	column Iteration
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: a3ef7415-a92b-42b5-81bc-81ecab40e6b6
+		sourceLineageTag: Iteration
+		summarizeBy: none
+		sourceColumn: Iteration
+
+		annotation SummarizationSetBy = Automatic
+
+	column Account_Name
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 8c5b3039-2137-469d-bd77-fb9587dc714f
+		sourceLineageTag: Account_Name
+		summarizeBy: none
+		sourceColumn: Account_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Billing_Country
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 2a78fc1a-b029-4791-9d1c-7528f6136a7a
+		sourceLineageTag: Billing_Country
+		summarizeBy: none
+		sourceColumn: Billing_Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Created_Time
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 3e1a81bb-2a8d-42e5-8e4d-4489f4ec8008
+		sourceLineageTag: Created_Time
+		summarizeBy: none
+		sourceColumn: Created_Time
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 9ea8a706-0647-4119-8da3-695d30463041
+		sourceLineageTag: Description
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Id
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 0336e614-4e32-43d5-839c-2472457dffb9
+		sourceLineageTag: Id
+		summarizeBy: none
+		sourceColumn: Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Industry
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: b08cd7d9-4591-4c56-98dc-4b8572b0561d
+		sourceLineageTag: Industry
+		summarizeBy: none
+		sourceColumn: Industry
+
+		annotation SummarizationSetBy = Automatic
+
+	column Last_Activity_Time
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 7b008502-0559-4307-ad31-2e2cbe4a9e88
+		sourceLineageTag: Last_Activity_Time
+		summarizeBy: none
+		sourceColumn: Last_Activity_Time
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phone
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 5b2dc1c1-72b1-4b7f-b5be-e9502e86269e
+		sourceLineageTag: Phone
+		summarizeBy: none
+		sourceColumn: Phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column No_Employees
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 508cf851-b697-41c2-b55a-fe2820134b93
+		sourceLineageTag: No_Employees
+		summarizeBy: none
+		sourceColumn: No_Employees
+
+		annotation SummarizationSetBy = Automatic
+
+	column Legal_Name
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 0f86c196-53a9-4b69-964b-79d49a102cb2
+		sourceLineageTag: Legal_Name
+		summarizeBy: none
+		sourceColumn: Legal_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Billing_State
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 9de37486-38af-46af-95c5-747413d671be
+		sourceLineageTag: Billing_State
+		summarizeBy: none
+		sourceColumn: Billing_State
+
+		annotation SummarizationSetBy = Automatic
+
+	column Website
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 01695360-efd7-4228-916d-e19f823b15a0
+		sourceLineageTag: Website
+		summarizeBy: none
+		sourceColumn: Website
+
+		annotation SummarizationSetBy = Automatic
+
+	column Company_Legal_Name_ID
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 218ec00c-2619-4378-b5c8-8be6796b8f2d
+		sourceLineageTag: Company_Legal_Name_ID
+		summarizeBy: none
+		sourceColumn: Company_Legal_Name_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column LinkedIn
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 0e0c8d9a-3aaf-475d-a6f5-83b2367a2354
+		sourceLineageTag: LinkedIn
+		summarizeBy: none
+		sourceColumn: LinkedIn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Industry_Sub_Group
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: dad53c45-49ea-4880-bee1-0837afe9ff2a
+		sourceLineageTag: Industry_Sub_Group
+		summarizeBy: none
+		sourceColumn: Industry_Sub_Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column Primary_Business_Unit
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 4c3a1b77-1b2e-44e4-9948-1eddd0e27bf5
+		sourceLineageTag: Primary_Business_Unit
+		summarizeBy: none
+		sourceColumn: Primary_Business_Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column Modified_Time
+		dataType: string
+		sourceProviderType: varchar
+		lineageTag: 71bdde4d-e8d4-4ba5-8a8e-33814a453306
+		sourceLineageTag: Modified_Time
+		summarizeBy: none
+		sourceColumn: Modified_Time
+
+		annotation SummarizationSetBy = Automatic
+
+	partition accounts_module-a28d3e6d-0154-447f-a3c2-04dbedf29681 = entity
+		mode: directLake
+		source
+			entityName: accounts_module
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation IsTableInBiModel = True
+

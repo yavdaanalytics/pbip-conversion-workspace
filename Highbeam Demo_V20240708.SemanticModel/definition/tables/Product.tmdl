@@ -1,0 +1,268 @@
+table Product
+	lineageTag: 7a7b9142-2fc1-4d0a-bebe-3d05b7c3c5f8
+
+	column Item
+		dataType: string
+		lineageTag: c2702d85-e924-423f-a99c-e551e57c4d9c
+		summarizeBy: none
+		sourceColumn: Item
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Active Status'
+		dataType: string
+		lineageTag: b0fe8fb2-8ad3-4559-a07b-2e9b5f17dc5a
+		summarizeBy: none
+		sourceColumn: Active Status
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Type'
+		dataType: string
+		lineageTag: d16d4d54-3317-4a20-b82f-5428752483f8
+		summarizeBy: none
+		sourceColumn: Part Type
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cost
+		dataType: double
+		lineageTag: 9123c6fc-e2a3-4776-b810-803efbdea0dd
+		summarizeBy: sum
+		sourceColumn: Cost
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Preferred Vendor'
+		dataType: string
+		lineageTag: 757601c4-ac88-41ec-9756-01a91be84679
+		summarizeBy: none
+		sourceColumn: Preferred Vendor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Price
+		dataType: double
+		lineageTag: 443a19f9-3877-4da1-874a-7ab8f7218500
+		summarizeBy: sum
+		sourceColumn: Price
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MPN
+		dataType: string
+		lineageTag: fbc08849-fa8a-434c-b450-ce80312a72f1
+		summarizeBy: none
+		sourceColumn: MPN
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Manufacturer Part Number'
+		dataType: string
+		lineageTag: bf34ba49-38a8-4741-85e4-e8606fd8ea9b
+		summarizeBy: none
+		sourceColumn: Manufacturer Part Number
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PLT SIZE'
+		dataType: string
+		lineageTag: 7ceb0951-ec53-4530-917e-9525b7bd2286
+		summarizeBy: none
+		sourceColumn: PLT SIZE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weight
+		dataType: double
+		lineageTag: 225c1928-1a2e-4113-98f4-9811547c8fd4
+		summarizeBy: sum
+		sourceColumn: Weight
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Color
+		dataType: string
+		lineageTag: ef851b36-7d97-43f4-9d6f-70bf6d32713e
+		summarizeBy: none
+		sourceColumn: Color
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mil Thickness'
+		dataType: double
+		lineageTag: 80e1ab5f-3df6-4a98-ac13-04c48522253d
+		summarizeBy: sum
+		sourceColumn: Mil Thickness
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LeadTimeWks =
+			IF (
+			    CALCULATE (
+			        SUM ( 'MfgLeadTimes'[Lead Time (wks)] ) + 0,
+			        FILTER (
+			            'MfgLeadTimes',
+			            'MfgLeadTimes'[Preferred Vendor] = 'Product'[Preferred Vendor]
+			        )
+			    ) > 0,
+			    CALCULATE (
+			        SUM ( 'MfgLeadTimes'[Lead Time (wks)] ) + 0,
+			        FILTER (
+			            'MfgLeadTimes',
+			            'MfgLeadTimes'[Preferred Vendor] = 'Product'[Preferred Vendor]
+			        )
+			    ),
+			    100
+			)
+		formatString: 0
+		lineageTag: b79c2a70-4034-4db7-8884-680ce8fb367b
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SKU =
+			CALCULATE (
+			    DISTINCT ( 'ProductDescription'[SKU] ),
+			    FILTER (
+			        'ProductDescription',
+			        ProductDescription[Item] = 'Product'[Item]
+			    )
+			)
+		lineageTag: c08ff98d-1fe0-4232-b23a-180be43525cb
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type =
+			CALCULATE (
+			    DISTINCT ( 'ProductDescription'[Merchandise Hierarchy] ),
+			    FILTER (
+			        'ProductDescription',
+			        ProductDescription[Item] = 'Product'[Item]
+			    )
+			)
+		lineageTag: 8fc09ac6-070f-4003-9fc1-4f1dee297672
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Manufacturer =
+			
+			Var Manuf = CALCULATE (
+			    DISTINCT ( 'ProductDescription'[Vendor] ),
+			    FILTER (
+			        'ProductDescription',
+			        ProductDescription[Item] = 'Product'[Item]
+			    )
+			)
+			RETURN
+			IF(ISBLANK(Manuf),"Excellent Manufacturing",Manuf)
+		lineageTag: 34c3d66e-7869-448a-bd8e-80c2850b2fd0
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Style' =
+			CALCULATE (
+			    DISTINCT ( 'ProductDescription'[Descriptor 3] ),
+			    FILTER (
+			        'ProductDescription',
+			        ProductDescription[Item] = 'Product'[Item]
+			    )
+			)
+		lineageTag: ff7b442a-4aac-4f05-82bc-5a63c17dc697
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Descriptor2
+		dataType: string
+		lineageTag: e9bda1de-f55e-4a3b-9b24-a57b968dcafe
+		summarizeBy: none
+		sourceColumn: Descriptor2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Descriptor3
+		dataType: string
+		lineageTag: c48c3010-a19f-48ff-abfd-56ddc68dc043
+		summarizeBy: none
+		sourceColumn: Descriptor3
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Category'
+		dataType: string
+		lineageTag: 5b1e2f6a-fa92-4605-85ec-e7e59467d163
+		summarizeBy: none
+		sourceColumn: Product Category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Product-4cd7c730-d747-42b4-ada7-886eb234dea0 = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents(#"Subfolder Path" & "ProductListupdate.csv"),[Delimiter=",", Columns=33, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Item", type text}, {"Active Status", type text}, {"Type", type text}, {"Description", type text}, {"Sales Tax Code", type text}, {"Account", type text}, {"COGS Account", type text}, {"Asset Account", type text}, {"Accumulated Depreciation", Int64.Type}, {"Purchase Description", type text}, {"Quantity On Hand", Int64.Type}, {"U/M", type text}, {"Cost", type number}, {"Preferred Vendor", type text}, {"Tax Agency", type text}, {"Price", type number}, {"Reorder Pt (Min)", Int64.Type}, {"MPN", type text}, {"Info", type text}, {"sku", type text}, {"BOX SIZE", type text}, {"Rolls/PLT", type text}, {"PLT SIZE", type text}, {"Weight", type number}, {"Color", type text}, {"Roll Size", type text}, {"Mil Thickness", type number},   {"Raw roll wgt", type text}, {"", type text}, {"_1", type text}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each true),
+				    #"Removed Columns" = Table.RemoveColumns(#"Filtered Rows",{"Description", "Sales Tax Code", "Account", "COGS Account", "Asset Account", "Accumulated Depreciation", "Purchase Description", "Quantity On Hand", "U/M", "Tax Agency", "Reorder Pt (Min)", "Info", "BOX SIZE", "Rolls/PLT", "Roll Size", "Raw roll wgt", "", "_1"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Removed Columns",{{"Item", type text}}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Changed Type1", each ([Item] <> "")),
+				    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows1",{{"Type", "Part Type"}, {"sku", "Manufacturer Part Number"}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns","Black/White","Yellow",Replacer.ReplaceText,{"Color"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","","Gray",Replacer.ReplaceValue,{"Color"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","white","White",Replacer.ReplaceText,{"Color"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","clear","Clear",Replacer.ReplaceText,{"Color"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","yellow","Yellow",Replacer.ReplaceText,{"Color"})
+				in
+				    #"Replaced Value4"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

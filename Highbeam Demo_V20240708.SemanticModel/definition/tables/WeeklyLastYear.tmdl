@@ -1,0 +1,34 @@
+table WeeklyLastYear
+	lineageTag: 46a52800-b438-4796-96ac-0cf9a47f2bf7
+
+	column WeeklyLastYear
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2aade20a-d893-46ea-b5db-73c698411741
+		summarizeBy: none
+		sourceColumn: WeeklyLastYear
+
+		variation Variation
+			isDefault
+			relationship: 1ee5873c-f19e-46bc-98d5-75de4a931dab
+			defaultHierarchy: LocalDateTable_cb994a56-129f-402b-9e66-dbf586018d13.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition WeeklyLastYear-9acaae5e-62de-42d6-a2c4-11cbcc76c26d = m
+		mode: import
+		source =
+				let
+				    Source = Date.StartOfWeek(Date.AddMonths(DateTime.LocalNow(),-12),Day.Monday),
+				    #"Extracted Date" = Date.From(Source)
+				in
+				    #"Extracted Date"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Date
+

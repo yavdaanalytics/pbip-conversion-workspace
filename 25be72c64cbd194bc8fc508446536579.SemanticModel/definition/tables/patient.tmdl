@@ -1,0 +1,92 @@
+table patient
+	lineageTag: c013aed0-f779-4166-b822-f256b3f12cb4
+
+	column PatientID
+		dataType: int64
+		formatString: 0
+		lineageTag: 57f1362f-2c39-4357-b1bb-30b80b5e8a56
+		summarizeBy: none
+		sourceColumn: PatientID
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstName
+		dataType: string
+		lineageTag: 600628fb-4216-4cd5-9b5a-87d041869d02
+		summarizeBy: none
+		sourceColumn: FirstName
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastName
+		dataType: string
+		lineageTag: b0086378-7c5f-4192-bf1d-dcaa6608843c
+		summarizeBy: none
+		sourceColumn: LastName
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateOfBirth
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7608ee2a-22c1-4edc-95bc-88c9922ee8bc
+		summarizeBy: none
+		sourceColumn: DateOfBirth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Gender
+		dataType: string
+		lineageTag: b2e272be-4bbf-49dd-8e58-24b0678d3c4a
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column Address
+		dataType: string
+		lineageTag: c06ce9e6-a15e-48c5-9c11-cb782411a8ab
+		summarizeBy: none
+		sourceColumn: Address
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 34c57edf-de59-4d9f-9e1d-0c40feb0a14d
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		lineageTag: c92ed6f4-64a8-44a7-b398-bfbffe79617d
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column ZipCode
+		dataType: int64
+		formatString: 0
+		lineageTag: f901f0a2-e9c4-4274-a042-78fe28dc94c6
+		summarizeBy: none
+		sourceColumn: ZipCode
+
+		annotation SummarizationSetBy = Automatic
+
+	partition patient = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\youni\Downloads\Health care\patient.csv"),[Delimiter=",", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PatientID", Int64.Type}, {"FirstName", type text}, {"LastName", type text}, {"DateOfBirth", type date}, {"Gender", type text}, {"Address", type text}, {"City", type text}, {"State", type text}, {"ZipCode", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

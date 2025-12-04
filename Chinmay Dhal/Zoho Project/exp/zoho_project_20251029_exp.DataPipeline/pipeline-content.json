@@ -1,0 +1,1087 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          "body": "refresh_token=1000.854b7329ed1dd6f26ce64a5271ce0147.d5b32286a93abdd45110220b6252ffd1&client_id=1000.Q0CVV3YGK1JWCURXZ9GJO6V6QYAU4X&client_secret=38924cb6cf753d66ba93f25a7e961c4179e31c8ad4&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=refresh_token"
+        },
+        "externalReferences": {
+          "connection": "a7ed7f9a-6616-4aaa-8147-136fd568b941"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "zoho auth",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "RestSource",
+            "requestMethod": "GET",
+            "additionalHeaders": {
+              "Authorization": {
+                "value": "@concat('Zoho-oauthtoken ',activity('zoho auth').output.access_token)",
+                "type": "Expression"
+              }
+            },
+            "paginationRules": {
+              "supportRFC5988": "true"
+            },
+            "httpRequestTimeout": "00:01:40",
+            "requestInterval": "00.00:00:00.010",
+            "datasetSettings": {
+              "type": "RestResource",
+              "typeProperties": {
+                "relativeUrl": "/api/v3/portal/771456286/timelogs?page=1&per_page=50&view_type=customdate&start_date=2025-07-01&end_date=2025-12-31&module=%7B%22id%22%3A%221918757000010189025%22%2C%22type%22%3A%22task%22%7D"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "b00a9678-3a5f-4812-80fa-34452965e322"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Append",
+            "applyVOrder": true,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "timelog"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "lh_zoho_projects_exp",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "01b21f02-29c1-4093-9f17-9155f0e66f7a",
+                    "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            },
+            "columnFlattenSettings": {
+              "treatArrayAsString": false,
+              "treatStructAsString": false,
+              "flattenColumnDelimiter": "."
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "timelogs",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "RestSource",
+            "requestMethod": "GET",
+            "additionalHeaders": {
+              "Authorization": {
+                "value": "@concat('Zoho-oauthtoken ',activity('zoho auth').output.access_token)",
+                "type": "Expression"
+              }
+            },
+            "paginationRules": {
+              "supportRFC5988": "true"
+            },
+            "httpRequestTimeout": "00:01:40",
+            "requestInterval": "00.00:00:00.010",
+            "datasetSettings": {
+              "type": "RestResource",
+              "typeProperties": {
+                "relativeUrl": "/api/v3/portal/771456286/projects "
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "5ebc8e8f-66af-4d60-9433-e95f2c18893d"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "all_projects_table"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "lh_zoho_projects",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "7c8e3de7-f4b0-4df6-aef4-a0bd8c795c8b",
+                    "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Get_Projects_1",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": []
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "LakehouseTableSource"
+          },
+          "datasetSettings": {
+            "type": "LakehouseTable",
+            "typeProperties": {
+              "table": "task_table"
+            },
+            "schema": [],
+            "connectionSettings": {
+              "name": "lh_zoho_projects_exp",
+              "properties": {
+                "type": "Lakehouse",
+                "typeProperties": {
+                  "artifactId": "01b21f02-29c1-4093-9f17-9155f0e66f7a",
+                  "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                  "rootFolder": "Tables"
+                },
+                "externalReferences": {
+                  "connection": "67271fe3-189f-4c53-8f69-0a12c145c74d"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          },
+          "firstRowOnly": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Lookup_Tasks_From_Lakehouse",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "zoho auth",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "items": {
+            "value": "@activity('Lookup_Tasks_From_Lakehouse').output.value\n",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "sv_project_id",
+                "value": {
+                  "value": "@item().project_id\n",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "sv_set_project_ids",
+              "state": "Inactive",
+              "onInactiveMarkAs": "Succeeded",
+              "dependsOn": []
+            },
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "sv_task_id",
+                "value": {
+                  "value": "@item().task_id\n",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "sv_set_task_ids",
+              "state": "Inactive",
+              "onInactiveMarkAs": "Succeeded",
+              "dependsOn": [
+                {
+                  "activity": "sv_set_project_ids",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "sv_rel_url_timelog",
+                "value": {
+                  "value": "@concat(\n  '/api/v3/portal/771456286/timelogs?',\n  'page=', string(variables('sv_page_index')),\n  '&per_page=50',\n  '&view_type=customdate',\n  '&start_date=2025-07-01',\n  '&end_date=2025-12-31',\n  '&module=%7B%22id%22%3A%22',\n  variables('sv_task_id'),\n  '%22%2C%22type%22%3A%22task%22%7D'\n)\n",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "sv_build_rel_url_timelog",
+              "state": "Inactive",
+              "onInactiveMarkAs": "Succeeded",
+              "dependsOn": [
+                {
+                  "activity": "sv_set_task_ids",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "WebActivity",
+              "typeProperties": {
+                "method": "GET",
+                "relativeUrl": {
+                  "value": "@variables('sv_rel_url_timelog')",
+                  "type": "Expression"
+                },
+                "headers": {
+                  "Authorization": {
+                    "value": "@concat('Zoho-oauthtoken ',activity('zoho auth').output.access_token)",
+                    "type": "Expression"
+                  }
+                }
+              },
+              "externalReferences": {
+                "connection": "b00a9678-3a5f-4812-80fa-34452965e322"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Get_Timelogs_1",
+              "state": "Inactive",
+              "onInactiveMarkAs": "Succeeded",
+              "dependsOn": [
+                {
+                  "activity": "sv_build_rel_url_timelog",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Copy",
+              "typeProperties": {
+                "source": {
+                  "type": "RestSource",
+                  "requestMethod": "GET",
+                  "additionalHeaders": {
+                    "Authorization": {
+                      "value": "@concat('Zoho-oauthtoken ',activity('zoho auth').output.access_token)",
+                      "type": "Expression"
+                    }
+                  },
+                  "paginationRules": {
+                    "supportRFC5988": "true"
+                  },
+                  "httpRequestTimeout": "00:01:40",
+                  "requestInterval": "00.00:00:00.010",
+                  "datasetSettings": {
+                    "type": "RestResource",
+                    "typeProperties": {
+                      "relativeUrl": {
+                        "value": "@activity('Get_Timelogs').output.time_logs",
+                        "type": "Expression"
+                      }
+                    },
+                    "schema": [],
+                    "externalReferences": {
+                      "connection": "b00a9678-3a5f-4812-80fa-34452965e322"
+                    },
+                    "annotations": []
+                  }
+                },
+                "sink": {
+                  "type": "LakehouseTableSink",
+                  "tableActionOption": "Append",
+                  "applyVOrder": true,
+                  "partitionOption": "None",
+                  "datasetSettings": {
+                    "type": "LakehouseTable",
+                    "typeProperties": {
+                      "table": "timelog_123"
+                    },
+                    "schema": [],
+                    "linkedService": {
+                      "name": "lh_zoho_projects_exp",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "01b21f02-29c1-4093-9f17-9155f0e66f7a",
+                          "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                          "rootFolder": "Tables"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "translator": {
+                  "type": "TabularTranslator",
+                  "typeConversion": true,
+                  "typeConversionSettings": {
+                    "allowDataTruncation": true,
+                    "treatBooleanAsNumber": false
+                  },
+                  "columnFlattenSettings": {
+                    "treatArrayAsString": false,
+                    "treatStructAsString": false,
+                    "flattenColumnDelimiter": "."
+                  }
+                },
+                "enableStaging": false
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Save_Timelog_Data",
+              "state": "Inactive",
+              "onInactiveMarkAs": "Succeeded",
+              "dependsOn": [
+                {
+                  "activity": "Get_Timelogs_1",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "name": "ForEach_Task_1",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "Lookup_Tasks_From_Lakehouse",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "GET",
+          "relativeUrl": "/api/v3/portal/771456286/projects?page=1&per_page=50",
+          "headers": {
+            "Authorization": {
+              "value": "@concat('Zoho-oauthtoken ',activity('zoho auth').output.access_token)",
+              "type": "Expression"
+            }
+          }
+        },
+        "externalReferences": {
+          "connection": "b00a9678-3a5f-4812-80fa-34452965e322"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Get_Projects",
+        "dependsOn": [
+          {
+            "activity": "zoho auth",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "isSequential": true,
+          "items": {
+            "value": "@json(activity('Get_Projects').output.Response)\n",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "sv_project_id",
+                "value": {
+                  "value": "@item().id\n",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "sv_project_id",
+              "dependsOn": []
+            },
+            {
+              "type": "WebActivity",
+              "typeProperties": {
+                "method": "GET",
+                "relativeUrl": {
+                  "value": "@concat(\n  '/api/v3/portal/771456286/projects/',\n  variables('sv_project_id'),\n  '/tasks?page=1&per_page=50'\n)",
+                  "type": "Expression"
+                },
+                "headers": {
+                  "Authorization": {
+                    "value": "@concat('Zoho-oauthtoken ',activity('zoho auth').output.access_token)",
+                    "type": "Expression"
+                  }
+                }
+              },
+              "externalReferences": {
+                "connection": "b00a9678-3a5f-4812-80fa-34452965e322"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Get_Tasks",
+              "dependsOn": [
+                {
+                  "activity": "sv_project_id",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "all_tasks",
+                "value": {
+                  "value": "@activity('Get_Tasks').output.tasks",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "all_tasks",
+              "dependsOn": [
+                {
+                  "activity": "Get_Tasks",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "TridentNotebook",
+              "typeProperties": {
+                "notebookId": "8d993f33-8177-4474-9079-b4ca9ea9c4e6",
+                "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Notebook1",
+              "dependsOn": [
+                {
+                  "activity": "Get_Tasks",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "name": "ForEach_Project",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "Get_Projects",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "isSequential": true,
+          "items": {
+            "value": "@variables('all_tasks')\n",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "sv_task_id",
+                "value": {
+                  "value": "@item().id\n",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "sv_task_id",
+              "dependsOn": []
+            },
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "sv_project_id",
+                "value": {
+                  "value": "@item().project.id\n",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "sv_project_id_1",
+              "dependsOn": [
+                {
+                  "activity": "sv_task_id",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "sv_rel_url_timelog",
+                "value": {
+                  "value": "@concat(\n  '/api/v3/portal/771456286/timelogs?',\n  'page=1',\n  '&per_page=50',\n  '&view_type=customdate',\n  '&start_date=2025-07-01',\n  '&end_date=2025-12-31',\n  '&module=%7B%22id%22%3A%22', variables('sv_task_id'), '%22%2C%22type%22%3A%22task%22%7D'\n)\n",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "sv_rel_url_timelog",
+              "dependsOn": [
+                {
+                  "activity": "sv_project_id_1",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "WebActivity",
+              "typeProperties": {
+                "method": "GET",
+                "relativeUrl": {
+                  "value": "@variables('sv_rel_url_timelog')",
+                  "type": "Expression"
+                },
+                "headers": {
+                  "Authorization": {
+                    "value": "@concat('Zoho-oauthtoken ',activity('zoho auth').output.access_token)",
+                    "type": "Expression"
+                  }
+                }
+              },
+              "externalReferences": {
+                "connection": "b00a9678-3a5f-4812-80fa-34452965e322"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Get_Timelogs",
+              "dependsOn": [
+                {
+                  "activity": "sv_rel_url_timelog",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Copy",
+              "typeProperties": {
+                "source": {
+                  "type": "RestSource",
+                  "requestMethod": "GET",
+                  "additionalHeaders": {
+                    "Authorization": {
+                      "value": "@concat('Zoho-oauthtoken ',activity('zoho auth').output.access_token)",
+                      "type": "Expression"
+                    }
+                  },
+                  "paginationRules": {
+                    "supportRFC5988": "true"
+                  },
+                  "httpRequestTimeout": "00:01:40",
+                  "requestInterval": "00.00:00:00.010",
+                  "datasetSettings": {
+                    "type": "RestResource",
+                    "typeProperties": {
+                      "relativeUrl": {
+                        "value": "@activity('Get_Timelogs').output.time_logs",
+                        "type": "Expression"
+                      }
+                    },
+                    "schema": [],
+                    "externalReferences": {
+                      "connection": "b00a9678-3a5f-4812-80fa-34452965e322"
+                    },
+                    "annotations": []
+                  }
+                },
+                "sink": {
+                  "type": "LakehouseTableSink",
+                  "tableActionOption": "Append",
+                  "applyVOrder": true,
+                  "partitionOption": "None",
+                  "datasetSettings": {
+                    "type": "LakehouseTable",
+                    "typeProperties": {
+                      "table": "timelogs_30"
+                    },
+                    "schema": [],
+                    "linkedService": {
+                      "name": "lh_zoho_projects_exp",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "01b21f02-29c1-4093-9f17-9155f0e66f7a",
+                          "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                          "rootFolder": "Tables"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "translator": {
+                  "type": "TabularTranslator",
+                  "typeConversion": true,
+                  "typeConversionSettings": {
+                    "allowDataTruncation": true,
+                    "treatBooleanAsNumber": false
+                  },
+                  "columnFlattenSettings": {
+                    "treatArrayAsString": false,
+                    "treatStructAsString": false,
+                    "flattenColumnDelimiter": "."
+                  }
+                },
+                "enableStaging": false
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Save_Timelogs",
+              "dependsOn": [
+                {
+                  "activity": "Get_Timelogs",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "name": "ForEach_Task",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "ForEach_Project",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "isSequential": true,
+          "items": {
+            "value": "@json(activity('Get_Projects').output.Response)\n",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "sv_project_id",
+                "value": {
+                  "value": "@item().id\n",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "sv_project_id_for_project_group",
+              "dependsOn": []
+            },
+            {
+              "type": "WebActivity",
+              "typeProperties": {
+                "method": "GET",
+                "relativeUrl": {
+                  "value": "@variables('sv_project_group')",
+                  "type": "Expression"
+                },
+                "headers": {
+                  "Authorization": {
+                    "value": "@concat('Zoho-oauthtoken ',activity('zoho auth').output.access_token)",
+                    "type": "Expression"
+                  }
+                }
+              },
+              "externalReferences": {
+                "connection": "b00a9678-3a5f-4812-80fa-34452965e322"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Get_project_id_for_project_group",
+              "dependsOn": [
+                {
+                  "activity": "sv_project_group",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Copy",
+              "typeProperties": {
+                "source": {
+                  "type": "RestSource",
+                  "requestMethod": "GET",
+                  "additionalHeaders": {
+                    "Authorization": {
+                      "value": "@concat('Zoho-oauthtoken ',activity('zoho auth').output.access_token)",
+                      "type": "Expression"
+                    }
+                  },
+                  "paginationRules": {
+                    "supportRFC5988": "true"
+                  },
+                  "httpRequestTimeout": "00:01:40",
+                  "requestInterval": "00.00:00:00.010",
+                  "datasetSettings": {
+                    "type": "RestResource",
+                    "typeProperties": {
+                      "relativeUrl": {
+                        "value": "@variables('sv_project_group')",
+                        "type": "Expression"
+                      }
+                    },
+                    "schema": [],
+                    "externalReferences": {
+                      "connection": "b00a9678-3a5f-4812-80fa-34452965e322"
+                    },
+                    "annotations": []
+                  }
+                },
+                "sink": {
+                  "type": "LakehouseTableSink",
+                  "tableActionOption": "Upsert",
+                  "applyVOrder": true,
+                  "upsertSettings": {
+                    "keys": [
+                      "id"
+                    ]
+                  },
+                  "datasetSettings": {
+                    "type": "LakehouseTable",
+                    "typeProperties": {
+                      "table": "Project_table"
+                    },
+                    "schema": [],
+                    "connectionSettings": {
+                      "name": "lh_zoho_projects",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "8c795c8b-a0bd-aef4-4df6-f4b07c8e3de7",
+                          "workspaceId": "00000000-0000-0000-0000-000000000000",
+                          "rootFolder": "Tables"
+                        },
+                        "externalReferences": {
+                          "connection": "67271fe3-189f-4c53-8f69-0a12c145c74d"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "translator": {
+                  "type": "TabularTranslator",
+                  "typeConversion": true,
+                  "typeConversionSettings": {
+                    "allowDataTruncation": true,
+                    "treatBooleanAsNumber": false
+                  },
+                  "columnFlattenSettings": {
+                    "treatArrayAsString": false,
+                    "treatStructAsString": false,
+                    "flattenColumnDelimiter": "."
+                  }
+                },
+                "enableStaging": false
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "get_project_group",
+              "dependsOn": [
+                {
+                  "activity": "Wait_project_group",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "sv_project_group",
+                "value": {
+                  "value": "@concat(\n  '/api/v3/portal/771456286/projects/',\n  variables('sv_project_id')\n)",
+                  "type": "Expression"
+                }
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "sv_project_group",
+              "dependsOn": [
+                {
+                  "activity": "sv_project_id_for_project_group",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Wait",
+              "typeProperties": {
+                "waitTimeInSeconds": 4
+              },
+              "name": "Wait_project_group",
+              "dependsOn": [
+                {
+                  "activity": "Get_project_id_for_project_group",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "name": "ForEach_Project_id_for_project_group",
+        "dependsOn": [
+          {
+            "activity": "Get_Projects",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "pageIndex": {
+        "type": "string",
+        "defaultValue": "1"
+      },
+      "pageSize": {
+        "type": "string",
+        "defaultValue": "200"
+      },
+      "PortalId": {
+        "type": "string",
+        "defaultValue": "771456286"
+      }
+    },
+    "variables": {
+      "currentIndex": {
+        "type": "Integer",
+        "defaultValue": 1
+      },
+      "pageSize": {
+        "type": "Integer",
+        "defaultValue": 200
+      },
+      "stopPagination": {
+        "type": "Boolean",
+        "defaultValue": false
+      },
+      "nextIndex": {
+        "type": "Integer",
+        "defaultValue": 0
+      },
+      "totalRowsCopied": {
+        "type": "Integer",
+        "defaultValue": 0
+      },
+      "sv_rel_url_timelog": {
+        "type": "String"
+      },
+      "sv_project_id": {
+        "type": "String"
+      },
+      "sv_task_id": {
+        "type": "String"
+      },
+      "sv_page_index": {
+        "type": "Integer",
+        "defaultValue": 1
+      },
+      "all_tasks": {
+        "type": "Array",
+        "defaultValue": []
+      },
+      "sv_page": {
+        "type": "Integer",
+        "defaultValue": 1
+      },
+      "sv_per_page": {
+        "type": "Integer",
+        "defaultValue": 200
+      },
+      "sv_has_next": {
+        "type": "Boolean",
+        "defaultValue": true
+      },
+      "sv_rel_url_tasks": {
+        "type": "String"
+      },
+      "sv_project_group": {
+        "type": "String"
+      }
+    }
+  }
+}

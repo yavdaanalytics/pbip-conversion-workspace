@@ -1,0 +1,26 @@
+table 'Choose N'
+	lineageTag: d53e13f1-48c6-4467-a02f-aa4ca02b1471
+
+	measure 'Choose_N Value' = SELECTEDVALUE('Choose N'[Choose_N], 10)
+		formatString: 0
+		lineageTag: 192a6ec0-336a-42d9-89b3-37c71dc66255
+
+	column Choose_N
+		formatString: 0
+		lineageTag: f53b0e92-1d72-430d-ad8a-fad75fb2718b
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition 'Choose N' = calculated
+		mode: import
+		source = GENERATESERIES(1, 500, 1)
+
+	annotation PBI_Id = 3363408feb1547acb3daf3c5fc89181c
+

@@ -1,0 +1,77 @@
+table dimdate_gold
+	lineageTag: 32948168-f851-4ec5-a899-66c1df5b4fad
+	sourceLineageTag: [dbo].[dimdate_gold]
+
+	column OrderDate
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: f55d7e14-05f1-4c5f-922b-25bb722ddf05
+		sourceLineageTag: OrderDate
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: e5f9bb38-1a34-4c89-9695-d90da912f735
+		sourceLineageTag: Day
+		summarizeBy: sum
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 20f1d9ee-bb14-4ac5-8a87-ee250c69d208
+		sourceLineageTag: Month
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 8f14e445-03ae-4d50-816e-fc57660f273a
+		sourceLineageTag: Year
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column mmmyyyy
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 3631e56e-3371-4fd8-b1fd-7acd12d0e94a
+		sourceLineageTag: mmmyyyy
+		summarizeBy: none
+		sourceColumn: mmmyyyy
+
+		annotation SummarizationSetBy = Automatic
+
+	column yyyymm
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 64d0c7b3-8982-4506-9fe6-ae0b75c8d863
+		sourceLineageTag: yyyymm
+		summarizeBy: none
+		sourceColumn: yyyymm
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dimdate_gold = entity
+		mode: directLake
+		source
+			entityName: dimdate_gold
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

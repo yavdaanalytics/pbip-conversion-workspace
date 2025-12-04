@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "LakehouseTraining"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "d9c37c2a-27f3-91c7-4b9e-59e2ea2e5b95"
+  }
+}

@@ -1,0 +1,1190 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "POST",
+          "relativeUrl": "/v1/oauth/token",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": "Basic TW91bnRBbnZpbDpjc19saXZlX1JXbkhZcnp6WVVWZ0ZZcWpleHh6aFpFb2RDcHdkUA=="
+          },
+          "body": "username=svc-aad-payappspoc%40mountanvil.com&grant_type=client_credentials"
+        },
+        "externalReferences": {
+          "connection": "d7f939fc-4ae3-4a96-bbf8-6c840958acb7"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Payapps Token",
+        "description": "Generate the Payapps API token",
+        "dependsOn": []
+      },
+      {
+        "type": "SetVariable",
+        "typeProperties": {
+          "variableName": "pipelineReturnValue",
+          "value": [
+            {
+              "key": "token",
+              "value": {
+                "type": "Expression",
+                "content": "@activity('Payapps Token').output.accessToken"
+              }
+            }
+          ],
+          "setSystemVariable": true
+        },
+        "policy": {
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "accessToken",
+        "description": "Keep the access token",
+        "dependsOn": [
+          {
+            "activity": "Payapps Token",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "SetVariable",
+        "typeProperties": {
+          "variableName": "contract_id",
+          "value": {
+            "value": "@json(join(variables('contract_id_list'),','))",
+            "type": "Expression"
+          }
+        },
+        "policy": {
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "temp",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "Dynamic_Project_ids_passing",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "RestSource",
+            "requestMethod": "GET",
+            "additionalHeaders": {
+              "Authorization": {
+                "value": "@concat('Bearer ',activity('Payapps Token').output.accessToken)",
+                "type": "Expression"
+              }
+            },
+            "paginationRules": {
+              "supportRFC5988": "true"
+            },
+            "httpRequestTimeout": "00:01:40",
+            "requestInterval": "00.00:00:00.010",
+            "datasetSettings": {
+              "type": "RestResource",
+              "typeProperties": {
+                "relativeUrl": "/v1/projects"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "d7f939fc-4ae3-4a96-bbf8-6c840958acb7"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "JsonSink",
+            "formatSettings": {
+              "type": "JsonWriteSettings"
+            },
+            "storeSettings": {
+              "type": "LakehouseWriteSettings"
+            },
+            "datasetSettings": {
+              "type": "Json",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": "BronzeLayer/projects",
+                  "fileName": {
+                    "value": "@concat(utcnow(),'_project','.json')",
+                    "type": "Expression"
+                  }
+                }
+              },
+              "schema": {},
+              "linkedService": {
+                "name": "Experimentation_for_MA",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "2ed06f6e-6a27-ba4f-4f7e-393db7af12f2",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "projects_API to Lakehouse",
+        "description": "Extract and Dump the projects data into the JSON file format in the lakehouse",
+        "dependsOn": [
+          {
+            "activity": "accessToken",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "RestSource",
+            "requestMethod": "GET",
+            "additionalHeaders": {
+              "Authorization": {
+                "value": "@concat('Bearer ',activity('Payapps Token').output.accessToken)",
+                "type": "Expression"
+              }
+            },
+            "paginationRules": {
+              "supportRFC5988": "true"
+            },
+            "httpRequestTimeout": "00:01:40",
+            "requestInterval": "00.00:00:00.010",
+            "datasetSettings": {
+              "type": "RestResource",
+              "typeProperties": {
+                "relativeUrl": "/v1/payapps"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "d7f939fc-4ae3-4a96-bbf8-6c840958acb7"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "JsonSink",
+            "formatSettings": {
+              "type": "JsonWriteSettings"
+            },
+            "storeSettings": {
+              "type": "LakehouseWriteSettings"
+            },
+            "datasetSettings": {
+              "type": "Json",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": "BronzeLayer/payapps",
+                  "fileName": {
+                    "value": "@concat(utcnow(),'_payapps','.json')",
+                    "type": "Expression"
+                  }
+                }
+              },
+              "schema": {},
+              "linkedService": {
+                "name": "Experimentation_for_MA",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "b7af12f2-393d-4f7e-ba4f-6a272ed06f6e",
+                    "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "payapps_API to Lakehouse",
+        "description": "Extract and Dump the payapps data into the JSON file format in the lakehouse",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "accessToken",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "isSequential": false,
+          "items": {
+            "value": "@json(join(variables('contract_id_list'),','))",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "Copy",
+              "typeProperties": {
+                "source": {
+                  "type": "RestSource",
+                  "requestMethod": "GET",
+                  "additionalHeaders": {
+                    "Authorization": {
+                      "value": "@concat('Bearer ',activity('Payapps Token').output.accessToken)",
+                      "type": "Expression"
+                    }
+                  },
+                  "paginationRules": {
+                    "supportRFC5988": "true"
+                  },
+                  "httpRequestTimeout": "00:01:40",
+                  "requestInterval": "00.00:00:00.010",
+                  "datasetSettings": {
+                    "type": "RestResource",
+                    "typeProperties": {
+                      "relativeUrl": {
+                        "value": "@concat('/v1/contracts/',item().id)",
+                        "type": "Expression"
+                      }
+                    },
+                    "schema": [],
+                    "externalReferences": {
+                      "connection": "d7f939fc-4ae3-4a96-bbf8-6c840958acb7"
+                    },
+                    "annotations": []
+                  }
+                },
+                "sink": {
+                  "type": "JsonSink",
+                  "formatSettings": {
+                    "type": "JsonWriteSettings"
+                  },
+                  "storeSettings": {
+                    "type": "LakehouseWriteSettings",
+                    "copyBehavior": "MergeFiles"
+                  },
+                  "datasetSettings": {
+                    "type": "Json",
+                    "typeProperties": {
+                      "location": {
+                        "type": "LakehouseLocation",
+                        "folderPath": "BronzeLayer/contracts",
+                        "fileName": {
+                          "value": "@concat(utcnow(),'_contract_',item().id,'.json')",
+                          "type": "Expression"
+                        }
+                      }
+                    },
+                    "schema": {},
+                    "linkedService": {
+                      "name": "Experimentation_for_MA",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "b7af12f2-393d-4f7e-ba4f-6a272ed06f6e",
+                          "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                          "rootFolder": "Files"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "enableStaging": false
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Get contract info for every contract id",
+              "description": "Generate and dump as JSON, contract info",
+              "dependsOn": []
+            }
+          ]
+        },
+        "name": "contracts_API_to_Lakehouse_ForEach_contract_id",
+        "description": "For a set of contract ids received from the earlier process, the contract information is generated",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "Dynamic_Project_ids_passing",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "GET",
+          "relativeUrl": "/v1/projects",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": {
+              "value": "@concat('Bearer ',activity('Payapps Token').output.accessToken)",
+              "type": "Expression"
+            }
+          }
+        },
+        "externalReferences": {
+          "connection": "d7f939fc-4ae3-4a96-bbf8-6c840958acb7"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "projects data",
+        "description": "Genetrate the projects data for a multi level steps of project id : contract id relationship",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "accessToken",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "isSequential": false,
+          "items": {
+            "value": "@json(activity('projects data').output.Response)",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "Copy",
+              "typeProperties": {
+                "source": {
+                  "type": "RestSource",
+                  "requestMethod": "GET",
+                  "additionalHeaders": {
+                    "Authorization": {
+                      "value": "@concat('Bearer ',activity('Payapps Token').output.accessToken)",
+                      "type": "Expression"
+                    }
+                  },
+                  "paginationRules": {
+                    "supportRFC5988": "true"
+                  },
+                  "httpRequestTimeout": "00:01:40",
+                  "requestInterval": "00.00:00:00.010",
+                  "datasetSettings": {
+                    "type": "RestResource",
+                    "typeProperties": {
+                      "relativeUrl": {
+                        "value": "@concat('/v1/projects/',item().id,'/contracts')",
+                        "type": "Expression"
+                      }
+                    },
+                    "schema": [],
+                    "externalReferences": {
+                      "connection": "d7f939fc-4ae3-4a96-bbf8-6c840958acb7"
+                    },
+                    "annotations": []
+                  }
+                },
+                "sink": {
+                  "type": "JsonSink",
+                  "formatSettings": {
+                    "type": "JsonWriteSettings"
+                  },
+                  "storeSettings": {
+                    "type": "LakehouseWriteSettings",
+                    "copyBehavior": "MergeFiles"
+                  },
+                  "datasetSettings": {
+                    "type": "Json",
+                    "typeProperties": {
+                      "location": {
+                        "type": "LakehouseLocation",
+                        "folderPath": "BronzeLayer/trash",
+                        "fileName": {
+                          "value": "@concat('trash_',utcnow(),'.json')",
+                          "type": "Expression"
+                        }
+                      }
+                    },
+                    "schema": {},
+                    "linkedService": {
+                      "name": "Experimentation_for_MA",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "b7af12f2-393d-4f7e-ba4f-6a272ed06f6e",
+                          "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                          "rootFolder": "Files"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "enableStaging": false
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Dynamic Project ID Relative URL Creator",
+              "description": "Allow for Dynamic Project ID passage, and output goes to trash",
+              "dependsOn": []
+            },
+            {
+              "type": "WebActivity",
+              "typeProperties": {
+                "method": "GET",
+                "relativeUrl": {
+                  "value": "@concat('/v1/projects/',item().id,'/contracts')",
+                  "type": "Expression"
+                },
+                "headers": {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                  "Authorization": {
+                    "value": "@concat('Bearer ',activity('Payapps Token').output.accessToken)",
+                    "type": "Expression"
+                  }
+                }
+              },
+              "externalReferences": {
+                "connection": "d7f939fc-4ae3-4a96-bbf8-6c840958acb7"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "projects ids",
+              "description": "All data with Project IDs and Contract IDS is generated",
+              "dependsOn": []
+            },
+            {
+              "type": "AppendVariable",
+              "typeProperties": {
+                "variableName": "contract_id_list",
+                "value": {
+                  "value": "@activity('projects ids').output.Response",
+                  "type": "Expression"
+                }
+              },
+              "name": "Append variable1",
+              "description": "Complete response data containing contract id as id and project id as project id is passed",
+              "dependsOn": [
+                {
+                  "activity": "projects ids",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "name": "Dynamic_Project_ids_passing",
+        "description": "Automate the dynamic passing of Project ID in /v1/projects/{id}/contracts",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "projects data",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "RestSource",
+            "requestMethod": "GET",
+            "additionalHeaders": {
+              "Authorization": {
+                "value": "@concat('Bearer ',activity('Payapps Token').output.accessToken)",
+                "type": "Expression"
+              }
+            },
+            "paginationRules": {
+              "supportRFC5988": "true"
+            },
+            "httpRequestTimeout": "00:01:40",
+            "requestInterval": "00.00:00:00.010",
+            "datasetSettings": {
+              "type": "RestResource",
+              "typeProperties": {
+                "relativeUrl": "/v1/projects"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "d7f939fc-4ae3-4a96-bbf8-6c840958acb7"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "JsonSink",
+            "formatSettings": {
+              "type": "JsonWriteSettings"
+            },
+            "storeSettings": {
+              "type": "LakehouseWriteSettings"
+            },
+            "datasetSettings": {
+              "type": "Json",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": "BronzeLayer/temp_projects",
+                  "fileName": {
+                    "value": "@concat('project_',utcnow(),'.json')",
+                    "type": "Expression"
+                  }
+                }
+              },
+              "schema": {},
+              "linkedService": {
+                "name": "Experimentation_for_MA",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "b7af12f2-393d-4f7e-ba4f-6a272ed06f6e",
+                    "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "TEMP PROJECTS",
+        "description": "Extract and Dump the projects data into the JSON file format in the lakehouse",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "accessToken",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "RestSource",
+            "requestMethod": "GET",
+            "additionalHeaders": {
+              "Authorization": {
+                "value": "@concat('Bearer ',activity('Payapps Token').output.accessToken)",
+                "type": "Expression"
+              }
+            },
+            "paginationRules": {
+              "supportRFC5988": "true"
+            },
+            "httpRequestTimeout": "00:01:40",
+            "requestInterval": "00.00:00:00.010",
+            "datasetSettings": {
+              "type": "RestResource",
+              "typeProperties": {
+                "relativeUrl": "/v1/payapps"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "d7f939fc-4ae3-4a96-bbf8-6c840958acb7"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "JsonSink",
+            "formatSettings": {
+              "type": "JsonWriteSettings"
+            },
+            "storeSettings": {
+              "type": "LakehouseWriteSettings"
+            },
+            "datasetSettings": {
+              "type": "Json",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": "BronzeLayer/temp_payapps",
+                  "fileName": {
+                    "value": "@concat('payapps_',utcnow(),'.json')",
+                    "type": "Expression"
+                  }
+                }
+              },
+              "schema": {},
+              "linkedService": {
+                "name": "Experimentation_for_MA",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "b7af12f2-393d-4f7e-ba4f-6a272ed06f6e",
+                    "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "TEMP PAYAPPS",
+        "description": "Extract and Dump the payapps data into the JSON file format in the lakehouse",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "accessToken",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "isSequential": false,
+          "items": {
+            "value": "@json(join(variables('contract_id_list'),','))",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "Copy",
+              "typeProperties": {
+                "source": {
+                  "type": "RestSource",
+                  "requestMethod": "GET",
+                  "additionalHeaders": {
+                    "Authorization": {
+                      "value": "@concat('Bearer ',activity('Payapps Token').output.accessToken)",
+                      "type": "Expression"
+                    }
+                  },
+                  "paginationRules": {
+                    "supportRFC5988": "true"
+                  },
+                  "httpRequestTimeout": "00:01:40",
+                  "requestInterval": "00.00:00:00.010",
+                  "datasetSettings": {
+                    "type": "RestResource",
+                    "typeProperties": {
+                      "relativeUrl": {
+                        "value": "@concat('/v1/contracts/',item().id)",
+                        "type": "Expression"
+                      }
+                    },
+                    "schema": [],
+                    "externalReferences": {
+                      "connection": "d7f939fc-4ae3-4a96-bbf8-6c840958acb7"
+                    },
+                    "annotations": []
+                  }
+                },
+                "sink": {
+                  "type": "JsonSink",
+                  "formatSettings": {
+                    "type": "JsonWriteSettings"
+                  },
+                  "storeSettings": {
+                    "type": "LakehouseWriteSettings",
+                    "copyBehavior": "MergeFiles"
+                  },
+                  "datasetSettings": {
+                    "type": "Json",
+                    "typeProperties": {
+                      "location": {
+                        "type": "LakehouseLocation",
+                        "folderPath": "BronzeLayer/temp_contracts",
+                        "fileName": {
+                          "value": "@concat('contract_',utcnow(),'.json')",
+                          "type": "Expression"
+                        }
+                      }
+                    },
+                    "schema": {},
+                    "linkedService": {
+                      "name": "Experimentation_for_MA",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "b7af12f2-393d-4f7e-ba4f-6a272ed06f6e",
+                          "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                          "rootFolder": "Files"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "enableStaging": false
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Get contract info for every contract id_copy1",
+              "description": "Generate and dump as JSON, contract info",
+              "dependsOn": []
+            }
+          ]
+        },
+        "name": "TEMP CONTRACTS",
+        "description": "For a set of contract ids received from the earlier process, the contract information is generated",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "Dynamic_Project_ids_passing",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "GetMetadata",
+        "typeProperties": {
+          "datasetSettings": {
+            "type": "LakehouseTable",
+            "typeProperties": {
+              "table": "Dataflow_Projects_HIST"
+            },
+            "schema": [],
+            "linkedService": {
+              "name": "Experimentation_for_MA",
+              "properties": {
+                "type": "Lakehouse",
+                "typeProperties": {
+                  "artifactId": "b7af12f2-393d-4f7e-ba4f-6a272ed06f6e",
+                  "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                  "rootFolder": "Tables"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          },
+          "fieldList": [
+            {
+              "value": "SELECT MAX(updated_date) FROM [Dataflow_Projects_HIST]\n",
+              "type": "Expression"
+            }
+          ]
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Get MaxDate From BronzeLayer",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": []
+      },
+      {
+        "type": "SetVariable",
+        "typeProperties": {
+          "variableName": "LastModifiedDate",
+          "value": {
+            "value": "@activity('Get MaxDate From BronzeLayer').output.lastModifiedDateTime",
+            "type": "Expression"
+          }
+        },
+        "policy": {
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Store the last modified timestamp",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "Filter1",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "RestSource",
+            "requestMethod": "GET",
+            "additionalHeaders": {
+              "Authorization": {
+                "value": "@concat('Bearer ',activity('Payapps Token').output.accessToken)",
+                "type": "Expression"
+              }
+            },
+            "paginationRules": {
+              "supportRFC5988": "true"
+            },
+            "httpRequestTimeout": "00:01:40",
+            "requestInterval": "00.00:00:00.010",
+            "datasetSettings": {
+              "type": "RestResource",
+              "typeProperties": {
+                "relativeUrl": {
+                  "value": "@concat('/v1/projects?updated_at={ {LastModifiedDate}}')",
+                  "type": "Expression"
+                }
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "d7f939fc-4ae3-4a96-bbf8-6c840958acb7"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "JsonSink",
+            "formatSettings": {
+              "type": "JsonWriteSettings"
+            },
+            "storeSettings": {
+              "type": "LakehouseWriteSettings"
+            },
+            "datasetSettings": {
+              "type": "Json",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": "BronzeLayer/projectsincremental",
+                  "fileName": {
+                    "value": "@concat(utcnow(),'_project','.json')",
+                    "type": "Expression"
+                  }
+                }
+              },
+              "schema": {},
+              "linkedService": {
+                "name": "Experimentation_for_MA",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "b7af12f2-393d-4f7e-ba4f-6a272ed06f6e",
+                    "workspaceId": "4eb34a24-0d28-44c2-b26c-d20ec4c41693",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "projects_API to Lakehouse_INCREMENTAL",
+        "description": "Extract and Dump the projects data into the JSON file format in the lakehouse",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "Store the last modified timestamp",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "LakehouseTableSource"
+          },
+          "datasetSettings": {
+            "type": "LakehouseTable",
+            "typeProperties": {
+              "table": "dfprojectshis"
+            },
+            "schema": [],
+            "linkedService": {
+              "name": "Experimentation_for_MA",
+              "properties": {
+                "type": "Lakehouse",
+                "typeProperties": {
+                  "artifactId": "2ed06f6e-6a27-ba4f-4f7e-393db7af12f2",
+                  "workspaceId": "00000000-0000-0000-0000-000000000000",
+                  "rootFolder": "Tables"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          },
+          "firstRowOnly": true
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Lookup for Fetching MaxDate",
+        "dependsOn": [
+          {
+            "activity": "projects_API to Lakehouse",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Filter",
+        "typeProperties": {
+          "items": {
+            "value": "@activity('Get MaxDate From BronzeLayer')",
+            "type": "Expression"
+          },
+          "condition": {
+            "value": "@endswith(item().name, '.json')",
+            "type": "Expression"
+          }
+        },
+        "name": "Filter1",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "Get MaxDate From BronzeLayer",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "SetVariable",
+        "typeProperties": {
+          "variableName": "LastModifiedDate",
+          "value": {
+            "value": "@activity('Lookup for Fetching MaxDate').output.firstRow.\t\nupdated_date\n\n",
+            "type": "Expression"
+          }
+        },
+        "policy": {
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Store the last modified timestamp1",
+        "dependsOn": [
+          {
+            "activity": "Lookup for Fetching MaxDate",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "RestSource",
+            "requestMethod": "GET",
+            "additionalHeaders": {
+              "Authorization": {
+                "value": "@concat('Bearer ',activity('Payapps Token').output.accessToken)",
+                "type": "Expression"
+              }
+            },
+            "paginationRules": {
+              "supportRFC5988": "true"
+            },
+            "httpRequestTimeout": "00:01:40",
+            "requestInterval": "00.00:00:00.010",
+            "datasetSettings": {
+              "type": "RestResource",
+              "typeProperties": {
+                "relativeUrl": {
+                  "value": "@concat('/v1/projects?updated_at>',variables('LastModifiedDate'))",
+                  "type": "Expression"
+                }
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "d7f939fc-4ae3-4a96-bbf8-6c840958acb7"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "JsonSink",
+            "formatSettings": {
+              "type": "JsonWriteSettings"
+            },
+            "storeSettings": {
+              "type": "LakehouseWriteSettings"
+            },
+            "datasetSettings": {
+              "type": "Json",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": "BronzeLayer/projectsincremental",
+                  "fileName": {
+                    "value": "@concat(utcnow(),'_project','.json')",
+                    "type": "Expression"
+                  }
+                }
+              },
+              "schema": {},
+              "linkedService": {
+                "name": "Experimentation_for_MA",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "2ed06f6e-6a27-ba4f-4f7e-393db7af12f2",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "projects_API to Lakehouse_INCREMENTAL_copy1",
+        "description": "Extract and Dump the incremental projects data into the JSON file format in the lakehouse",
+        "dependsOn": [
+          {
+            "activity": "Store the last modified timestamp1",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ],
+    "variables": {
+      "project": {
+        "type": "String"
+      },
+      "contract_id": {
+        "type": "Array"
+      },
+      "project_id": {
+        "type": "String"
+      },
+      "contract_id_list": {
+        "type": "Array"
+      },
+      "LastModifiedDate": {
+        "type": "String"
+      }
+    }
+  }
+}

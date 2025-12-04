@@ -1,0 +1,361 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "POST",
+          "relativeUrl": "/v1/oauth/token",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": "Basic TW91bnRBbnZpbDpjc19saXZlX1JXbkhZcnp6WVVWZ0ZZcWpleHh6aFpFb2RDcHdkUA=="
+          },
+          "body": "username=svc-aad-payappspoc@mountanvil.com&grant_type=client_credentials"
+        },
+        "externalReferences": {
+          "connection": "139a8a5c-19ca-4865-a1e7-0b948d839da7"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Invoke Payapps token",
+        "dependsOn": []
+      },
+      {
+        "type": "SetVariable",
+        "typeProperties": {
+          "variableName": "pipelineReturnValue",
+          "value": [
+            {
+              "key": "token",
+              "value": {
+                "type": "Expression",
+                "content": "@activity('Invoke Payapps token').output.accessToken"
+              }
+            }
+          ],
+          "setSystemVariable": true
+        },
+        "policy": {
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Fetching accessToken",
+        "dependsOn": [
+          {
+            "activity": "Invoke Payapps token",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "RestSource",
+            "requestMethod": "GET",
+            "additionalHeaders": {
+              "Authorization": {
+                "value": "@concat('Bearer ',activity('Invoke Payapps token').output.accessToken)",
+                "type": "Expression"
+              }
+            },
+            "paginationRules": {
+              "supportRFC5988": "true"
+            },
+            "httpRequestTimeout": "00:01:40",
+            "requestInterval": "00.00:00:00.010",
+            "datasetSettings": {
+              "type": "RestResource",
+              "typeProperties": {
+                "relativeUrl": "/v1/projects"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "139a8a5c-19ca-4865-a1e7-0b948d839da7"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "JsonSink",
+            "formatSettings": {
+              "type": "JsonWriteSettings"
+            },
+            "storeSettings": {
+              "type": "LakehouseWriteSettings"
+            },
+            "datasetSettings": {
+              "type": "Json",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": "data/Projects",
+                  "fileName": {
+                    "value": "@concat(utcnow(),'_project','.json')",
+                    "type": "Expression"
+                  }
+                }
+              },
+              "schema": {},
+              "linkedService": {
+                "name": "Lakehouse_Shruti",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "dcf96739-12a5-a80c-4aa0-24bf88aed926",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Fetching Projects for MA",
+        "dependsOn": [
+          {
+            "activity": "Fetching accessToken",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "RestSource",
+            "requestMethod": "GET",
+            "additionalHeaders": {
+              "Authorization": {
+                "value": "@concat('Bearer ',activity('Invoke Payapps token').output.accessToken)",
+                "type": "Expression"
+              }
+            },
+            "paginationRules": {
+              "supportRFC5988": "true"
+            },
+            "httpRequestTimeout": "00:01:40",
+            "requestInterval": "00.00:00:00.010",
+            "datasetSettings": {
+              "type": "RestResource",
+              "typeProperties": {
+                "relativeUrl": "/v1/payapps"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "139a8a5c-19ca-4865-a1e7-0b948d839da7"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "JsonSink",
+            "formatSettings": {
+              "type": "JsonWriteSettings"
+            },
+            "storeSettings": {
+              "type": "LakehouseWriteSettings"
+            },
+            "datasetSettings": {
+              "type": "Json",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": "data/Payapps",
+                  "fileName": {
+                    "value": "@concat(utcnow(),'_payapps','.json')",
+                    "type": "Expression"
+                  }
+                }
+              },
+              "schema": {},
+              "linkedService": {
+                "name": "Lakehouse_Shruti",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "dcf96739-12a5-a80c-4aa0-24bf88aed926",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Fetching Payapps for MA",
+        "dependsOn": [
+          {
+            "activity": "Fetching accessToken",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "GET",
+          "relativeUrl": "/v1/projects",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": {
+              "value": "@concat('Bearer ',activity('Invoke Payapps token').output.accessToken)",
+              "type": "Expression"
+            }
+          },
+          "body": "username=svc-aad-payappspoc@mountanvil.com&grant_type=client_credentials"
+        },
+        "externalReferences": {
+          "connection": "139a8a5c-19ca-4865-a1e7-0b948d839da7"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Fetching Project Details",
+        "dependsOn": [
+          {
+            "activity": "Fetching accessToken",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "items": {
+            "value": "@json(activity('Fetching Project Details').output.Response)",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "Copy",
+              "typeProperties": {
+                "source": {
+                  "type": "RestSource",
+                  "requestMethod": "GET",
+                  "additionalHeaders": {
+                    "Authorization": {
+                      "value": "@concat('Bearer ',activity('Invoke Payapps token').output.accessToken)",
+                      "type": "Expression"
+                    }
+                  },
+                  "paginationRules": {
+                    "supportRFC5988": "true"
+                  },
+                  "httpRequestTimeout": "00:01:40",
+                  "requestInterval": "00.00:00:00.010",
+                  "datasetSettings": {
+                    "type": "RestResource",
+                    "typeProperties": {
+                      "relativeUrl": {
+                        "value": "@concat('/v1/projects/',item().id,'/contracts')",
+                        "type": "Expression"
+                      }
+                    },
+                    "schema": [],
+                    "externalReferences": {
+                      "connection": "139a8a5c-19ca-4865-a1e7-0b948d839da7"
+                    },
+                    "annotations": []
+                  }
+                },
+                "sink": {
+                  "type": "JsonSink",
+                  "formatSettings": {
+                    "type": "JsonWriteSettings"
+                  },
+                  "storeSettings": {
+                    "type": "LakehouseWriteSettings"
+                  },
+                  "datasetSettings": {
+                    "type": "Json",
+                    "typeProperties": {
+                      "location": {
+                        "type": "LakehouseLocation",
+                        "folderPath": "data/Contracts",
+                        "fileName": {
+                          "value": "@concat(utcnow(),'_contracts_',item().id,'.json')",
+                          "type": "Expression"
+                        }
+                      }
+                    },
+                    "schema": {},
+                    "linkedService": {
+                      "name": "Lakehouse_Shruti",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "dcf96739-12a5-a80c-4aa0-24bf88aed926",
+                          "workspaceId": "00000000-0000-0000-0000-000000000000",
+                          "rootFolder": "Files"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "enableStaging": false
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Fetching Contract Details",
+              "dependsOn": []
+            }
+          ]
+        },
+        "name": "ForEach1",
+        "dependsOn": [
+          {
+            "activity": "Fetching Project Details",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

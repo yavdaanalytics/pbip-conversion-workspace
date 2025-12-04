@@ -1,0 +1,68 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {},
+  "name": "Dataflow_zoho",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "all_projects_table": {
+      "queryId": "2881e7ca-7f1e-41d9-82e2-5e8b6dea1053",
+      "queryName": "all_projects_table"
+    },
+    "portal_table": {
+      "queryId": "a388100e-bdfc-4894-9709-3a9749944808",
+      "queryName": "portal_table"
+    },
+    "issues_table": {
+      "queryId": "07a6c0d7-b633-43b0-ad4c-a9542b0b888d",
+      "queryName": "issues_table"
+    },
+    "phases_table": {
+      "queryId": "07e3671d-fc1f-4919-a476-c8b2953fe716",
+      "queryName": "phases_table"
+    },
+    "task_lists_table": {
+      "queryId": "eefc7288-4d6d-4f3a-8158-6f65c0b02a08",
+      "queryName": "task_lists_table"
+    },
+    "task_table": {
+      "queryId": "87b5a506-d7d5-40b1-987e-96afedc1eae4",
+      "queryName": "task_table"
+    },
+    "users_table": {
+      "queryId": "1ed38d5c-4001-4b89-aae8-78e6bd86a190",
+      "queryName": "users_table"
+    },
+    "leaves_table": {
+      "queryId": "fff8dd55-e038-4a60-9a15-1e6a53bbdc1e",
+      "queryName": "leaves_table"
+    },
+    "tasks_timelogs_table": {
+      "queryId": "0d4d2b68-e887-446e-af07-ed72788eca60",
+      "queryName": "tasks_timelogs_table"
+    },
+    "Project_table": {
+      "queryId": "a4609804-8059-4c80-b06c-76ee2f8f8328",
+      "queryName": "Project_table"
+    },
+    "filtered_task_id_table": {
+      "queryId": "d0f1541d-34ce-4fbc-8080-3411fe9b14f3",
+      "queryName": "filtered_task_id_table"
+    },
+    "task_table (2)": {
+      "queryId": "15523f7b-a0f0-4fa3-9c0b-36bb54fd2b55",
+      "queryName": "task_table (2)"
+    },
+    "tasks_timelogs_table (2)": {
+      "queryId": "39763dda-434f-4566-b51f-2b379a4c33b0",
+      "queryName": "tasks_timelogs_table (2)"
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"26cac05e-9383-44be-8fbb-72e814b79420\",\"DatasourceId\":\"67271fe3-189f-4c53-8f69-0a12c145c74d\"}"
+    }
+  ]
+}

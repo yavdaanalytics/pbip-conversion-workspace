@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "Pipeline to Execute Payapps Dataflow"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "837a32d9-cdf0-b835-4b08-3fe4c191fd85"
+  }
+}

@@ -1,0 +1,29 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["DirectLake - lh_zoho_projects_exp"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DirectLakeOnOneLakeInWeb","WebModelingEdit"]
+
+ref table task_lists_table
+ref table phases_table
+ref table issues_table
+ref table task_table
+ref table timelogs_0411
+ref table tasks_31_10
+ref table timelogs_31_10
+ref table loghrs_04
+ref table all_projects_table
+ref table users_table
+ref table project_group
+ref table portal_table
+ref table leaves_table
+ref table timelog
+

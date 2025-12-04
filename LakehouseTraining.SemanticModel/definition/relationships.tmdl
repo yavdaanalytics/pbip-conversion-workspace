@@ -1,0 +1,6 @@
+relationship 1cc50927-26ad-d257-4f02-f24256224033
+	fromColumn: sales.Product_ID
+	toColumn: products.Product_ID
+
+	annotation __RelationshipProperties = {"constraintName":"","needRecreation":false,"isUserCreated":true}
+

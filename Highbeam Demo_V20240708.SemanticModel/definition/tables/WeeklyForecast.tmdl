@@ -1,0 +1,449 @@
+table WeeklyForecast
+	lineageTag: 30bb4ece-fa65-457e-be42-8b4f82b770c0
+
+	column Year
+		dataType: string
+		lineageTag: 8a3b2106-d7f4-4bf1-95a7-7c3ba4ca8752
+		summarizeBy: none
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week of Year'
+		dataType: string
+		lineageTag: 630d384e-99bf-4419-9384-0b5ace10f932
+		summarizeBy: none
+		sourceColumn: Week of Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column StdDev365Wk =
+			CALCULATE (
+			    STDEV.P ( WeeklyLastYearCalendar[QTY] ),
+			    FILTER (
+			        WeeklyLastYearCalendar,
+			        WeeklyLastYearCalendar[Item] = WeeklyForecast[Item]
+			            && WeeklyLastYearCalendar[Date]
+			                >= DATE ( YEAR ( WeeklyForecast[Date] ) - 1, MONTH ( WeeklyForecast[Date] ), DAY ( WeeklyForecast[Date] ) )
+			    )
+			)
+		lineageTag: 50afaeee-28a1-4d49-894b-dce7ec73751f
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SafetyStockWk =
+			ROUNDUP (
+			    WeeklyForecast[StdDev365Wk] * WeeklyForecast[ZScore]
+			        * SQRT ( WeeklyForecast[LeadTime] )
+			        ,
+			    1
+			)
+		dataType: int64
+		formatString: #,0
+		lineageTag: 24ee7d5a-e34e-4901-bea2-a0ee5fc5d780
+		summarizeBy: sum
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column OnPO =
+			VAR CurrentItem = WeeklyForecast[Item]
+			VAR POInventory =
+			    CALCULATE (
+			        SUM ( InvStock[On PO] ),
+			        FILTER (
+			            InvStock,
+			            InvStock[Item] = WeeklyForecast[Item]
+			                 && InvStock[Next Deliv Date] = WeeklyForecast[Date]
+			        )
+			    )
+			RETURN
+			    POInventory
+		formatString: #,0
+		lineageTag: 41877c4e-94ed-4c07-8bce-f1f0a531b802
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Available_POActual = WeeklyForecast[Available] + WeeklyForecast[OnPO]
+		formatString: #,0
+		lineageTag: 7c313820-2c69-482b-9ec0-c6d468a85e1b
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column LeadTime =
+			CALCULATE (
+			    SUM ( 'Product'[LeadTimeWks] ),
+			    FILTER (
+			        'Product',
+			        'Product'[Item] = WeeklyForecast[Item]
+			    )
+			)
+		formatString: 0
+		lineageTag: 4f56b4f2-b998-4cee-a320-49c09ad82bb1
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ZScore =
+			CALCULATE (
+			    SUM ( Parameters[Value] ),
+			    FILTER (
+			        'Parameters',
+			        Parameters[Table] = "ZScore"
+			            && Parameters[Factor] = .9
+			    )
+			)
+		lineageTag: 6c8bb05b-0274-48f8-998b-9db5b2d5dd86
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ReorderSS+LTD = WeeklyForecast[SafetyStockWk] + WeeklyForecast[Lead Time Forecast]
+		formatString: #,0
+		lineageTag: 3a6cca98-b347-4122-9085-19dc208a4112
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Purchase Recommendation' =
+			IF (
+			    WeeklyForecast[Lead Time Forecast] + WeeklyForecast[SafetyStockWk] > WeeklyForecast[Available_POActual],
+			    WeeklyForecast[Lead Time Forecast] + WeeklyForecast[SafetyStockWk] - WeeklyForecast[Available_POActual],
+			    0
+			)
+		dataType: int64
+		formatString: #,0
+		lineageTag: 010920af-ea6c-4dd9-bcee-7d7b7fb1dce4
+		summarizeBy: sum
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ExcessInventoryWk = ```
+			IF(
+			                WeeklyForecast[Available] - WeeklyForecast[ReorderSS+LTD]>0
+			                ,WeeklyForecast[Available] - WeeklyForecast[ReorderSS+LTD] 
+			                ,0)
+			```
+		formatString: #,0
+		lineageTag: 8b05fead-d72f-464c-bd95-f6d19106230b
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column RunWkAvg =
+			CALCULATE (
+			    SUM ( Parameters[Value] ),
+			    FILTER (
+			        'Parameters',
+			        Parameters[Table] = "RunWkAvg"
+			            && Parameters[Factor] = 4
+			    )
+			)
+		formatString: 0
+		lineageTag: bd8b48f5-1947-42d0-b267-026e63ada6f7
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LeadTimeWkDate =
+			(
+			    TODAY () - WEEKDAY ( TODAY (), 2 ) + 1
+			) + ( 7 * WeeklyForecast[LeadTime] )
+		formatString: m/d/yy
+		lineageTag: 770f8f03-45f3-452a-963f-646d764d33b8
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: e22c642c-bd17-48e5-a758-3b2b0724c708
+			defaultHierarchy: LocalDateTable_99168b0f-e733-47cb-9677-88d0dd39479a.'Date Hierarchy'
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column ExcessCashInInventory =
+			IF (
+			    WeeklyForecast[Cost] * WeeklyForecast[ExcessInventoryWk] > 0,
+			    WeeklyForecast[Cost] * WeeklyForecast[ExcessInventoryWk],
+			    0
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: dabd1fdf-ae22-438c-b308-0c5ece76951c
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Available =
+			CALCULATE (
+			    SUM ( InvStock[On Hand] ),
+			    FILTER (
+			        InvStock,
+			        InvStock[Item] = WeeklyForecast[Item]
+			            && InvStock[Inventory Date] = WeeklyForecast[Date]
+			    )
+			)
+		formatString: #,0
+		lineageTag: a0bece14-1554-4d52-892a-530846e3aeb6
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NextDeliveryDate =
+			CALCULATE (
+			    MAX( InvStock[Next Deliv Date] ),
+			    FILTER (
+			        InvStock,
+			        InvStock[Item] = WeeklyForecast[Item]
+			            && InvStock[Inventory Date] = WeeklyForecast[Date]
+			    )
+			)
+		formatString: mmmm d
+		lineageTag: e78a6db2-556d-423d-b4eb-df4d3489944f
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 8ada0441-1e4a-4580-8f3a-d67022b147df
+			defaultHierarchy: LocalDateTable_4de7bca1-da8d-4966-8f0a-d60db97b8809.'Date Hierarchy'
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Lead Time Forecast' =
+			
+			VAR CurrentItem = WeeklyForecast[Item]
+			VAR BegDATE = WeeklyForecast[Date]
+			VAR EndDate = WeeklyForecast[LeadTimeWkDate]
+			VAR FilteredTable =
+			    FILTER (
+			        'Date Table Weekly',
+			        'Date Table Weekly'[Date] >= BegDATE
+			            && 'Date Table Weekly'[Date] < EndDate
+			    )
+			RETURN
+			    CALCULATE (
+			        SUM ( 'Sales Weekly Forecast'[Qty] ),
+			        FilteredTable,
+			        'Sales Weekly Forecast'[Item] = CurrentItem
+			    )
+		formatString: #,0
+		lineageTag: a28ab595-1c84-4baa-aa54-1b1c1a65cb37
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column 'Sales Price Avg' =
+			VAR CurrentItem = WeeklyForecast[Item]
+			VAR FilteredTable =
+			    FILTER (
+			        'WeeklyLastYearCalendar',
+			        WeeklyLastYearCalendar[Item] = CurrentItem
+			    )
+			RETURN
+			    IF (
+			        CALCULATE (
+			            SUM ( WeeklyLastYearCalendar[Revenue] ),
+			            FilteredTable
+			        ) = 0,
+			        0,
+			        CALCULATE (
+			            SUM ( WeeklyLastYearCalendar[Revenue] )
+			                / SUM ( WeeklyLastYearCalendar[QTY] ),
+			            FilteredTable
+			        )
+			    )
+		formatString: 0
+		lineageTag: d292ac55-2c2e-4ca6-92e2-80737823babd
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column InventoryValue = ```
+			
+			            if(WeeklyForecast[Available]<0
+			            ,WeeklyForecast[Cost]
+			            ,WeeklyForecast[Available] * WeeklyForecast[Cost])
+			
+			```
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: b33269e9-6ba1-4ef2-bb59-279f450176f5
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LostRevenueLTD =
+			
+			IF (
+			    WeeklyForecast[Lead Time Forecast] > WeeklyForecast[Available_POActual],
+			    ( WeeklyForecast[Lead Time Forecast] - WeeklyForecast[Available_POActual] ) * WeeklyForecast[Sales Price Avg]
+			    , 0
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 4b5a8e1b-cb3b-43cd-868a-6c29102389d6
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column SafetyStockValue = WeeklyForecast[SafetyStockWk] * WeeklyForecast[Cost]
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 5cc75e26-362c-44e2-857b-7aa6ec82b402
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column OptimumInventoryValue = ( WeeklyForecast[Lead Time Forecast] + WeeklyForecast[SafetyStockWk] ) * ( WeeklyForecast[Cost] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: c4d5d73f-23fe-4fff-947c-5af3b32840d4
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Date
+		dataType: dateTime
+		formatString: Mm/dd/yyyy
+		lineageTag: b16d8e83-e13f-4fff-840f-71211938fa4a
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column Item
+		dataType: string
+		lineageTag: 4238872c-4c86-42f2-8edb-245cd5ad8251
+		summarizeBy: none
+		sourceColumn: Item
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'REC InventoryValue' = WeeklyForecast[Purchase Recommendation] * WeeklyForecast[Cost]
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 10f3fc14-ddb7-41e6-adf5-f24d07b119a5
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Cost
+		dataType: double
+		lineageTag: dae065a4-5ed6-4f8a-802f-8c21253ca5f6
+		summarizeBy: sum
+		sourceColumn: Cost
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition WeeklyForecast-b69aa377-e8b1-402b-90e8-84051a286274 = m
+		mode: import
+		source =
+				let
+				    Source = List.Dates(List.Max(InvStock[Inventory Date]), 53, #duration(7, 0, 0, 0)),
+				    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Converted to Table",{{"Column1", type date}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Column1", "Date"}}),
+				    #"Inserted Year" = Table.AddColumn(#"Renamed Columns", "Year", each Date.Year([Date]), Int64.Type),
+				    #"Inserted Week of Year" = Table.AddColumn(#"Inserted Year", "Week of Year", each Date.WeekOfYear([Date]), Int64.Type),
+				    #"Added Custom" = Table.AddColumn(#"Inserted Week of Year", "Custom", each Product),
+				    #"Expanded Custom" = Table.ExpandTableColumn(#"Added Custom", "Custom", {"Item"}, {"Custom.Item"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Expanded Custom",{{"Custom.Item", "Item"}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Renamed Columns1", {"Date", "Item"}, Purchase, {"Date", "Item"}, "Purchase", JoinKind.LeftOuter),
+				    #"Expanded Purchase" = Table.ExpandTableColumn(#"Merged Queries", "Purchase", {"Cost Price"}, {"Cost"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Expanded Purchase",{{"Item", type text}, {"Cost", type number}, {"Year", type text}, {"Week of Year", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_ResultType = Table
+

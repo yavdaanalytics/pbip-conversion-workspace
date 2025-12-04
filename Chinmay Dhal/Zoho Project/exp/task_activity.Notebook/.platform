@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "task_activity"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9ea9c4e6-b4ca-9079-4474-81778d993f33"
+  }
+}

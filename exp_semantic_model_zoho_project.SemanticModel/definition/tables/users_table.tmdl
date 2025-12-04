@@ -1,0 +1,323 @@
+table users_table
+	lineageTag: 06c5f914-979b-4b42-9837-9611802328b6
+	sourceLineageTag: [dbo].[users_table]
+
+	column 'page_info.per_page'
+		dataType: int64
+		formatString: 0
+		lineageTag: c1429616-e549-4217-a925-9f9a32ab4ea0
+		sourceLineageTag: page_info.per_page
+		summarizeBy: sum
+		sourceColumn: page_info.per_page
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.budget.rate_per_hour'
+		dataType: string
+		lineageTag: 47e19af4-93cc-404e-8647-2b490419c27b
+		sourceLineageTag: users.budget.rate_per_hour
+		summarizeBy: none
+		sourceColumn: users.budget.rate_per_hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.budget.cost_per_hour'
+		dataType: string
+		lineageTag: 3d9f21c3-e568-41dc-a9f8-82c38430be49
+		sourceLineageTag: users.budget.cost_per_hour
+		summarizeBy: none
+		sourceColumn: users.budget.cost_per_hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.deactivated_by'
+		dataType: string
+		lineageTag: fa4922bb-f1d6-45c0-a456-b1653ef42477
+		sourceLineageTag: users.deactivated_by
+		summarizeBy: none
+		sourceColumn: users.deactivated_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.user_type'
+		dataType: string
+		lineageTag: 42711945-735f-444d-9495-79f2d67df987
+		sourceLineageTag: users.user_type
+		summarizeBy: none
+		sourceColumn: users.user_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.id'
+		dataType: string
+		lineageTag: 16808b1e-6461-4e80-811a-44415588b2a0
+		sourceLineageTag: users.id
+		summarizeBy: none
+		sourceColumn: users.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.invoice'
+		dataType: string
+		lineageTag: a5dd9d94-a66c-4900-b5bc-9c114767d51c
+		sourceLineageTag: users.invoice
+		summarizeBy: none
+		sourceColumn: users.invoice
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.first_name'
+		dataType: string
+		lineageTag: e741b8f9-abc6-41c9-908f-d2070f0fa5f9
+		sourceLineageTag: users.first_name
+		summarizeBy: none
+		sourceColumn: users.first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.email'
+		dataType: string
+		lineageTag: ad0d5482-66e6-4a43-939d-dd7c35cf98d1
+		sourceLineageTag: users.email
+		summarizeBy: none
+		sourceColumn: users.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.status'
+		dataType: string
+		lineageTag: d426affe-6d3d-43eb-80e0-e489f0980b77
+		sourceLineageTag: users.status
+		summarizeBy: none
+		sourceColumn: users.status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.profile.is_default'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: cc0170ac-70d6-41f0-8b06-ae726ac1f866
+		sourceLineageTag: users.profile.is_default
+		summarizeBy: none
+		sourceColumn: users.profile.is_default
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.last_name'
+		dataType: string
+		lineageTag: ee60f736-e022-402f-8a65-b49a9182f4f0
+		sourceLineageTag: users.last_name
+		summarizeBy: none
+		sourceColumn: users.last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.display_name'
+		dataType: string
+		lineageTag: 96caa9b2-a7b0-492a-9926-6b9880254ae8
+		sourceLineageTag: users.display_name
+		summarizeBy: none
+		sourceColumn: users.display_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.zuid'
+		dataType: string
+		lineageTag: 6d671998-02bd-4bac-8491-888cad045209
+		sourceLineageTag: users.zuid
+		summarizeBy: none
+		sourceColumn: users.zuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.last_accessed_on'
+		dataType: string
+		lineageTag: 7fbec19f-8237-4cc8-aee0-4c78c8eb3016
+		sourceLineageTag: users.last_accessed_on
+		summarizeBy: none
+		sourceColumn: users.last_accessed_on
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.full_name'
+		dataType: string
+		lineageTag: c6a3a9a0-3ce8-4759-a8d3-281b25e2c628
+		sourceLineageTag: users.full_name
+		summarizeBy: none
+		sourceColumn: users.full_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.role.type'
+		dataType: string
+		lineageTag: a5d84189-b1aa-41ca-853d-32337c11ebd7
+		sourceLineageTag: users.role.type
+		summarizeBy: none
+		sourceColumn: users.role.type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.time_of_request'
+		dataType: string
+		lineageTag: 3b2a74f1-8eb0-4a26-b2d6-32efc25148ba
+		sourceLineageTag: users.time_of_request
+		summarizeBy: none
+		sourceColumn: users.time_of_request
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.is_confirmed'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 2423f85e-8b1a-4638-ab9d-8a5308d36415
+		sourceLineageTag: users.is_confirmed
+		summarizeBy: none
+		sourceColumn: users.is_confirmed
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.profile.name'
+		dataType: string
+		lineageTag: a587983a-ea2e-4ba0-b4c1-457a1f151d2a
+		sourceLineageTag: users.profile.name
+		summarizeBy: none
+		sourceColumn: users.profile.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.profile.id'
+		dataType: string
+		lineageTag: 0da39267-fb67-4fed-9247-11e789a2308b
+		sourceLineageTag: users.profile.id
+		summarizeBy: none
+		sourceColumn: users.profile.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.profile.type'
+		dataType: string
+		lineageTag: e42e2cda-5476-4d2c-b5d3-cba38782e994
+		sourceLineageTag: users.profile.type
+		summarizeBy: none
+		sourceColumn: users.profile.type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.business_hours.version'
+		dataType: string
+		lineageTag: a20f63de-1ac5-4b20-a113-8a11fed7205c
+		sourceLineageTag: users.business_hours.version
+		summarizeBy: none
+		sourceColumn: users.business_hours.version
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.updated_time'
+		dataType: string
+		lineageTag: 4d8970b3-8761-406e-92a8-f9dd52feb17b
+		sourceLineageTag: users.updated_time
+		summarizeBy: none
+		sourceColumn: users.updated_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.added_time'
+		dataType: string
+		lineageTag: afa66fb8-2266-441c-ad3e-359d0a6e9940
+		sourceLineageTag: users.added_time
+		summarizeBy: none
+		sourceColumn: users.added_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.is_active'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e44604c5-e765-4fc3-b458-6d6d343adff5
+		sourceLineageTag: users.is_active
+		summarizeBy: none
+		sourceColumn: users.is_active
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.role.name'
+		dataType: string
+		lineageTag: ed7fe1c3-2da0-4b81-80a2-cfbc0d2127cf
+		sourceLineageTag: users.role.name
+		summarizeBy: none
+		sourceColumn: users.role.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.role.id'
+		dataType: string
+		lineageTag: ddeb5850-db62-4ed9-8080-b1e62778829f
+		sourceLineageTag: users.role.id
+		summarizeBy: none
+		sourceColumn: users.role.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.has_next_page'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 56136be1-34bc-4b74-978e-1e3c7856b0f3
+		sourceLineageTag: page_info.has_next_page
+		summarizeBy: none
+		sourceColumn: page_info.has_next_page
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.count'
+		dataType: int64
+		formatString: 0
+		lineageTag: b33274e7-8f6e-4579-86c8-719b67779df4
+		sourceLineageTag: page_info.count
+		summarizeBy: sum
+		sourceColumn: page_info.count
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'page_info.page'
+		dataType: int64
+		formatString: 0
+		lineageTag: aef74173-d008-4d4a-a7a6-b52b6260198f
+		sourceLineageTag: page_info.page
+		summarizeBy: sum
+		sourceColumn: page_info.page
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.business_hours.working_hours'
+		dataType: string
+		lineageTag: 590fc03a-18f0-463f-b55f-b1fbda2839ca
+		sourceLineageTag: users.business_hours.working_hours
+		summarizeBy: none
+		sourceColumn: users.business_hours.working_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.business_hours.name'
+		dataType: string
+		lineageTag: 3bc390ff-392d-4783-bde1-a65f6e064ca2
+		sourceLineageTag: users.business_hours.name
+		summarizeBy: none
+		sourceColumn: users.business_hours.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'users.business_hours.id'
+		dataType: string
+		lineageTag: 7560ab4d-7077-490c-99d8-dc691d60be32
+		sourceLineageTag: users.business_hours.id
+		summarizeBy: none
+		sourceColumn: users.business_hours.id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition users_table = entity
+		mode: directLake
+		source
+			entityName: users_table
+			expressionSource: 'DirectLake - lh_zoho_projects_exp'
+

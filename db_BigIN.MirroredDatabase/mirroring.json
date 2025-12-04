@@ -1,0 +1,56 @@
+{
+  "properties": {
+    "source": {
+      "type": "AzureSqlDatabase",
+      "typeProperties": {
+        "connection": "73efb6ab-20ed-42b8-b2ce-66eda026aecd",
+        "landingZone": {
+          "type": "MountedRelationalDatabase",
+          "typeProperties": {}
+        }
+      }
+    },
+    "target": {
+      "type": "MountedRelationalDatabase",
+      "typeProperties": {
+        "defaultSchema": "dbo",
+        "format": "Delta",
+        "retentionInDays": 1
+      }
+    },
+    "mountedTables": [
+      {
+        "source": {
+          "typeProperties": {
+            "schemaName": "dbo",
+            "tableName": "tblAccounts"
+          }
+        }
+      },
+      {
+        "source": {
+          "typeProperties": {
+            "schemaName": "dbo",
+            "tableName": "tblContacts"
+          }
+        }
+      },
+      {
+        "source": {
+          "typeProperties": {
+            "schemaName": "dbo",
+            "tableName": "tblDeals"
+          }
+        }
+      },
+      {
+        "source": {
+          "typeProperties": {
+            "schemaName": "dbo",
+            "tableName": "tblProducts"
+          }
+        }
+      }
+    ]
+  }
+}

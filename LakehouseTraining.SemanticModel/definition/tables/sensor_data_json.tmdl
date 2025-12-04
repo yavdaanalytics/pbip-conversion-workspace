@@ -1,0 +1,58 @@
+table sensor_data_json
+	lineageTag: 3f417bf3-99e0-4a69-826c-5b26288b2fa8
+	sourceLineageTag: [dbo].[sensor_data_json]
+
+	column time_id
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: c731513e-b625-4384-aeaf-1b1edee1ff97
+		sourceLineageTag: time_id
+		summarizeBy: none
+		sourceColumn: time_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column ping_ms
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 3f61c423-1531-4abf-b8c7-25a6ffdd2c43
+		sourceLineageTag: ping_ms
+		summarizeBy: sum
+		sourceColumn: ping_ms
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column temperature_c
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 2d022b92-489e-47b4-b961-28c6d2ef5c89
+		sourceLineageTag: temperature_c
+		summarizeBy: sum
+		sourceColumn: temperature_c
+
+		annotation SummarizationSetBy = Automatic
+
+	column humidity_p
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: d96a06f2-19ff-403a-9857-d497709c8697
+		sourceLineageTag: humidity_p
+		summarizeBy: sum
+		sourceColumn: humidity_p
+
+		annotation SummarizationSetBy = Automatic
+
+	partition sensor_data_json-853a2c7a-eec6-42a2-b5a9-b2b62a7e70d1 = entity
+		mode: directLake
+		source
+			entityName: sensor_data_json
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation IsTableInBiModel = True
+

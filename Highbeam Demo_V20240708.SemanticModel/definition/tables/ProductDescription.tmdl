@@ -1,0 +1,152 @@
+table ProductDescription
+	lineageTag: 896e0544-33bf-4e94-b090-61f0260b3fdc
+
+	column Color
+		dataType: string
+		lineageTag: d20026a6-e193-4e7e-a931-e6272b86fc2a
+		summarizeBy: none
+		sourceColumn: Color
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 22815eb9-8534-46d2-bbb2-8923aef1ff36
+		summarizeBy: none
+		sourceColumn: Description
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Display Name'
+		dataType: string
+		lineageTag: 12991af0-9c0f-4e03-bc34-7ca4a0872e01
+		summarizeBy: none
+		sourceColumn: Display Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Merchandise Hierarchy'
+		dataType: string
+		lineageTag: 1d71f1f6-2201-48e8-9179-cdc0d228f55e
+		summarizeBy: none
+		sourceColumn: Merchandise Hierarchy
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Size
+		dataType: string
+		lineageTag: 6ba6df66-391f-4c04-b6b9-46086a3f00b8
+		summarizeBy: none
+		sourceColumn: Size
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SKU
+		dataType: string
+		lineageTag: 88a7411d-db55-44bb-a462-5a19a1e196d9
+		summarizeBy: none
+		sourceColumn: SKU
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Vendor
+		dataType: string
+		lineageTag: 685d2088-c932-4a40-adf6-8afdb18e1fd3
+		summarizeBy: none
+		sourceColumn: Vendor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descriptor 1'
+		dataType: string
+		lineageTag: b9ec708a-a549-4fe2-845f-ecd5c6e07fb5
+		summarizeBy: none
+		sourceColumn: Descriptor 1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Category'
+		dataType: string
+		lineageTag: 54ed7529-93b0-4484-aaf1-42f0bfcb123a
+		summarizeBy: none
+		sourceColumn: Product Category
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descriptor 3'
+		dataType: string
+		lineageTag: fe5e90cb-0073-4f31-9658-d7781b0e502e
+		summarizeBy: none
+		sourceColumn: Descriptor 3
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Item
+		dataType: string
+		lineageTag: 573b6079-fbe1-425c-b995-ed8d00ef3d15
+		summarizeBy: none
+		sourceColumn: Item
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Primary Vendor' =
+			CALCULATE (
+			    DISTINCT ( 'Product'[Preferred Vendor] ),
+			    FILTER (
+			        'Product',
+			        Product[Item] = 'ProductDescription'[Item]
+			    )
+			)
+		lineageTag: 8157937d-9498-4da7-8d21-aa0fa76672c5
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ProductDescription-38a71ac5-f772-42cf-951c-6aaeaaa26882 = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents(#"Subfolder Path" & "Product DescriptionsA.xlsx"), null, true),
+				    in_Sheet = Source{[Item="in",Kind="Sheet"]}[Data],
+				    #"Transposed Table" = Table.Transpose(in_Sheet),
+				    #"Filtered Rows1" = Table.SelectRows(#"Transposed Table", each [Column1] <> null and [Column1] <> ""),
+				    #"Transposed Table1" = Table.Transpose(#"Filtered Rows1"),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Transposed Table1", [PromoteAllScalars=true]),
+				    #"Renamed Columns" = Table.RenameColumns(#"Promoted Headers",{{"Key Sku", "Item"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns",{{"Color", type text}, {"Description", type text}, {"Display Name", type text}, {"Item", type text}, {"Merchandise Hierarchy", type text}, {"Size", type text}, {"SKU", type text}, {"Vendor", type text}, {"Descriptor 1", type text}, {"Descriptor 2", type text}, {"Descriptor 3", type text}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type1", each [Item] <> null and [Item] <> ""),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Filtered Rows",{{"Descriptor 2", "Product Category"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns1",{"SKU"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Columns", {"Item"}, #"Product DescriptionsTranslation", {"Item"}, "Product DescriptionsTranslation", JoinKind.Inner),
+				    #"Expanded Product DescriptionsTranslation" = Table.ExpandTableColumn(#"Merged Queries", "Product DescriptionsTranslation", {"SKU"}, {"SKU"})
+				in
+				    #"Expanded Product DescriptionsTranslation"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

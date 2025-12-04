@@ -1,0 +1,537 @@
+{
+  "name": "{{Dataset_Name}}",
+  "compatibilityLevel": 1604,
+  "model": {
+    "name": "{{Dataset_Name}}",
+    "culture": "en-US",
+    "collation": "Latin1_General_100_BIN2_UTF8",
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "sourceQueryCulture": "en-US",
+    "tables": [
+      {
+        "name": "MP_leads",
+        "sourceLineageTag": "[dbo].[MP_leads]",
+        "columns": [
+          {
+            "name": "Engagement ID",
+            "dataType": "string",
+            "sourceColumn": "Engagement ID",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Engagement ID",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Referral ID",
+            "dataType": "string",
+            "sourceColumn": "Referral ID",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Referral ID",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Lead Name",
+            "dataType": "string",
+            "sourceColumn": "Lead Name",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Lead Name",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Customer Name",
+            "dataType": "string",
+            "sourceColumn": "Customer Name",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Customer Name",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Customer Address Line 1",
+            "dataType": "string",
+            "sourceColumn": "Customer Address Line 1",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Customer Address Line 1",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Customer Address Line 2",
+            "dataType": "string",
+            "sourceColumn": "Customer Address Line 2",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Customer Address Line 2",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Customer City",
+            "dataType": "string",
+            "sourceColumn": "Customer City",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Customer City",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Customer State",
+            "dataType": "string",
+            "sourceColumn": "Customer State",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Customer State",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Customer Postal Code",
+            "dataType": "string",
+            "sourceColumn": "Customer Postal Code",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Customer Postal Code",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Customer Country",
+            "dataType": "string",
+            "sourceColumn": "Customer Country",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Customer Country",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Customer D-U-N-S id",
+            "dataType": "string",
+            "sourceColumn": "Customer D-U-N-S id",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Customer D-U-N-S id",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Customer Contact First Name",
+            "dataType": "string",
+            "sourceColumn": "Customer Contact First Name",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Customer Contact First Name",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Customer Contact Last Name",
+            "dataType": "string",
+            "sourceColumn": "Customer Contact Last Name",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Customer Contact Last Name",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Customer Contact Phone number",
+            "dataType": "string",
+            "sourceColumn": "Customer Contact Phone number",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Customer Contact Phone number",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Phone Validity",
+            "dataType": "string",
+            "sourceColumn": "Phone Validity",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Phone Validity",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Customer Contact Email Address",
+            "dataType": "string",
+            "sourceColumn": "Customer Contact Email Address",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Customer Contact Email Address",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Email Validity",
+            "dataType": "string",
+            "sourceColumn": "Email Validity",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Email Validity",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Partner Referral Status",
+            "dataType": "string",
+            "sourceColumn": "Partner Referral Status",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Partner Referral Status",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Partner Referral Substatus",
+            "dataType": "string",
+            "sourceColumn": "Partner Referral Substatus",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Partner Referral Substatus",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Decline/Lost/Error reason",
+            "dataType": "string",
+            "sourceColumn": "Decline/Lost/Error reason",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Decline/Lost/Error reason",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Sales Stage",
+            "dataType": "int64",
+            "sourceColumn": "Sales Stage",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "Sales Stage",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Estimated Deal Value",
+            "dataType": "string",
+            "sourceColumn": "Estimated Deal Value",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Estimated Deal Value",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Currency",
+            "dataType": "string",
+            "sourceColumn": "Currency",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Currency",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Referral Program",
+            "dataType": "string",
+            "sourceColumn": "Referral Program",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Referral Program",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Lead source",
+            "dataType": "string",
+            "sourceColumn": "Lead source",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Lead source",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Call to action",
+            "dataType": "string",
+            "sourceColumn": "Call to action",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Call to action",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Lead quality",
+            "dataType": "string",
+            "sourceColumn": "Lead quality",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Lead quality",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Lead type",
+            "dataType": "string",
+            "sourceColumn": "Lead type",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Lead type",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "CRM ID",
+            "dataType": "string",
+            "sourceColumn": "CRM ID",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "CRM ID",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Marketing Campaign ID",
+            "dataType": "string",
+            "sourceColumn": "Marketing Campaign ID",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Marketing Campaign ID",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Notes",
+            "dataType": "string",
+            "sourceColumn": "Notes",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Notes",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "MPN Id",
+            "dataType": "int64",
+            "sourceColumn": "MPN Id",
+            "formatString": "0",
+            "sourceProviderType": "bigint",
+            "sourceLineageTag": "MPN Id",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Lead Created Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Lead Created Date",
+            "formatString": "General Date",
+            "sourceProviderType": "date",
+            "sourceLineageTag": "Lead Created Date",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Offer 1",
+            "dataType": "string",
+            "sourceColumn": "Offer 1",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Offer 1",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "MP_leads",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "dbo"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      }
+    ],
+    "expressions": [
+      {
+        "name": "DatabaseQuery",
+        "kind": "m",
+        "expression": "let\n    database = {{TDS_Endpoint}}\nin\n    database\n"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "0"
+      },
+      {
+        "name": "SourceLineageTagType",
+        "value": "DatabaseFullyQualifiedName"
+      }
+    ]
+  }
+}

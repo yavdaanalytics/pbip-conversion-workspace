@@ -1,0 +1,48 @@
+table Parameter-Dim
+	lineageTag: 11cd0384-c1dc-4b74-9d04-13201360464a
+
+	column Parameter-Dim
+		lineageTag: 86796bae-bcdc-479e-b441-3d4491c9e8e8
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter-Dim Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter-Dim Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter-Dim Fields'
+		lineageTag: 125254c6-397b-4ee4-ba31-1d332c03cb16
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter-Dim Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter-Dim Order'
+		formatString: 0
+		lineageTag: 5030a8fd-e607-42c7-a72c-0d24be3c7fe5
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter-Dim = calculated
+		mode: import
+		source =
+				{
+				    ("SKU", NAMEOF(ProductDescription[SKU]), 0),
+				    ("Product Category", NAMEOF(ProductDescription[Product Category]), 1),
+				    ("Color", NAMEOF('Product'[Color]), 2)
+				    // ("Manufacturer", NAMEOF('Product'[Manufacturer]), 2)
+				}
+
+	annotation PBI_Id = 42abb1247dea46c79d9f2fde13b4b7bb
+

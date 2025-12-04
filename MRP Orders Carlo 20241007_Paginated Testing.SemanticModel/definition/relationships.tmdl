@@ -1,0 +1,10 @@
+relationship 93950a7f-7b9b-4629-b9fb-f60bff59d392
+	joinOnDateBehavior: datePartOnly
+	fromColumn: MRP_Orders.EFFECTFROMDATE_D
+	toColumn: LocalDateTable_cd7c6e52-a555-48a4-a973-af2369cf396a.Date
+
+relationship 87b74ef4-7aef-4ec3-a11f-99267da46d60
+	joinOnDateBehavior: datePartOnly
+	fromColumn: MRP_Orders.EFFECTTODATE_D
+	toColumn: LocalDateTable_b2293cb0-1676-41f5-9f58-671b7071be82.Date
+

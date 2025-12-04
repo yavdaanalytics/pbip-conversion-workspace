@@ -1,0 +1,52 @@
+table procedure
+	lineageTag: e54eb555-808a-4a9e-bb85-977b21105f9f
+
+	column ProcedureID
+		dataType: int64
+		formatString: 0
+		lineageTag: fa26d848-dbcd-46dd-be97-93df3ecf6ef3
+		summarizeBy: count
+		sourceColumn: ProcedureID
+
+		annotation SummarizationSetBy = Automatic
+
+	column VisitID
+		dataType: int64
+		formatString: 0
+		lineageTag: ee4b527b-e58d-4efc-932f-a532e0b09818
+		summarizeBy: none
+		sourceColumn: VisitID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProcedureName
+		dataType: string
+		lineageTag: 064bbf46-7818-4645-b99b-3269c8a31496
+		summarizeBy: none
+		sourceColumn: ProcedureName
+
+		annotation SummarizationSetBy = Automatic
+
+	column DatePerformed
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7808aec0-7073-45e2-a6cf-d00e501036cb
+		summarizeBy: none
+		sourceColumn: DatePerformed
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition procedure = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\youni\Downloads\Health care\procedure.csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProcedureID", Int64.Type}, {"VisitID", Int64.Type}, {"ProcedureName", type text}, {"DatePerformed", type date}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

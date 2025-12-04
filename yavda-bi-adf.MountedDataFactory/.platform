@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "MountedDataFactory",
+    "displayName": "yavda-bi-adf"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "bf5726a0-71cc-a0c4-4010-34516b23ed4d"
+  }
+}

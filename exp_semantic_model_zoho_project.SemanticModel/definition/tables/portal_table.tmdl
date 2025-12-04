@@ -1,0 +1,215 @@
+table portal_table
+	lineageTag: 3d58e63b-27f5-4615-a054-1baede621046
+	sourceLineageTag: [dbo].[portal_table]
+
+	column 'owner.zpuid'
+		dataType: string
+		lineageTag: c135f5ae-0655-46b7-99d5-17b7edf99e5d
+		sourceLineageTag: owner.zpuid
+		summarizeBy: none
+		sourceColumn: owner.zpuid
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.full_name'
+		dataType: string
+		lineageTag: 501e557e-4ff9-44e0-9ed4-a65da7d0883c
+		sourceLineageTag: owner.full_name
+		summarizeBy: none
+		sourceColumn: owner.full_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.business_hours_id'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0ee9f7c1-7e6e-4c9a-8050-6bdd0b357e6f
+		sourceLineageTag: owner.business_hours_id
+		summarizeBy: sum
+		sourceColumn: owner.business_hours_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.name'
+		dataType: string
+		lineageTag: 5b9ab2fb-769c-45ba-a13b-b79cbe1d21ef
+		sourceLineageTag: owner.name
+		summarizeBy: none
+		sourceColumn: owner.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.last_name'
+		dataType: string
+		lineageTag: 9f0826e6-484a-42f2-901f-22f005da1bcc
+		sourceLineageTag: owner.last_name
+		summarizeBy: none
+		sourceColumn: owner.last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.id'
+		dataType: int64
+		formatString: 0
+		lineageTag: f06b7aaf-66f3-4d62-9e52-af5b9a03e3d9
+		sourceLineageTag: owner.id
+		summarizeBy: sum
+		sourceColumn: owner.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column id
+		dataType: string
+		lineageTag: 2314007c-75fc-4797-8b94-93e7ce2a9dda
+		sourceLineageTag: id
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_name
+		dataType: string
+		lineageTag: 04a747fd-0298-45a2-9939-0692ffe2bc03
+		sourceLineageTag: org_name
+		summarizeBy: none
+		sourceColumn: org_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column zsoid
+		dataType: string
+		lineageTag: e937b1db-58eb-43a0-b6ce-d8db059e9a70
+		sourceLineageTag: zsoid
+		summarizeBy: none
+		sourceColumn: zsoid
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_logo
+		dataType: string
+		lineageTag: e941f47d-7abc-4514-af94-8bdc4e051141
+		sourceLineageTag: org_logo
+		summarizeBy: none
+		sourceColumn: org_logo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'profile.name'
+		dataType: string
+		lineageTag: 3b6ef864-35b4-499d-aad4-949bda7269b4
+		sourceLineageTag: profile.name
+		summarizeBy: none
+		sourceColumn: profile.name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'profile.id'
+		dataType: int64
+		formatString: 0
+		lineageTag: 87d55031-1158-4544-8365-fb3f9b7f38c3
+		sourceLineageTag: profile.id
+		summarizeBy: sum
+		sourceColumn: profile.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column portal_type
+		dataType: string
+		lineageTag: ae578f0d-dfcc-4748-b7ba-bc27b5a9b847
+		sourceLineageTag: portal_type
+		summarizeBy: none
+		sourceColumn: portal_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column profile_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 95ef5f7e-6ce5-4d69-8caa-ce7b05694775
+		sourceLineageTag: profile_id
+		summarizeBy: sum
+		sourceColumn: profile_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column portal_url
+		dataType: string
+		lineageTag: a13330eb-45b1-48b8-bf70-014db31daf9a
+		sourceLineageTag: portal_url
+		summarizeBy: none
+		sourceColumn: portal_url
+
+		annotation SummarizationSetBy = Automatic
+
+	column portal_owner
+		dataType: int64
+		formatString: 0
+		lineageTag: 61c60df1-1f47-4820-8f1a-e3af43b4c840
+		sourceLineageTag: portal_owner
+		summarizeBy: sum
+		sourceColumn: portal_owner
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.is_client_user'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a4b25641-2838-48c0-8eb8-948ddcbb7d70
+		sourceLineageTag: owner.is_client_user
+		summarizeBy: none
+		sourceColumn: owner.is_client_user
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.first_name'
+		dataType: string
+		lineageTag: d9caa7ce-7fe8-44c9-8809-045cd798b6cb
+		sourceLineageTag: owner.first_name
+		summarizeBy: none
+		sourceColumn: owner.first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'owner.email'
+		dataType: string
+		lineageTag: 287955bb-e1e1-481b-be4b-549f42ecd14f
+		sourceLineageTag: owner.email
+		summarizeBy: none
+		sourceColumn: owner.email
+
+		annotation SummarizationSetBy = Automatic
+
+	column portal_name
+		dataType: string
+		lineageTag: bf401ae1-7446-413e-bd91-18f90a48baed
+		sourceLineageTag: portal_name
+		summarizeBy: none
+		sourceColumn: portal_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_default_portal
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a81d2e71-44e3-491f-b25e-c1721510a6ac
+		sourceLineageTag: is_default_portal
+		summarizeBy: none
+		sourceColumn: is_default_portal
+
+		annotation SummarizationSetBy = Automatic
+
+	column timezone
+		dataType: string
+		lineageTag: 9dc368ff-b143-4ab2-86ce-2e2acebd64a4
+		sourceLineageTag: timezone
+		summarizeBy: none
+		sourceColumn: timezone
+
+		annotation SummarizationSetBy = Automatic
+
+	partition portal_table = entity
+		mode: directLake
+		source
+			entityName: portal_table
+			expressionSource: 'DirectLake - lh_zoho_projects_exp'
+

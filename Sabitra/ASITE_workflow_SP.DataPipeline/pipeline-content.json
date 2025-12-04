@@ -1,0 +1,180 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "POST",
+          "headers": {
+            "Accept": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          "body": {
+            "value": "@concat('emailId=',encodeUriComponent('kmistry@mountanvil.com'),'&password=',encodeUriComponent('PlanningTeam2!'))",
+            "type": "Expression"
+          }
+        },
+        "externalReferences": {
+          "connection": "0805d9d0-d1dc-4a61-afe5-fd8d73b267c9"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Connecting to ASITE",
+        "dependsOn": []
+      },
+      {
+        "type": "SetVariable",
+        "typeProperties": {
+          "variableName": "SessionID",
+          "value": {
+            "value": "@activity('Connecting to ASITE').output.UserProfile.Sessionid\n",
+            "type": "Expression"
+          }
+        },
+        "policy": {
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Storing the Session ID for ASITE",
+        "dependsOn": [
+          {
+            "activity": "Connecting to ASITE",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "WebActivity",
+        "typeProperties": {
+          "method": "GET",
+          "relativeUrl": "/workspace/workspacelist",
+          "headers": {
+            "ASessionID": {
+              "value": "@variables('SessionID')",
+              "type": "Expression"
+            },
+            "Accept": "application/xml"
+          }
+        },
+        "externalReferences": {
+          "connection": "8c8c08d7-12a1-48e8-925e-78cfbbb09108"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Fetching list of workspaces",
+        "dependsOn": [
+          {
+            "activity": "Storing the Session ID for ASITE",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "items": {
+            "value": "@xpath(xml(activity('Fetching list of workspaces').output.Response),'//URI[contains(text(),\"form/formtypelist\")]/text()')\n",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "WebActivity",
+              "typeProperties": {
+                "method": "GET",
+                "relativeUrl": {
+                  "value": "@replace(item(), 'https://dmsak.asite.com/api','')",
+                  "type": "Expression"
+                },
+                "headers": {
+                  "ASessionID": {
+                    "value": "@variables('SessionID')",
+                    "type": "Expression"
+                  }
+                }
+              },
+              "externalReferences": {
+                "connection": "8c8c08d7-12a1-48e8-925e-78cfbbb09108"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Get Form Types",
+              "dependsOn": []
+            },
+            {
+              "type": "TridentNotebook",
+              "typeProperties": {
+                "notebookId": "217c7ff8-5003-8459-43c3-6d87d2749edf",
+                "workspaceId": "00000000-0000-0000-0000-000000000000",
+                "parameters": {
+                  "FILE_NAME": {
+                    "value": {
+                      "value": "@concat('Files/BronzeLayer/ASITE/Workspaces/',substring(item(),add(indexof(item(),'workspace/'),10),sub(indexof(item(),'$$'),add(indexof(item(),'workspace/'),10))),'/_',formatDateTime(utcnow(),'yyyy-MM-dd-hh-mm-ss'),'.xml')",
+                      "type": "Expression"
+                    },
+                    "type": "string"
+                  },
+                  "XML_CONTENT": {
+                    "value": {
+                      "value": "@activity('Get Form Types').output.Response",
+                      "type": "Expression"
+                    },
+                    "type": "string"
+                  }
+                }
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Write into Bronze as XML",
+              "dependsOn": [
+                {
+                  "activity": "Get Form Types",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "name": "For each workspace get forrmtypes",
+        "dependsOn": [
+          {
+            "activity": "Fetching list of workspaces",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ],
+    "variables": {
+      "SessionID": {
+        "type": "String"
+      }
+    }
+  }
+}
